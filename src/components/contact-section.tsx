@@ -8,11 +8,13 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
+import ReCAPTCHA from "react-google-recaptcha"
 
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
-  
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,7 +44,30 @@ export function ContactSection() {
       return
     }
 
+    // Check captcha
+    if (!captchaToken) {
+      toast({
+        title: "Error",
+        description: "Please verify you are human.",
+        variant: "destructive",
+      })
+      setIsSubmitting(false)
+      return
+    }
+
     try {
+      // Verify captcha with backend API
+      const captchaRes = await fetch("/api/verify-captcha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: captchaToken }),
+      })
+
+      const captchaData = await captchaRes.json()
+      if (!captchaData.success) {
+        throw new Error("Captcha verification failed")
+      }
+
       // Submit to Supabase
       const { error } = await supabase
         .from('contact_messages')
@@ -65,6 +90,7 @@ export function ContactSection() {
       })
       
       setFormData({ name: "", email: "", subject: "", message: "" })
+      setCaptchaToken(null)
     } catch (error) {
       console.error('Error submitting contact form:', error)
       toast({
@@ -243,6 +269,12 @@ export function ContactSection() {
                   placeholder="Tell me about your project or how I can help..."
                 />
               </div>
+
+              {/* reCAPTCHA */}
+              <ReCAPTCHA
+                sitekey="6LfjZMErAAAAAL-oTKuhwm7OVb8EGewiMG4L86ON"
+                onChange={setCaptchaToken}
+              />
               
               <Button
                 type="submit"
