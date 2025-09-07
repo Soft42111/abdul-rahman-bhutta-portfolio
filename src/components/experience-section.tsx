@@ -1,3 +1,4 @@
+name: src/components/experience-section.tsx
 "use client"
 
 import { motion } from "framer-motion"
@@ -192,7 +193,7 @@ export function ExperienceSection() {
                 {/* Logo and Icon */}
                 <div className="flex-shrink-0 flex items-center gap-4">
                   {exp.logo ? (
-                    <div className="w-16 h-16 rounded-xl overflow-hidden bg-card border border-border shadow-sm hover:shadow-md transition-all duration-300">
+                    <div className="w-16 h-16 rounded-full overflow-hidden bg-card border border-border shadow-sm hover:shadow-md transition-all duration-300">
                       {exp.website ? (
                         <a 
                           href={exp.website} 
