@@ -8,7 +8,7 @@ const experiences = [
     company: "Aethir",
     role: "Senior Community Moderator",
     period: "2024 - Ongoing",
-    description: "Promoted for exceptional performance in IRL events and innovative programming",
+    description: "Promoted for exceptional performance in IRL events and innovative event hosting and engaging community in various ways!",
     achievements: [
       "Promoted due to strong IRL event execution",
       "Created engaging programs including karaoke and story time sessions",
