@@ -16,7 +16,7 @@ const experiences = [
       "Coordinated cross-functional team initiatives"
     ],
     logo: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
-    website: null,
+    website: "https://aethir.com", // Added website URL for Aethir
     icon: TrendingUp,
     color: "from-blue-500 to-cyan-500"
   },
@@ -64,7 +64,7 @@ const experiences = [
       "Developed content strategies for multiple platforms"
     ],
     logo: null,
-    website: null,
+    website: "https://phoenixgrowth.io", // Added website URL for Phoenix Growth
     icon: Award,
     color: "from-orange-500 to-red-500"
   },
@@ -144,7 +144,7 @@ const experiences = [
       "Developed strategic gameplay approaches and team coordination"
     ],
     logo: null,
-    website: null,
+    website: "https://web3clanhiss.com", // Added website URL for Web3 Clan HISS
     icon: Users,
     color: "from-emerald-500 to-teal-500"
   }
@@ -191,7 +191,7 @@ export function ExperienceSection() {
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Logo and Icon */}
                 <div className="flex-shrink-0 flex items-center gap-4">
-                  {exp.logo ? (
+                  {exp.logo && (
                     <div className="w-16 h-16 rounded-full overflow-hidden bg-card border border-border shadow-sm hover:shadow-md transition-all duration-300">
                       {exp.website ? (
                         <a 
@@ -203,7 +203,7 @@ export function ExperienceSection() {
                           <img 
                             src={exp.logo} 
                             alt={`${exp.company} logo`}
-                            className="w-full h-full object-cover" // Changed from object-contain to object-cover
+                            className="w-full h-full object-cover"
                             loading="lazy"
                           />
                         </a>
@@ -211,12 +211,12 @@ export function ExperienceSection() {
                         <img 
                           src={exp.logo} 
                           alt={`${exp.company} logo`}
-                          className="w-full h-full object-cover" // Changed from object-contain to object-cover
+                          className="w-full h-full object-cover"
                           loading="lazy"
                         />
                       )}
                     </div>
-                  ) : null}
+                  )}
                   
                   <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${exp.color} p-0.5`}>
                     <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
@@ -233,7 +233,20 @@ export function ExperienceSection() {
                         <h3 className="text-xl font-semibold text-foreground">
                           {exp.role}
                         </h3>
-                        <p className="text-accent font-medium">{exp.company}</p>
+                        <p className="text-accent font-medium">
+                          {exp.website ? (
+                            <a 
+                              href={exp.website}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="hover:underline"
+                            >
+                              {exp.company}
+                            </a>
+                          ) : (
+                            exp.company
+                          )}
+                        </p>
                       </div>
                       <span className="text-sm text-muted-foreground font-medium bg-muted px-3 py-1 rounded-full mt-2 md:mt-0 self-start">
                         {exp.period}
