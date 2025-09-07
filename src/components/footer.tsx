@@ -1,32 +1,32 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Github, Linkedin, Twitter, Send, Mail } from "lucide-react"
+import { Linkedin, Twitter, Send, Mail, MessageSquare } from "lucide-react"
 
 const socialLinks = [
   {
-    name: "GitHub",
-    href: "https://github.com/abdulrahman",
-    icon: Github
-  },
-  {
-    name: "LinkedIn", 
-    href: "https://linkedin.com/in/abdulrahman-bhutta",
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/abdul-rehman-194588337",
     icon: Linkedin
   },
   {
-    name: "Twitter",
-    href: "https://twitter.com/abdulrahman_dev",
+    name: "Twitter/X",
+    href: "https://x.com/aluubukharaa",
     icon: Twitter
   },
   {
+    name: "Discord",
+    href: "https://discord.com/users/663291840048660481",
+    icon: MessageSquare
+  },
+  {
     name: "Telegram",
-    href: "https://t.me/abdulrahman_dev",
+    href: "https://t.me/aluubukhara",
     icon: Send
   },
   {
     name: "Email",
-    href: "mailto:hello@abdulrahman.dev",
+    href: "mailto:aliabdulibrahim52@gmail.com",
     icon: Mail
   }
 ]

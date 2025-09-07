@@ -127,19 +127,19 @@ export function ContactSection() {
                 {
                   icon: Mail,
                   label: "Email",
-                  value: "hello@abdulrahman.dev",
-                  href: "mailto:hello@abdulrahman.dev"
+                  value: "aliabdulibrahim52@gmail.com",
+                  href: "mailto:aliabdulibrahim52@gmail.com"
                 },
                 {
                   icon: Phone,
-                  label: "Available for",
-                  value: "Discord, Telegram, Video Calls",
-                  href: null
+                  label: "Phone",
+                  value: "+92-330-2710066",
+                  href: "tel:+923302710066"
                 },
                 {
                   icon: MapPin,
                   label: "Based in",
-                  value: "Pakistan (UTC+5)",
+                  value: "Sialkot, Pakistan (UTC+5)",
                   href: null
                 }
               ].map((item, index) => (

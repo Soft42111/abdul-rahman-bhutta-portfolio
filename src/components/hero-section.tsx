@@ -1,8 +1,17 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Download, Mail, ArrowDown } from "lucide-react"
+import { Download, Mail, Code, Users, Zap, Globe, Gamepad2, Smartphone } from "lucide-react"
 import { Button } from "@/components/ui/button"
+
+const orbitingItems = [
+  { icon: Code, label: "React", delay: 0, radius: "120px", color: "from-blue-400 to-blue-600" },
+  { icon: Users, label: "Community", delay: 0.5, radius: "140px", color: "from-green-400 to-green-600" },
+  { icon: Zap, label: "Aethir", delay: 1, radius: "160px", color: "from-purple-400 to-purple-600" },
+  { icon: Globe, label: "Web3", delay: 1.5, radius: "130px", color: "from-yellow-400 to-orange-500" },
+  { icon: Gamepad2, label: "Gaming", delay: 2, radius: "150px", color: "from-red-400 to-pink-600" },
+  { icon: Smartphone, label: "Mobile", delay: 2.5, radius: "135px", color: "from-indigo-400 to-cyan-500" },
+]
 
 export function HeroSection() {
   return (
@@ -23,20 +32,69 @@ export function HeroSection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="max-w-6xl mx-auto"
         >
-          {/* Profile Image */}
+          {/* Profile Image with Orbiting Elements */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="mb-8"
+            className="relative mb-8 flex justify-center"
           >
-            <div className="relative mx-auto w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden shadow-premium ring-4 ring-white/20">
+            {/* Central Profile Image */}
+            <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden shadow-premium ring-4 ring-white/20 z-10">
               <img
                 src="/lovable-uploads/93a92d81-fa62-47f9-8b94-91e23a9a97ac.png"
                 alt="Abdul Rahman Bhutta - Community Lead"
                 className="w-full h-full object-cover"
               />
             </div>
+
+            {/* Orbiting Skills/Projects */}
+            {orbitingItems.map((item, index) => (
+              <motion.div
+                key={item.label}
+                className="absolute top-1/2 left-1/2"
+                style={{
+                  transformOrigin: `0 0`,
+                }}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: 1,
+                  rotate: 360
+                }}
+                transition={{
+                  opacity: { duration: 0.5, delay: 1 + item.delay },
+                  scale: { duration: 0.5, delay: 1 + item.delay },
+                  rotate: {
+                    duration: 20 + index * 2,
+                    repeat: Infinity,
+                    ease: "linear",
+                    delay: item.delay
+                  }
+                }}
+              >
+                <motion.div
+                  className="absolute flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-r shadow-premium backdrop-blur-sm border border-white/20"
+                  style={{
+                    background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
+                    transform: `translate(-50%, -50%) translate(${item.radius}, 0)`,
+                  }}
+                  whileHover={{ scale: 1.2 }}
+                  animate={{
+                    rotate: -360
+                  }}
+                  transition={{
+                    rotate: {
+                      duration: 20 + index * 2,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }
+                  }}
+                >
+                  <item.icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                </motion.div>
+              </motion.div>
+            ))}
           </motion.div>
 
           {/* Name and Title */}
@@ -88,22 +146,6 @@ export function HeroSection() {
             </Button>
           </motion.div>
 
-          {/* Scroll indicator */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="flex flex-col items-center text-white/60 cursor-pointer hover:text-white/80 transition-colors"
-            >
-              <span className="text-sm mb-2">Scroll to explore</span>
-              <ArrowDown className="h-5 w-5" />
-            </motion.div>
-          </motion.div>
         </motion.div>
       </div>
     </section>
