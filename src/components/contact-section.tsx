@@ -271,10 +271,11 @@ export function ContactSection() {
               </div>
 
               {/* reCAPTCHA */}
-             <ReCAPTCHA
-  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
+   <ReCAPTCHA
+  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
   onChange={setCaptchaToken}
 />
+
 
               
               <Button

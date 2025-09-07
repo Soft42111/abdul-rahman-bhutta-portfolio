@@ -1,11 +1,12 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import express from "express";
+import fetch from "node-fetch";
 import { createClient } from "@supabase/supabase-js";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+const app = express();
+app.use(express.json());
 
+// Contact form endpoint
+app.post("/api/contact", async (req, res) => {
   try {
     const { name, email, subject, message, token } = req.body;
 
@@ -23,11 +24,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // 2. Supabase client (server-side)
     const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-      process.env.SUPABASE_SERVICE_ROLE_KEY as string
+      process.env.VITE_SUPABASE_URL,
+      process.env.VITE_SUPABASE_SERVICE_ROLE_KEY
     );
 
-    // 3. Insert into contact_messages
+    // 3. Insert into contact_messages table
     const { error } = await supabase.from("contact_messages").insert([
       {
         name,
@@ -47,4 +48,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.error("API error:", err);
     return res.status(500).json({ error: "Something went wrong" });
   }
-}
+});
+
+// Start server (for local dev)
+app.listen(3001, () => {
+  console.log("Server running on http://localhost:3001");
+});
