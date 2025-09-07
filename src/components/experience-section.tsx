@@ -7,7 +7,7 @@ const experiences = [
   {
     company: "Aethir",
     role: "Senior Community Moderator",
-    period: "2024 - Ongoing",
+    period: "1st December, 2025 - Ongoing",
     description: "Promoted for exceptional performance in IRL events and innovative event hosting and engaging community in various ways!",
     achievements: [
       "Promoted due to strong IRL event execution",
@@ -21,7 +21,7 @@ const experiences = [
     color: "from-blue-500 to-cyan-500"
   },
   {
-    company: "Boinkers",
+    company: "Boinkers (Acid Labs)",
     role: "Community Manager", 
     period: "2024 - 2025",
     description: "Transformed community engagement and support systems at Acid Labs",
@@ -38,7 +38,7 @@ const experiences = [
   },
   {
     company: "Nexus",
-    role: "Founder",
+    role: "Founder & Chief Executive Officer",
     period: "2025 - Ongoing", 
     description: "Founded and led a comprehensive community management company",
     achievements: [
