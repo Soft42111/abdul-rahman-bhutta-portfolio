@@ -1,4 +1,3 @@
-name: src/components/experience-section.tsx
 "use client"
 
 import { motion } from "framer-motion"
