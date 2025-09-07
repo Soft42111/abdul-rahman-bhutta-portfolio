@@ -232,3 +232,83 @@
     box-shadow: 0 0 40px hsl(var(--accent) / 0.6);
   }
 }
+
+/* Enhanced animations with prefers-reduced-motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .hover-glow:hover {
+    transform: none;
+  }
+}
+
+/* Focus visible styles for better accessibility */
+:focus-visible {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: 2px;
+  border-radius: var(--radius);
+}
+
+/* Skip link styling */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only:focus {
+  position: fixed;
+  z-index: 100;
+  top: 1rem;
+  left: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.75rem 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: 500;
+  box-shadow: var(--shadow-premium);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --border: hsl(0 0% 20%);
+    --input: hsl(0 0% 100%);
+    --ring: hsl(0 0% 0%);
+  }
+  
+  .dark {
+    --border: hsl(0 0% 80%);
+    --input: hsl(0 0% 0%);
+    --ring: hsl(0 0% 100%);
+  }
+}
+
+/* Improved text rendering */
+.text-gradient {
+  background: var(--gradient-accent);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-rendering: optimizeLegibility;
+}
