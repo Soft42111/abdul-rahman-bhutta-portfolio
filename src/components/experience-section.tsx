@@ -15,7 +15,7 @@ const experiences = [
       "Managed high-volume Discord community interactions",
       "Coordinated cross-functional team initiatives"
     ],
-    logo: "/public/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
+    logo: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
     website: null,
     icon: TrendingUp,
     color: "from-blue-500 to-cyan-500"
@@ -31,7 +31,7 @@ const experiences = [
       "Implemented Zammad for scalable customer support",
       "Established community guidelines and moderation protocols"
     ],
-    logo: "/public/lovable-uploads/4f10758a-777b-4380-9ff1-496936661dfb.png",
+    logo: "/lovable-uploads/4f10758a-777b-4380-9ff1-496936661dfb.png",
     website: "https://boinkers.io",
     icon: Users,
     color: "from-green-500 to-emerald-500"
@@ -47,7 +47,7 @@ const experiences = [
       "Developed scalable community strategies across multiple Web3 projects",
       "Implemented AI-driven workflow systems for enhanced efficiency"
     ],
-    logo: "/public/lovable-uploads/d73a7973-0e76-4ad0-bb23-0371fd1f55ac.png",
+    logo: "/lovable-uploads/d73a7973-0e76-4ad0-bb23-0371fd1f55ac.png",
     website: "https://mktingnexus.com",
     icon: Users,
     color: "from-purple-500 to-pink-500"
@@ -79,7 +79,7 @@ const experiences = [
       "Led localization efforts for multi-language support",
       "Developed sustainable engagement frameworks"
     ],
-    logo: "/public/lovable-uploads/d159263e-ea1b-4911-b4d0-2f1e4c6847ed.png",
+    logo: "/lovable-uploads/d159263e-ea1b-4911-b4d0-2f1e4c6847ed.png",
     website: "https://bullet.xyz",
     icon: Calendar,
     color: "from-indigo-500 to-purple-500"
@@ -95,7 +95,7 @@ const experiences = [
       "Collaborated with development team for feature improvements",
       "Contributed to platform stability and launch readiness"
     ],
-    logo: "/public/lovable-uploads/c72cbcd0-3d2e-4a8e-a0ea-2b42bb86b432.png",
+    logo: "/lovable-uploads/c72cbcd0-3d2e-4a8e-a0ea-2b42bb86b432.png",
     website: "https://playovertrip.com",
     icon: Shield,
     color: "from-red-500 to-pink-500"
@@ -111,7 +111,7 @@ const experiences = [
       "Managed ambassador programs and user onboarding",
       "Facilitated communication between users and development team"
     ],
-    logo: "/public/lovable-uploads/975906f0-0df2-47b2-935e-39578a484dfe.png",
+    logo: "/lovable-uploads/975906f0-0df2-47b2-935e-39578a484dfe.png",
     website: "https://sophon.xyz",
     icon: Crown,
     color: "from-cyan-500 to-blue-500"
@@ -127,7 +127,7 @@ const experiences = [
       "Provided detailed feedback on user interface and experience",
       "Contributed to game balance and stability improvements"
     ],
-    logo: "/public/lovable-uploads/ba906a73-dba9-4a93-9c26-7aba9ea2f320.png",
+    logo: "/lovable-uploads/ba906a73-dba9-4a93-9c26-7aba9ea2f320.png",
     website: "https://x.com/nyanheroes",
     icon: Zap,
     color: "from-yellow-500 to-orange-500"
