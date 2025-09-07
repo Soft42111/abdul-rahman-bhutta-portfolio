@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
+import { supabase } from "@/integrations/supabase/client"
 
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -42,9 +43,21 @@ export function ContactSection() {
     }
 
     try {
-      // For now, we'll simulate a form submission
-      // In the actual implementation, this would connect to Supabase
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      // Submit to Supabase
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message
+          }
+        ])
+
+      if (error) {
+        throw error
+      }
       
       toast({
         title: "Message sent!",
@@ -53,6 +66,7 @@ export function ContactSection() {
       
       setFormData({ name: "", email: "", subject: "", message: "" })
     } catch (error) {
+      console.error('Error submitting contact form:', error)
       toast({
         title: "Error",
         description: "Failed to send message. Please try again.",
