@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
-import { supabase } from "@/integrations/supabase/client"
 import ReCAPTCHA from "react-google-recaptcha"
 
 export function ContactSection() {
@@ -33,7 +32,6 @@ export function ContactSection() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Basic validation
     if (!formData.name || !formData.email || !formData.subject || !formData.message) {
       toast({
         title: "Error",
@@ -44,7 +42,6 @@ export function ContactSection() {
       return
     }
 
-    // Check captcha
     if (!captchaToken) {
       toast({
         title: "Error",
@@ -56,43 +53,26 @@ export function ContactSection() {
     }
 
     try {
-      // Verify captcha with backend API
-      const captchaRes = await fetch("/api/verify-captcha", {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: captchaToken }),
+        body: JSON.stringify({ ...formData, token: captchaToken }),
       })
 
-      const captchaData = await captchaRes.json()
-      if (!captchaData.success) {
-        throw new Error("Captcha verification failed")
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send message")
       }
 
-      // Submit to Supabase
-      const { error } = await supabase
-        .from('contact_messages')
-        .insert([
-          {
-            name: formData.name,
-            email: formData.email,
-            subject: formData.subject,
-            message: formData.message
-          }
-        ])
-
-      if (error) {
-        throw error
-      }
-      
       toast({
         title: "Message sent!",
         description: "Thank you for reaching out. I'll get back to you soon.",
       })
-      
+
       setFormData({ name: "", email: "", subject: "", message: "" })
       setCaptchaToken(null)
     } catch (error) {
-      console.error('Error submitting contact form:', error)
+      console.error("Error submitting contact form:", error)
       toast({
         title: "Error",
         description: "Failed to send message. Please try again.",
@@ -271,13 +251,11 @@ export function ContactSection() {
               </div>
 
               {/* reCAPTCHA */}
-   <ReCAPTCHA
-  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-  onChange={setCaptchaToken}
-/>
+              <ReCAPTCHA
+                sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                onChange={setCaptchaToken}
+              />
 
-
-              
               <Button
                 type="submit"
                 variant="premium"

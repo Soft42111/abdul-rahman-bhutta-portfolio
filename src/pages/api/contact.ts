@@ -1,56 +1,50 @@
-import express from "express";
-import fetch from "node-fetch";
-import { createClient } from "@supabase/supabase-js";
+// src/pages/api/contact.ts
+import { createClient } from "@supabase/supabase-js"
 
-const app = express();
-app.use(express.json());
+export default async function handler(req: any, res: any) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" })
+  }
 
-// Contact form endpoint
-app.post("/api/contact", async (req, res) => {
   try {
-    const { name, email, subject, message, token } = req.body;
+    const { name, email, subject, message, token } = req.body
 
-    // 1. Verify reCAPTCHA v2
+    if (!name || !email || !subject || !message || !token) {
+      return res.status(400).json({ error: "Missing required fields" })
+    }
+
+    // 1. Verify reCAPTCHA
     const captchaVerify = await fetch("https://www.google.com/recaptcha/api/siteverify", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
-    });
+    })
 
-    const captchaData = await captchaVerify.json();
+    const captchaData = await captchaVerify.json()
     if (!captchaData.success) {
-      return res.status(400).json({ error: "Captcha verification failed" });
+      return res.status(400).json({ error: "Captcha verification failed" })
     }
 
-    // 2. Supabase client (server-side)
+    // 2. Supabase client
     const supabase = createClient(
-      process.env.VITE_SUPABASE_URL,
-      process.env.VITE_SUPABASE_SERVICE_ROLE_KEY
-    );
+      process.env.VITE_SUPABASE_URL!,
+      process.env.VITE_SUPABASE_SERVICE_ROLE_KEY!
+    )
 
-    // 3. Insert into contact_messages table
+    // 3. Insert into DB
     const { error } = await supabase.from("contact_messages").insert([
-      {
-        name,
-        email,
-        subject,
-        message,
-      },
-    ]);
+      { name, email, subject, message }
+    ])
 
     if (error) {
-      console.error("Supabase insert error:", error);
-      return res.status(500).json({ error: "Database insert failed" });
+      console.error("Supabase insert error:", error)
+      return res.status(500).json({ error: "Database insert failed" })
     }
 
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true })
   } catch (err) {
-    console.error("API error:", err);
-    return res.status(500).json({ error: "Something went wrong" });
+    console.error("API error:", err)
+    return res.status(500).json({ error: "Something went wrong" })
   }
-});
+}
 
-// Start server (for local dev)
-app.listen(3001, () => {
-  console.log("Server running on http://localhost:3001");
-});
