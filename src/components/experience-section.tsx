@@ -23,7 +23,7 @@ const experiences = [
   {
     company: "Boinkers (Acid Labs)",
     role: "Community Manager", 
-    period: "2024 - 2025",
+    period: "15 January 2025 - March 2025",
     description: "Transformed community engagement and support systems at Acid Labs",
     achievements: [
       "Managed 40+ community ambassadors",
@@ -55,7 +55,7 @@ const experiences = [
   {
     company: "Phoenix Growth",
     role: "Community Manager",
-    period: "2022 - 2023",
+    period: "2021 Sept - Present",
     description: "Scaled community engagement and led ambassador programs",
     achievements: [
       "Organized AMA panel discussions with 400+ participants",
@@ -71,7 +71,7 @@ const experiences = [
   {
     company: "Bullet",
     role: "Community Manager",
-    period: "2021 - 2022",
+    period: "25th December - Present",
     description: "Pioneered workshop formats and localization strategies",
     achievements: [
       "Conducted interactive workshops and training sessions",
@@ -87,7 +87,7 @@ const experiences = [
   {
     company: "Overtrip",
     role: "Bug Hunter & Beta Tester", 
-    period: "2023 - 2024",
+    period: "July 2024 - August 25 2024",
     description: "Specialized in quality assurance and community feedback for gaming platform",
     achievements: [
       "Identified and reported critical bugs during beta phase",
@@ -119,7 +119,7 @@ const experiences = [
   {
     company: "Nyan Heroes",
     role: "Independent Bug Hunter",
-    period: "2022 - 2023", 
+    period: "September 4 - September 25, 2025", 
     description: "Specialized quality assurance and testing for blockchain gaming project",
     achievements: [
       "Conducted thorough testing of game mechanics and features",
@@ -135,7 +135,7 @@ const experiences = [
   {
     company: "Web3 Clan HISS",
     role: "Founder & Team Leader",
-    period: "2021 - 2023",
+    period: "August 2020 - Present",
     description: "Web3 gaming team leadership - Founded and led competitive Web3 gaming clan",
     achievements: [
       "Established HISS Clan with growing roster of skilled players",
