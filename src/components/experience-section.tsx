@@ -7,7 +7,7 @@ const experiences = [
   {
     company: "Aethir",
     role: "Senior Community Moderator",
-    period: "1st December, 2025 - Ongoing",
+    period: "December 2025 - Present",
     description: "Promoted for exceptional performance in IRL events and innovative event hosting and engaging community in various ways!",
     achievements: [
       "Promoted due to strong IRL event execution",
@@ -23,7 +23,7 @@ const experiences = [
   {
     company: "Boinkers (Acid Labs)",
     role: "Community Manager", 
-    period: "15 January 2025 - March 2025",
+    period: "January 2025 - March 2025",
     description: "Transformed community engagement and support systems at Acid Labs",
     achievements: [
       "Managed 40+ community ambassadors",
@@ -39,7 +39,7 @@ const experiences = [
   {
     company: "Nexus",
     role: "Founder & Chief Executive Officer",
-    period: "2025 - Ongoing", 
+    period: "January 2025 - Present", 
     description: "Founded and led a comprehensive community management company",
     achievements: [
       "Led team of 22 Community Managers and 98 Ambassadors",
@@ -55,7 +55,7 @@ const experiences = [
   {
     company: "Phoenix Growth",
     role: "Community Manager",
-    period: "2021 Sept - Present",
+    period: "September 2021 - Present",
     description: "Scaled community engagement and led ambassador programs",
     achievements: [
       "Organized AMA panel discussions with 400+ participants",
@@ -71,7 +71,7 @@ const experiences = [
   {
     company: "Bullet",
     role: "Community Manager",
-    period: "25th December - Present",
+    period: "December 2024 - Present",
     description: "Pioneered workshop formats and localization strategies",
     achievements: [
       "Conducted interactive workshops and training sessions",
@@ -87,7 +87,7 @@ const experiences = [
   {
     company: "Overtrip",
     role: "Bug Hunter & Beta Tester", 
-    period: "July 2024 - August 25 2024",
+    period: "July 2024 - August 2024",
     description: "Specialized in quality assurance and community feedback for gaming platform",
     achievements: [
       "Identified and reported critical bugs during beta phase",
@@ -103,7 +103,7 @@ const experiences = [
   {
     company: "Sophon",
     role: "Community Manager",
-    period: "2023 - 2024",
+    period: "January 2023 - December 2024",
     description: "Led community initiatives and engagement strategies for Web3 platform",
     achievements: [
       "Developed community engagement frameworks",
@@ -203,7 +203,7 @@ export function ExperienceSection() {
                           <img 
                             src={exp.logo} 
                             alt={`${exp.company} logo`}
-                            className="w-full h-full object-contain p-2"
+                            className="w-full h-full object-cover" // Changed from object-contain to object-cover
                             loading="lazy"
                           />
                         </a>
@@ -211,7 +211,7 @@ export function ExperienceSection() {
                         <img 
                           src={exp.logo} 
                           alt={`${exp.company} logo`}
-                          className="w-full h-full object-contain p-2"
+                          className="w-full h-full object-cover" // Changed from object-contain to object-cover
                           loading="lazy"
                         />
                       )}
