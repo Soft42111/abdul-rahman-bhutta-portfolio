@@ -43,7 +43,7 @@ export function HeroSection() {
             <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden shadow-premium ring-4 ring-white/20 z-10">
               <img
                 src="/lovable-uploads/93a92d81-fa62-47f9-8b94-91e23a9a97ac.png"
-                alt="Abdul Rahman Bhutta - Community Lead"
+                alt="Abdul Rehman Bhutta - Community Lead"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -104,7 +104,7 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-tight"
           >
-            Abdul Rahman{" "}
+            Abdul Rehman{" "}
             <span className="text-gradient bg-gradient-to-r from-accent to-yellow-300 bg-clip-text text-transparent">
               Bhutta
             </span>

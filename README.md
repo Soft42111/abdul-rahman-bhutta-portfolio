@@ -1,4 +1,4 @@
-# Abdul Rahman Bhutta - Portfolio
+# Abdul Rehman Bhutta - Portfolio
 
 A high-performance, accessible portfolio website showcasing community management expertise in the Web3 ecosystem.
 
@@ -223,7 +223,7 @@ This project is licensed under the MIT License.
 
 ## 📞 Contact
 
-Abdul Rahman Bhutta
+Abdul Rehman Bhutta
 - Email: aliabdulibrahim52@gmail.com
 - LinkedIn: [abdul-rehman-194588337](https://www.linkedin.com/in/abdul-rehman-194588337)
 - X/Twitter: [@aluubukharaa](https://x.com/aluubukharaa)

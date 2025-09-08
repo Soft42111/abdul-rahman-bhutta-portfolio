@@ -3,6 +3,9 @@ import { HeroSection } from "@/components/hero-section"
 import { AboutSection } from "@/components/about-section"
 import { ExperienceSection } from "@/components/experience-section"
 import { SkillsSection } from "@/components/skills-section"
+import { TestimonialsSection } from "@/components/testimonials-section"
+import { AchievementsSection } from "@/components/achievements-section"
+import { ResumeSection } from "@/components/resume-section"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { LazySection } from "@/components/lazy-section"
@@ -36,6 +39,18 @@ const Index = () => {
         
         <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
           <SkillsSection />
+        </LazySection>
+        
+        <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
+          <TestimonialsSection />
+        </LazySection>
+        
+        <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
+          <AchievementsSection />
+        </LazySection>
+        
+        <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
+          <ResumeSection />
         </LazySection>
         
         <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>

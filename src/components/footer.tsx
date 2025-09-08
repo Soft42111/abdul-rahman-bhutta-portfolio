@@ -48,7 +48,7 @@ export function Footer() {
               <div className="w-10 h-10 rounded-full bg-gradient-accent flex items-center justify-center">
                 <span className="text-primary font-bold">AR</span>
               </div>
-              <span className="text-xl font-semibold text-foreground">Abdul Rahman Bhutta</span>
+              <span className="text-xl font-semibold text-foreground">Abdul Rehman Bhutta</span>
             </div>
           </motion.div>
 
@@ -84,7 +84,7 @@ export function Footer() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-sm text-muted-foreground"
           >
-            <p>© {new Date().getFullYear()} Abdul Rahman Bhutta. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Abdul Rehman Bhutta. All rights reserved.</p>
             <p className="mt-1">Built with passion for community excellence.</p>
           </motion.div>
         </div>
