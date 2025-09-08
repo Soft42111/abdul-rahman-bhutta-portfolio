@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
+import { supabase } from "@/integrations/supabase/client"
 import ReCAPTCHA from "react-google-recaptcha"
 
 export function ContactSection() {
@@ -32,10 +33,23 @@ export function ContactSection() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+    // Client-side validation
+    if (!formData.name.trim() || !formData.email.trim() || !formData.subject.trim() || !formData.message.trim()) {
       toast({
         title: "Error",
         description: "Please fill in all fields.",
+        variant: "destructive",
+      })
+      setIsSubmitting(false)
+      return
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(formData.email)) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid email address.",
         variant: "destructive",
       })
       setIsSubmitting(false)
@@ -53,15 +67,19 @@ export function ContactSection() {
     }
 
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, token: captchaToken }),
-      })
+      // Insert directly into Supabase (secure with RLS policies)
+      const { error } = await supabase
+        .from("contact_messages")
+        .insert([{
+          name: formData.name.trim(),
+          email: formData.email.trim().toLowerCase(),
+          subject: formData.subject.trim(),
+          message: formData.message.trim()
+        }])
 
-      const data = await res.json()
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to send message")
+      if (error) {
+        console.error("Supabase insert error:", error)
+        throw new Error("Failed to send message")
       }
 
       toast({
@@ -69,6 +87,7 @@ export function ContactSection() {
         description: "Thank you for reaching out. I'll get back to you soon.",
       })
 
+      // Reset form
       setFormData({ name: "", email: "", subject: "", message: "" })
       setCaptchaToken(null)
     } catch (error) {
