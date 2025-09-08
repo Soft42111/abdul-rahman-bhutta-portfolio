@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Trophy, Award, Users, Calendar, Target, Zap } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { CounterAnimation } from "@/components/counter-animation"
 
 const achievements = [
   {
@@ -83,7 +84,7 @@ export function AchievementsSection() {
           </p>
         </motion.div>
 
-        {/* Key Stats */}
+        {/* Key Stats with enhanced animations */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -92,13 +93,43 @@ export function AchievementsSection() {
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
         >
           {stats.map((stat, index) => (
-            <Card key={stat.label} className="bg-gradient-subtle border-border/50 hover:border-accent/50 transition-all duration-300">
-              <CardContent className="p-6 text-center">
-                <stat.icon className="w-8 h-8 text-accent mx-auto mb-3" />
-                <div className="text-3xl font-bold text-foreground mb-2">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
-              </CardContent>
-            </Card>
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 50, scale: 0.8 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ 
+                duration: 0.8, 
+                delay: index * 0.2,
+                type: "spring",
+                stiffness: 100
+              }}
+              viewport={{ once: true }}
+              className="group"
+              whileHover={{ 
+                scale: 1.05,
+                transition: { type: "spring", stiffness: 400, damping: 10 }
+              }}
+            >
+              <Card className="bg-gradient-subtle border-border/50 hover:border-accent/50 transition-all duration-300 hover:shadow-premium">
+                <CardContent className="p-6 text-center">
+                  <motion.div
+                    whileHover={{ rotate: 360, scale: 1.1 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <stat.icon className="w-8 h-8 text-accent mx-auto mb-3" />
+                  </motion.div>
+                  <div className="text-3xl font-bold text-foreground mb-2">
+                    <CounterAnimation 
+                      end={parseInt(stat.value.replace(/[^0-9]/g, ''))}
+                      suffix={stat.value.replace(/[0-9]/g, '')}
+                      duration={2.5}
+                      className="text-3xl font-bold text-foreground"
+                    />
+                  </div>
+                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </motion.div>
 

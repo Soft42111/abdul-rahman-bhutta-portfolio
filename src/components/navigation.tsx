@@ -38,65 +38,158 @@ export function Navigation() {
     >
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* Logo with enhanced animation */}
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="flex items-center space-x-2"
+            whileHover={{ 
+              scale: 1.05,
+              transition: { type: "spring", stiffness: 400, damping: 10 }
+            }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center space-x-2 cursor-pointer"
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-accent flex items-center justify-center">
-              <span className="text-primary font-bold text-sm">AR</span>
-            </div>
-            <span className="font-semibold text-lg">Abdul Rahman</span>
+            <motion.div 
+              className="w-8 h-8 rounded-full bg-gradient-accent flex items-center justify-center relative overflow-hidden"
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+            >
+              <motion.span 
+                className="text-primary font-bold text-sm relative z-10"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                AR
+              </motion.span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-accent/20 to-transparent"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.8 }}
+              />
+            </motion.div>
+            <motion.span 
+              className="font-semibold text-lg"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              Abdul Rehman
+            </motion.span>
           </motion.div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation with enhanced animations */}
           <div className="hidden md:flex items-center space-x-8">
-            {navigation.map(item => (
+            {navigation.map((item, index) => (
               <motion.a
                 key={item.name}
                 href={item.href}
-                whileHover={{ scale: 1.05 }}
-                className="text-foreground/80 hover:text-foreground transition-colors font-medium relative group"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * index, duration: 0.3 }}
+                whileHover={{ 
+                  scale: 1.05,
+                  y: -2,
+                  transition: { type: "spring", stiffness: 400, damping: 10 }
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="text-foreground/80 hover:text-foreground transition-all duration-300 font-medium relative group overflow-hidden px-3 py-2 rounded-lg"
               >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
+                <motion.div
+                  className="absolute inset-0 bg-accent/10 rounded-lg"
+                  initial={{ scale: 0, opacity: 0 }}
+                  whileHover={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                />
+                <span className="relative z-10">{item.name}</span>
+                <motion.span 
+                  className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-accent to-accent/70 rounded-full"
+                  initial={{ width: 0 }}
+                  whileHover={{ width: "100%" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                />
               </motion.a>
             ))}
-            <ThemeToggle />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <ThemeToggle />
+            </motion.div>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button with animation */}
           <div className="md:hidden flex items-center space-x-2">
-            <ThemeToggle />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="h-10 w-10"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3 }}
             >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
+              <ThemeToggle />
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="h-10 w-10 relative overflow-hidden"
+              >
+                <motion.div
+                  className="absolute inset-0 bg-accent/10 rounded-lg"
+                  initial={{ scale: 0 }}
+                  whileHover={{ scale: 1 }}
+                  transition={{ duration: 0.2 }}
+                />
+                <motion.div
+                  initial={false}
+                  animate={{ rotate: isMobileMenuOpen ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative z-10"
+                >
+                  {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                </motion.div>
+              </Button>
+            </motion.div>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation with enhanced animations */}
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, height: 0, y: -20 }}
+            animate={{ opacity: 1, height: "auto", y: 0 }}
+            exit={{ opacity: 0, height: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className="md:hidden border-t border-border bg-background/95 backdrop-blur-lg"
           >
             <div className="py-4 space-y-2">
-              {navigation.map(item => (
-                <a
+              {navigation.map((item, index) => (
+                <motion.a
                   key={item.name}
                   href={item.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.3 }}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block px-4 py-2 text-foreground/80 hover:text-foreground hover:bg-accent/10 rounded-lg transition-colors font-medium"
+                  whileHover={{ 
+                    x: 5,
+                    backgroundColor: "rgba(var(--accent), 0.1)",
+                    transition: { duration: 0.2 }
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  className="block px-4 py-3 text-foreground/80 hover:text-foreground rounded-lg transition-all duration-200 font-medium relative overflow-hidden"
                 >
-                  {item.name}
-                </a>
+                  <motion.div
+                    className="absolute left-0 top-0 bottom-0 w-1 bg-accent"
+                    initial={{ scaleY: 0 }}
+                    whileHover={{ scaleY: 1 }}
+                    transition={{ duration: 0.2 }}
+                  />
+                  <span className="relative z-10">{item.name}</span>
+                </motion.a>
               ))}
             </div>
           </motion.div>

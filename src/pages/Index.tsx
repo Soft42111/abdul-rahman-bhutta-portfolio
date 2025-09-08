@@ -9,6 +9,7 @@ import { ResumeSection } from "@/components/resume-section"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { LazySection } from "@/components/lazy-section"
+import { FloatingElements } from "@/components/floating-elements"
 import { useLenis } from "@/hooks/use-lenis"
 
 const Index = () => {
@@ -24,6 +25,7 @@ const Index = () => {
         Skip to main content
       </a>
       
+      <FloatingElements />
       <Navigation />
       
       <main id="main-content" className="relative focus:outline-none" tabIndex={-1}>
