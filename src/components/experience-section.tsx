@@ -218,10 +218,8 @@ export function ExperienceSection() {
                     </div>
                   )}
                   
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${exp.color} p-0.5`}>
-                    <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
-                      <exp.icon className="w-6 h-6 text-accent" />
-                    </div>
+                  <div className="w-12 h-12 rounded-full bg-background border border-border flex items-center justify-center">
+                    <exp.icon className="w-6 h-6 text-accent" />
                   </div>
                 </div>
 
