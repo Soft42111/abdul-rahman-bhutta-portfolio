@@ -2,6 +2,9 @@
 
 import { motion } from "framer-motion"
 import { Calendar, Users, TrendingUp, Award, Zap, Shield, Crown } from "lucide-react"
+import { OptimizedImage } from "./optimized-image"
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer"
+import { useMemo } from "react"
 
 const experiences = [
   {
@@ -151,14 +154,21 @@ const experiences = [
 ]
 
 export function ExperienceSection() {
+  const { ref, isIntersecting } = useIntersectionObserver({
+    threshold: 0.1,
+    triggerOnce: true
+  });
+
+  // Memoize experiences data to prevent unnecessary re-renders
+  const experiencesList = useMemo(() => experiences, []);
+
   return (
-    <section id="experience" className="py-24 bg-muted/30">
+    <section id="experience" className="py-24 bg-muted/30" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -174,19 +184,14 @@ export function ExperienceSection() {
         </motion.div>
 
         <div className="max-w-4xl mx-auto">
-          {experiences.map((exp, index) => (
+          {isIntersecting && experiencesList.map((exp, index) => (
             <motion.div
-              key={exp.company}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
+              key={`${exp.company}-${index}`}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
               className="relative mb-12 last:mb-0"
             >
-              {/* Timeline line */}
-              {index < experiences.length - 1 && (
-                <div className="absolute left-6 top-20 w-0.5 h-32 bg-gradient-to-b from-accent/50 to-transparent" />
-              )}
               
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Logo and Icon */}
@@ -200,18 +205,18 @@ export function ExperienceSection() {
                           rel="noopener noreferrer"
                           className="block w-full h-full hover:scale-105 transition-transform duration-300"
                         >
-                          <img 
+                          <OptimizedImage 
                             src={exp.logo} 
                             alt={`${exp.company} logo`}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full"
                             loading="lazy"
                           />
                         </a>
                       ) : (
-                        <img 
+                        <OptimizedImage 
                           src={exp.logo} 
                           alt={`${exp.company} logo`}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full"
                           loading="lazy"
                         />
                       )}
@@ -225,7 +230,7 @@ export function ExperienceSection() {
 
                 {/* Content */}
                 <div className="flex-1">
-                  <div className="bg-card border border-border rounded-xl p-6 shadow-card hover:shadow-premium/20 transition-all duration-300 hover:scale-[1.02]">
+                  <div className="bg-card border border-border rounded-xl p-6 shadow-card hover:shadow-lg/20 transition-all duration-300">
                     <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
                       <div>
                         <h3 className="text-xl font-semibold text-foreground">

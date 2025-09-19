@@ -27,7 +27,7 @@
     --muted: 220 14% 96%;
     --muted-foreground: 220 9% 46%;
     
-    --accent: 45 93% 58%;
+    --accent: 48 100% 50%;
     --accent-foreground: 220 39% 11%;
     
     --destructive: 0 84% 60%;
@@ -39,12 +39,12 @@
     
     /* Premium Design Tokens */
     --gradient-primary: linear-gradient(135deg, hsl(220 39% 11%) 0%, hsl(220 39% 18%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(45 93% 58%) 0%, hsl(43 96% 56%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(220 39% 11%) 0%, hsl(220 50% 15%) 50%, hsl(45 93% 58%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(48 100% 50%) 0%, hsl(45 100% 55%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(220 39% 11%) 0%, hsl(220 50% 15%) 50%, hsl(48 100% 50%) 100%);
     
     --shadow-premium: 0 25px 50px -12px hsl(220 39% 11% / 0.25);
     --shadow-card: 0 4px 6px -1px hsl(220 39% 11% / 0.1), 0 2px 4px -1px hsl(220 39% 11% / 0.06);
-    --shadow-glow: 0 0 0 1px hsl(45 93% 58% / 0.3), 0 0 20px hsl(45 93% 58% / 0.2);
+    --shadow-glow: 0 0 0 1px hsl(48 100% 50% / 0.3), 0 0 20px hsl(48 100% 50% / 0.2);
     
     --radius: 0.75rem;
 
@@ -84,16 +84,16 @@
     --muted: 220 39% 15%;
     --muted-foreground: 220 9% 70%;
     
-    --accent: 45 93% 58%;
+    --accent: 48 100% 50%;
     --accent-foreground: 220 39% 11%;
     
     --border: 220 39% 18%;
     --input: 220 39% 18%;
-    --ring: 45 93% 58%;
+    --ring: 48 100% 50%;
     
     /* Dark Mode Premium Tokens */
     --gradient-primary: linear-gradient(135deg, hsl(220 39% 8%) 0%, hsl(220 39% 15%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(220 39% 8%) 0%, hsl(220 50% 12%) 50%, hsl(45 93% 58%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(220 39% 8%) 0%, hsl(220 50% 12%) 50%, hsl(48 100% 50%) 100%);
     --shadow-premium: 0 25px 50px -12px hsl(0 0% 0% / 0.5);
     --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.3), 0 2px 4px -1px hsl(0 0% 0% / 0.2);
   }
@@ -106,6 +106,30 @@
 
   body {
     @apply bg-background text-foreground font-['Inter',sans-serif] antialiased;
+    /* Performance optimizations */
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+  
+  /* Reduce animation complexity for better performance */
+  @media (prefers-reduced-motion: no-preference) {
+    .animate-fade-in {
+      animation: fade-in 0.4s ease-out forwards;
+    }
+    
+    .animate-slide-up {
+      animation: slide-up 0.4s ease-out forwards;
+    }
+    
+    .animate-scale-in {
+      animation: scale-in 0.3s ease-out forwards;
+    }
+  }
+  
+  /* GPU acceleration for smoother animations */
+  .motion-safe {
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
   
   html {
