@@ -109,6 +109,12 @@
     /* Performance optimizations */
     transform: translateZ(0);
     will-change: transform, opacity;
+    /* Fix horizontal scroll */
+    overflow-x: hidden;
+  }
+  
+  html {
+    overflow-x: hidden;
   }
   
   /* Reduce animation complexity for better performance */

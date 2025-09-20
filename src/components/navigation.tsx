@@ -19,7 +19,9 @@ export function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      // Check if we've scrolled past the hero section (approximately where the profile picture ends)
+      const heroHeight = window.innerHeight * 0.8 // Approximate hero section height
+      setIsScrolled(window.scrollY > heroHeight)
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
@@ -30,9 +32,9 @@ export function Navigation() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-background/80 backdrop-blur-lg border-b border-border shadow-card"
+          ? "bg-background/95 backdrop-blur-lg border-b border-border shadow-card"
           : "bg-transparent"
       }`}
     >
@@ -68,9 +70,7 @@ export function Navigation() {
               />
             </motion.div>
             <motion.span 
-              className={`font-semibold text-lg transition-colors duration-300 ${
-                isScrolled ? "text-foreground" : "text-primary-foreground"
-              }`}
+              className="font-semibold text-lg text-white transition-colors duration-500"
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
@@ -94,10 +94,10 @@ export function Navigation() {
                   transition: { type: "spring", stiffness: 400, damping: 10 }
                 }}
                 whileTap={{ scale: 0.95 }}
-                className={`transition-all duration-300 font-medium relative group overflow-hidden px-3 py-2 rounded-lg ${
+                className={`transition-all duration-500 font-medium relative group overflow-hidden px-3 py-2 rounded-lg ${
                   isScrolled 
                     ? "text-foreground/80 hover:text-foreground" 
-                    : "text-primary-foreground/90 hover:text-primary-foreground"
+                    : "text-white/90 hover:text-white"
                 }`}
               >
                 <motion.div

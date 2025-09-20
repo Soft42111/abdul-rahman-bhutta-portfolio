@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Code, Zap, Globe, Users, Star, Sparkles } from "lucide-react"
 
@@ -49,13 +50,24 @@ const floatingElements = [
 ]
 
 export function FloatingElements() {
+  const [scrollY, setScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
       {floatingElements.map((element, index) => (
         <motion.div
           key={index}
           className="absolute opacity-10"
-          style={element.position}
+          style={{
+            ...element.position,
+            transform: `translateY(${scrollY * 0.1}px) translateX(${scrollY * 0.05}px)`
+          }}
           initial={{ opacity: 0, scale: 0, rotate: 0 }}
           animate={{ 
             opacity: [0, 0.1, 0.05, 0.1, 0],
