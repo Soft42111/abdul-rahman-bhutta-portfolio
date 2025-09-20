@@ -68,7 +68,9 @@ export function Navigation() {
               />
             </motion.div>
             <motion.span 
-              className="font-semibold text-lg"
+              className={`font-semibold text-lg transition-colors duration-300 ${
+                isScrolled ? "text-foreground" : "text-primary-foreground"
+              }`}
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
@@ -92,7 +94,11 @@ export function Navigation() {
                   transition: { type: "spring", stiffness: 400, damping: 10 }
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="text-foreground/80 hover:text-foreground transition-all duration-300 font-medium relative group overflow-hidden px-3 py-2 rounded-lg"
+                className={`transition-all duration-300 font-medium relative group overflow-hidden px-3 py-2 rounded-lg ${
+                  isScrolled 
+                    ? "text-foreground/80 hover:text-foreground" 
+                    : "text-primary-foreground/90 hover:text-primary-foreground"
+                }`}
               >
                 <motion.div
                   className="absolute inset-0 bg-accent/10 rounded-lg"
