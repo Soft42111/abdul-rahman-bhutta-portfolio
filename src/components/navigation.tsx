@@ -16,12 +16,15 @@ const navigation = [
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [scrollY, setScrollY] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      setScrollY(currentScrollY)
       // Check if we've scrolled past the hero section (approximately where the profile picture ends)
       const heroHeight = window.innerHeight * 0.8 // Approximate hero section height
-      setIsScrolled(window.scrollY > heroHeight)
+      setIsScrolled(currentScrollY > heroHeight)
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
@@ -32,6 +35,9 @@ export function Navigation() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
+      style={{ 
+        transform: `translateY(${Math.min(scrollY * 0.02, 5)}px)` 
+      }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
           ? "bg-background/95 backdrop-blur-lg border-b border-border shadow-card"
@@ -40,44 +46,8 @@ export function Navigation() {
     >
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-          {/* Logo with enhanced animation */}
-          <motion.div
-            whileHover={{ 
-              scale: 1.05,
-              transition: { type: "spring", stiffness: 400, damping: 10 }
-            }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center space-x-2 cursor-pointer"
-          >
-            <motion.div 
-              className="w-8 h-8 rounded-full bg-gradient-accent flex items-center justify-center relative overflow-hidden"
-              whileHover={{ rotate: 360 }}
-              transition={{ duration: 0.6, ease: "easeInOut" }}
-            >
-              <motion.span 
-                className="text-primary font-bold text-sm relative z-10"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                AR
-              </motion.span>
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-accent/20 to-transparent"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.8 }}
-              />
-            </motion.div>
-            <motion.span 
-              className="font-semibold text-lg text-white transition-colors duration-500"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-            >
-              Abdul Rehman
-            </motion.span>
-          </motion.div>
+          {/* Empty space where logo was */}
+          <div className="w-8"></div>
 
           {/* Desktop Navigation with enhanced animations */}
           <div className="hidden md:flex items-center space-x-8">
