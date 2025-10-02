@@ -10,6 +10,7 @@ import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { LazySection } from "@/components/lazy-section"
 import { FloatingElements } from "@/components/floating-elements"
+import { ScrollReveal } from "@/components/scroll-reveal"
 import { useLenis } from "@/hooks/use-lenis"
 
 const Index = () => {
@@ -31,33 +32,47 @@ const Index = () => {
       <main id="main-content" className="relative focus:outline-none" tabIndex={-1}>
         <HeroSection />
         
-        <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <AboutSection />
-        </LazySection>
+        <ScrollReveal>
+          <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
+            <AboutSection />
+          </LazySection>
+        </ScrollReveal>
         
-        <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <ExperienceSection />
-        </LazySection>
+        <ScrollReveal delay={0.1}>
+          <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
+            <ExperienceSection />
+          </LazySection>
+        </ScrollReveal>
         
-        <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <SkillsSection />
-        </LazySection>
+        <ScrollReveal delay={0.2}>
+          <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
+            <SkillsSection />
+          </LazySection>
+        </ScrollReveal>
         
-        <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <TestimonialsSection />
-        </LazySection>
+        <ScrollReveal delay={0.1}>
+          <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
+            <TestimonialsSection />
+          </LazySection>
+        </ScrollReveal>
         
-        <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <AchievementsSection />
-        </LazySection>
+        <ScrollReveal delay={0.2}>
+          <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
+            <AchievementsSection />
+          </LazySection>
+        </ScrollReveal>
         
-        <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <ResumeSection />
-        </LazySection>
+        <ScrollReveal delay={0.1}>
+          <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
+            <ResumeSection />
+          </LazySection>
+        </ScrollReveal>
         
-        <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <ContactSection />
-        </LazySection>
+        <ScrollReveal delay={0.2}>
+          <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
+            <ContactSection />
+          </LazySection>
+        </ScrollReveal>
       </main>
       
       <Footer />

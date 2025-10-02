@@ -1,101 +1,99 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Premium Portfolio Design System - Abdul Rehman Bhutta */
+/* Futuristic High-End Portfolio Design System */
 
 @layer base {
   :root {
-    /* Premium Navy & Gold Color Palette */
-    --background: 0 0% 100%;
-    --foreground: 220 39% 11%;
+    /* Futuristic Dark Theme - Base Colors */
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 14%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 14%;
+    --popover-foreground: 210 40% 98%;
     
-    --card: 0 0% 100%;
-    --card-foreground: 220 39% 11%;
+    /* Primary - Electric Purple */
+    --primary: 262 83% 58%;
+    --primary-foreground: 210 40% 98%;
+    --primary-glow: 262 100% 70%;
     
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 39% 11%;
+    /* Secondary - Deep Blue */
+    --secondary: 217 91% 60%;
+    --secondary-foreground: 210 40% 98%;
     
-    --primary: 220 39% 11%;
-    --primary-foreground: 0 0% 100%;
+    /* Accent - Neon Cyan */
+    --accent: 189 97% 55%;
+    --accent-foreground: 222 47% 11%;
     
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 220 39% 11%;
+    /* Neon Palette */
+    --neon-pink: 330 100% 60%;
+    --neon-cyan: 189 97% 55%;
+    --neon-purple: 262 100% 70%;
     
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
+    /* Muted */
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
     
-    --accent: 48 100% 50%;
-    --accent-foreground: 220 39% 11%;
-    
+    /* Destructive */
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 210 40% 98%;
     
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 220 39% 11%;
-    
-    /* Premium Design Tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(220 39% 11%) 0%, hsl(220 39% 18%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(48 100% 50%) 0%, hsl(45 100% 55%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(220 39% 11%) 0%, hsl(220 50% 15%) 50%, hsl(48 100% 50%) 100%);
-    
-    --shadow-premium: 0 25px 50px -12px hsl(220 39% 11% / 0.25);
-    --shadow-card: 0 4px 6px -1px hsl(220 39% 11% / 0.1), 0 2px 4px -1px hsl(220 39% 11% / 0.06);
-    --shadow-glow: 0 0 0 1px hsl(48 100% 50% / 0.3), 0 0 20px hsl(48 100% 50% / 0.2);
-    
+    /* Border & Input */
+    --border: 217 33% 20%;
+    --input: 217 33% 20%;
+    --ring: 262 83% 58%;
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Futuristic gradients with neon accents */
+    --gradient-primary: linear-gradient(135deg, hsl(262 100% 70%), hsl(189 97% 55%));
+    --gradient-accent: linear-gradient(135deg, hsl(189 97% 55%), hsl(262 83% 58%));
+    --gradient-hero: linear-gradient(180deg, hsl(222 47% 11%) 0%, hsl(222 47% 8%) 50%, hsl(217 91% 15%) 100%);
+    --gradient-neon: linear-gradient(90deg, hsl(330 100% 60%), hsl(262 100% 70%), hsl(189 97% 55%));
+    
+    /* Neon glow shadows */
+    --shadow-premium: 0 25px 50px -12px hsl(262 100% 70% / 0.4);
+    --shadow-card: 0 8px 32px hsl(262 83% 58% / 0.25);
+    --shadow-elevated: 0 20px 40px hsl(189 97% 55% / 0.3);
+    --shadow-neon: 0 0 30px hsl(262 100% 70% / 0.5);
+    --shadow-neon-strong: 0 0 60px hsl(262 100% 70% / 0.7);
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 222 47% 14%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 262 83% 58%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 20%;
+    --sidebar-ring: 262 83% 58%;
   }
 
   .dark {
-    --background: 220 39% 8%;
-    --foreground: 0 0% 98%;
-    
-    --card: 220 39% 10%;
-    --card-foreground: 0 0% 98%;
-    
-    --popover: 220 39% 10%;
-    --popover-foreground: 0 0% 98%;
-    
-    --primary: 0 0% 98%;
-    --primary-foreground: 220 39% 11%;
-    
-    --secondary: 220 39% 15%;
-    --secondary-foreground: 0 0% 98%;
-    
-    --muted: 220 39% 15%;
-    --muted-foreground: 220 9% 70%;
-    
-    --accent: 48 100% 50%;
-    --accent-foreground: 220 39% 11%;
-    
-    --border: 220 39% 18%;
-    --input: 220 39% 18%;
-    --ring: 48 100% 50%;
-    
-    /* Dark Mode Premium Tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(220 39% 8%) 0%, hsl(220 39% 15%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(220 39% 8%) 0%, hsl(220 50% 12%) 50%, hsl(48 100% 50%) 100%);
-    --shadow-premium: 0 25px 50px -12px hsl(0 0% 0% / 0.5);
-    --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.3), 0 2px 4px -1px hsl(0 0% 0% / 0.2);
+    /* Enhanced Dark Theme - Same futuristic colors */
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 14%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 14%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 210 40% 98%;
+    --primary-glow: 262 100% 70%;
+    --secondary: 217 91% 60%;
+    --secondary-foreground: 210 40% 98%;
+    --accent: 189 97% 55%;
+    --accent-foreground: 222 47% 11%;
+    --neon-pink: 330 100% 60%;
+    --neon-cyan: 189 97% 55%;
+    --neon-purple: 262 100% 70%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 20%;
+    --input: 217 33% 20%;
+    --ring: 262 83% 58%;
   }
 }
 
@@ -103,47 +101,25 @@
   * {
     @apply border-border;
   }
-
+  
   body {
-    @apply bg-background text-foreground font-['Inter',sans-serif] antialiased;
-    /* Performance optimizations */
-    transform: translateZ(0);
-    will-change: transform, opacity;
-    /* Fix horizontal scroll */
+    @apply bg-background text-foreground;
+    font-family: 'Sora', 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     overflow-x: hidden;
-  }
-  
-  html {
-    overflow-x: hidden;
-  }
-  
-  /* Reduce animation complexity for better performance */
-  @media (prefers-reduced-motion: no-preference) {
-    .animate-fade-in {
-      animation: fade-in 0.4s ease-out forwards;
-    }
-    
-    .animate-slide-up {
-      animation: slide-up 0.4s ease-out forwards;
-    }
-    
-    .animate-scale-in {
-      animation: scale-in 0.3s ease-out forwards;
-    }
-  }
-  
-  /* GPU acceleration for smoother animations */
-  .motion-safe {
-    transform: translateZ(0);
-    backface-visibility: hidden;
   }
   
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
-
+  
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 }
 
@@ -160,6 +136,10 @@
     background: var(--gradient-hero);
   }
   
+  .gradient-neon {
+    background: var(--gradient-neon);
+  }
+  
   .shadow-premium {
     box-shadow: var(--shadow-premium);
   }
@@ -168,8 +148,12 @@
     box-shadow: var(--shadow-card);
   }
   
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
+  .shadow-neon {
+    box-shadow: var(--shadow-neon);
+  }
+  
+  .shadow-neon-strong {
+    box-shadow: var(--shadow-neon-strong);
   }
   
   .animate-fade-in {
@@ -185,12 +169,23 @@
   }
   
   .hover-glow {
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .hover-glow:hover {
-    box-shadow: var(--shadow-glow);
+    box-shadow: 0 0 40px hsl(var(--neon-cyan) / 0.6), 0 0 80px hsl(var(--neon-purple) / 0.4);
     transform: translateY(-2px);
+  }
+  
+  .neon-border {
+    border: 1px solid hsl(var(--neon-cyan) / 0.3);
+    box-shadow: 0 0 15px hsl(var(--neon-cyan) / 0.2), inset 0 0 15px hsl(var(--neon-cyan) / 0.05);
+  }
+  
+  .glass-effect {
+    background: hsl(var(--card) / 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--border) / 0.5);
   }
 }
 
@@ -200,6 +195,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-rendering: optimizeLegibility;
   }
 }
 
@@ -256,10 +252,10 @@
 
 @keyframes glow-pulse {
   0%, 100% {
-    box-shadow: 0 0 20px hsl(var(--accent) / 0.3);
+    box-shadow: 0 0 20px hsl(var(--neon-cyan) / 0.3);
   }
   50% {
-    box-shadow: 0 0 40px hsl(var(--accent) / 0.6);
+    box-shadow: 0 0 40px hsl(var(--neon-cyan) / 0.6);
   }
 }
 
@@ -322,9 +318,9 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   :root {
-    --border: hsl(0 0% 20%);
+    --border: hsl(0 0% 80%);
     --input: hsl(0 0% 100%);
-    --ring: hsl(0 0% 0%);
+    --ring: hsl(0 0% 100%);
   }
   
   .dark {
@@ -332,13 +328,4 @@
     --input: hsl(0 0% 0%);
     --ring: hsl(0 0% 100%);
   }
-}
-
-/* Improved text rendering */
-.text-gradient {
-  background: var(--gradient-accent);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-rendering: optimizeLegibility;
 }

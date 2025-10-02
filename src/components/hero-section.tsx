@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { Download, Mail, Code, Users, Zap, Globe, Gamepad2, Smartphone } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { TypewriterEffect } from "@/components/typewriter-effect"
 
 const orbitingItems = [
   { icon: Code, label: "React", delay: 0, radius: "120px", color: "from-blue-400 to-blue-600" },
@@ -156,37 +157,33 @@ export function HeroSection() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 30, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1, delay: 0.6, type: "spring", stiffness: 100 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
             className="text-xl md:text-2xl lg:text-3xl font-light mb-6 text-white/90"
           >
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1.2 }}
-              className="inline-block"
-            >
-              Community Lead &{" "}
-            </motion.span>
-            <motion.span
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 1.4, type: "spring" }}
-              className="inline-block text-accent font-semibold"
-            >
-              Web3 Strategy Expert
-            </motion.span>
+            <span className="inline-block">I'm Winston — </span>
+            <span className="inline-block text-transparent bg-clip-text bg-gradient-neon font-semibold">
+              <TypewriterEffect 
+                phrases={[
+                  "Developer",
+                  "Designer", 
+                  "Builder",
+                  "Community Lead",
+                  "Web3 Expert"
+                ]}
+              />
+            </span>
           </motion.p>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-lg md:text-xl max-w-3xl mx-auto mb-12 text-white/80 font-light leading-relaxed"
+            className="text-base md:text-lg max-w-2xl mx-auto mb-12 text-white/70 font-light leading-relaxed"
           >
-            Building thriving communities and scaling engagement across Web3 ecosystems. 
-            From leading 120+ team members to hosting events with 700+ attendees.
+            Crafting digital experiences that push boundaries. Specializing in community building, 
+            Web3 ecosystems, and creating meaningful connections in the decentralized world.
           </motion.p>
 
           {/* CTA Buttons with enhanced animations */}
@@ -204,15 +201,20 @@ export function HeroSection() {
               }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button variant="hero" size="lg" className="group relative overflow-hidden">
+              <Button 
+                variant="hero" 
+                size="lg" 
+                className="group relative overflow-hidden neon-border bg-gradient-to-r from-neon-purple to-neon-cyan hover:shadow-neon-strong"
+                onClick={() => window.location.href = '#contact'}
+              >
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-accent/20 to-transparent"
+                  className="absolute inset-0 bg-gradient-neon opacity-0 group-hover:opacity-20"
                   initial={{ x: "-100%" }}
                   whileHover={{ x: "100%" }}
                   transition={{ duration: 0.6 }}
                 />
-                <Download className="mr-2 h-5 w-5 transition-transform group-hover:scale-110 group-hover:rotate-12" />
-                Download Resume
+                <Mail className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
+                Get in Touch
               </Button>
             </motion.div>
             <motion.div
@@ -223,15 +225,19 @@ export function HeroSection() {
               }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button variant="outline-accent" size="lg" className="group relative overflow-hidden">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="group relative overflow-hidden glass-effect neon-border hover:bg-neon-cyan/10"
+              >
                 <motion.div
-                  className="absolute inset-0 bg-accent/10"
+                  className="absolute inset-0 bg-neon-cyan/10"
                   initial={{ scale: 0 }}
                   whileHover={{ scale: 1 }}
                   transition={{ duration: 0.3 }}
                 />
-                <Mail className="mr-2 h-5 w-5 transition-transform group-hover:scale-110 group-hover:rotate-12 relative z-10" />
-                <span className="relative z-10">Contact Me</span>
+                <Download className="mr-2 h-5 w-5 transition-transform group-hover:scale-110 relative z-10" />
+                <span className="relative z-10">Download Resume</span>
               </Button>
             </motion.div>
           </motion.div>
