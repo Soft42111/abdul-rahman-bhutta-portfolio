@@ -10,6 +10,7 @@ import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { LazySection } from "@/components/lazy-section"
 import { FloatingElements } from "@/components/floating-elements"
+import { AnimatedGridBackground } from "@/components/animated-grid-background"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { useLenis } from "@/hooks/use-lenis"
 
@@ -26,6 +27,7 @@ const Index = () => {
         Skip to main content
       </a>
       
+      <AnimatedGridBackground />
       <FloatingElements />
       <Navigation />
       
