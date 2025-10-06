@@ -130,15 +130,15 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 50, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1.2, delay: 0.4, type: "spring", stiffness: 100 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-tight"
+            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-wide"
           >
             <motion.span
               initial={{ opacity: 0, x: -100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, delay: 0.8, type: "spring", stiffness: 120 }}
-              className="inline-block"
+              className="inline-block mr-4"
             >
-              Abdul Rehman{" "}
+              Abdul Rehman
             </motion.span>
             <motion.span 
               className="text-gradient bg-gradient-to-r from-accent to-yellow-300 bg-clip-text text-transparent inline-block"
@@ -159,15 +159,23 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1, delay: 0.6, type: "spring", stiffness: 100 }}
-            className="text-xl md:text-2xl lg:text-3xl font-light mb-6 text-white/90"
+            className="text-xl md:text-2xl lg:text-3xl font-light mb-6 text-white/90 tracking-wide"
           >
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.2 }}
-              className="inline-block"
+              className="inline-block mr-2"
             >
-              Community Lead &{" "}
+              Community Lead
+            </motion.span>
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.3 }}
+              className="inline-block mr-2"
+            >
+              &
             </motion.span>
             <motion.span
               initial={{ opacity: 0, scale: 0.8 }}
