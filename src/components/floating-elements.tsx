@@ -1,27 +1,109 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { Code, Zap, Globe, Users, Star, Sparkles } from "lucide-react"
+
+const floatingElements = [
+  { 
+    icon: Code, 
+    position: { top: "10%", left: "5%" },
+    delay: 0,
+    duration: 8,
+    color: "text-blue-400"
+  },
+  { 
+    icon: Zap, 
+    position: { top: "20%", right: "10%" },
+    delay: 1,
+    duration: 10,
+    color: "text-yellow-400"
+  },
+  { 
+    icon: Globe, 
+    position: { bottom: "30%", left: "8%" },
+    delay: 2,
+    duration: 12,
+    color: "text-green-400"
+  },
+  { 
+    icon: Users, 
+    position: { bottom: "15%", right: "5%" },
+    delay: 3,
+    duration: 9,
+    color: "text-purple-400"
+  },
+  { 
+    icon: Star, 
+    position: { top: "50%", left: "3%" },
+    delay: 4,
+    duration: 11,
+    color: "text-pink-400"
+  },
+  { 
+    icon: Sparkles, 
+    position: { top: "70%", right: "8%" },
+    delay: 5,
+    duration: 7,
+    color: "text-cyan-400"
+  },
+]
 
 export function FloatingElements() {
+  const [scrollY, setScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {/* Animated background dots - cyan theme for Ali Awab style */}
-      {Array.from({ length: 30 }).map((_, i) => (
+    <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+      {floatingElements.map((element, index) => (
+        <motion.div
+          key={index}
+          className="absolute opacity-10"
+          style={{
+            ...element.position,
+            transform: `translateY(${scrollY * 0.1}px) translateX(${scrollY * 0.05}px)`
+          }}
+          initial={{ opacity: 0, scale: 0, rotate: 0 }}
+          animate={{ 
+            opacity: [0, 0.1, 0.05, 0.1, 0],
+            scale: [0, 1, 1.2, 1, 0],
+            rotate: [0, 180, 360],
+            y: [0, -20, 0, 20, 0],
+            x: [0, 10, 0, -10, 0]
+          }}
+          transition={{
+            duration: element.duration,
+            delay: element.delay,
+            repeat: Infinity,
+            repeatType: "loop",
+            ease: "easeInOut"
+          }}
+        >
+          <element.icon className={`w-8 h-8 ${element.color}`} />
+        </motion.div>
+      ))}
+      
+      {/* Animated background dots */}
+      {Array.from({ length: 20 }).map((_, i) => (
         <motion.div
           key={`dot-${i}`}
-          className="absolute w-1 h-1 bg-neon-cyan/20 rounded-full"
+          className="absolute w-1 h-1 bg-accent/20 rounded-full"
           style={{
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            boxShadow: '0 0 4px hsl(189 97% 55% / 0.3)',
           }}
           initial={{ opacity: 0, scale: 0 }}
           animate={{ 
-            opacity: [0, 0.5, 0],
-            scale: [0, 1.5, 0],
+            opacity: [0, 0.3, 0],
+            scale: [0, 1, 0],
           }}
           transition={{
-            duration: 2 + Math.random() * 3,
+            duration: 3 + Math.random() * 4,
             delay: Math.random() * 2,
             repeat: Infinity,
             repeatType: "loop",
