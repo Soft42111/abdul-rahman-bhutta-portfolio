@@ -1,6 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useRef, useEffect, useState } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { Star, Quote } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -45,69 +46,173 @@ const testimonials = [
 ]
 
 export function TestimonialsSection() {
-  return (
-    <section className="py-24 bg-gradient-subtle relative overflow-hidden">
-      <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
-            What Leaders Say
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Testimonials from industry leaders, team members, and collaborators who have experienced 
-            the impact of exceptional community leadership firsthand.
-          </p>
-        </motion.div>
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [isLocked, setIsLocked] = useState(false)
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="group"
-            >
-              <Card className="h-full bg-card/50 backdrop-blur-sm border-border/50 hover:border-accent/50 transition-all duration-300 hover:shadow-premium">
-                <CardContent className="p-8">
-                  <div className="flex items-center mb-6">
-                    <Quote className="w-8 h-8 text-accent mr-4" />
-                    <div className="flex">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <blockquote className="text-lg text-foreground mb-6 leading-relaxed font-medium">
-                    "{testimonial.text}"
-                  </blockquote>
-                  
-                  <div className="flex items-center">
-                    <Avatar className="w-12 h-12 mr-4 ring-2 ring-accent/20">
-                      <AvatarImage src={testimonial.image} alt={testimonial.name} />
-                      <AvatarFallback className="bg-gradient-accent text-primary font-semibold">
-                        {testimonial.name.split(' ').map(n => n[0]).join('')}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <div className="font-semibold text-foreground">{testimonial.name}</div>
-                      <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                      <div className="text-sm text-accent font-medium">{testimonial.company}</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  })
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return
+      
+      const rect = containerRef.current.getBoundingClientRect()
+      const viewportHeight = window.innerHeight
+      const sectionTop = rect.top
+      const sectionHeight = rect.height
+      
+      // Calculate which testimonial should be active based on scroll position
+      if (sectionTop <= viewportHeight * 0.3 && sectionTop + sectionHeight >= viewportHeight * 0.3) {
+        const progress = Math.abs(sectionTop - viewportHeight * 0.3) / (sectionHeight - viewportHeight * 0.5)
+        const newIndex = Math.min(Math.floor(progress * testimonials.length), testimonials.length - 1)
+        setActiveIndex(Math.max(0, newIndex))
+        setIsLocked(true)
+      } else {
+        setIsLocked(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return (
+    <section 
+      ref={containerRef}
+      className="py-24 bg-background relative overflow-hidden min-h-[200vh]"
+    >
+      <div className="sticky top-0 h-screen flex items-center">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
+              What Leaders Say
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Testimonials from industry leaders, team members, and collaborators who have experienced 
+              the impact of exceptional community leadership firsthand.
+            </p>
+          </motion.div>
+
+          <div className="relative max-w-6xl mx-auto">
+            {/* Left blur hint */}
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-64 opacity-30 blur-[3px] hidden lg:block">
+              {activeIndex > 0 && (
+                <div className="transform scale-75">
+                  <TestimonialCard testimonial={testimonials[activeIndex - 1]} />
+                </div>
+              )}
+            </div>
+
+            {/* Main testimonial */}
+            <div className="max-w-3xl mx-auto">
+              {testimonials.map((testimonial, index) => (
+                <motion.div
+                  key={testimonial.id}
+                  initial={{ 
+                    opacity: 0, 
+                    x: index % 2 === 0 ? 200 : -200,
+                    y: index * 20 
+                  }}
+                  animate={{ 
+                    opacity: index === activeIndex ? 1 : 0,
+                    x: index === activeIndex ? 0 : (index % 2 === 0 ? 200 : -200),
+                    y: index === activeIndex ? 0 : index * 20,
+                    scale: index === activeIndex ? 1 : 0.9
+                  }}
+                  transition={{ 
+                    duration: 0.6, 
+                    ease: "easeOut" 
+                  }}
+                  className={`absolute inset-0 ${index === activeIndex ? 'z-10' : 'z-0 pointer-events-none'}`}
+                  style={{ 
+                    marginTop: `${index * 8}px`
+                  }}
+                >
+                  <TestimonialCard testimonial={testimonial} isActive={index === activeIndex} />
+                </motion.div>
+              ))}
+              
+              {/* Placeholder for layout */}
+              <div className="opacity-0 pointer-events-none">
+                <TestimonialCard testimonial={testimonials[0]} />
+              </div>
+            </div>
+
+            {/* Right blur hint */}
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-64 opacity-30 blur-[3px] hidden lg:block">
+              {activeIndex < testimonials.length - 1 && (
+                <div className="transform scale-75">
+                  <TestimonialCard testimonial={testimonials[activeIndex + 1]} />
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Progress indicators */}
+          <div className="flex justify-center gap-3 mt-12">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === activeIndex 
+                    ? "w-8 bg-primary" 
+                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
+  )
+}
+
+interface TestimonialCardProps {
+  testimonial: typeof testimonials[0]
+  isActive?: boolean
+}
+
+function TestimonialCard({ testimonial, isActive }: TestimonialCardProps) {
+  return (
+    <Card className={`bg-card/80 backdrop-blur-sm border-border/50 transition-all duration-300 ${isActive ? 'shadow-premium border-primary/30' : 'shadow-card'}`}>
+      <CardContent className="p-8">
+        <div className="flex items-center mb-6">
+          <Quote className="w-8 h-8 text-primary mr-4" />
+          <div className="flex">
+            {[...Array(testimonial.rating)].map((_, i) => (
+              <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+            ))}
+          </div>
+        </div>
+        
+        <blockquote className="text-lg text-foreground mb-6 leading-relaxed font-medium">
+          "{testimonial.text}"
+        </blockquote>
+        
+        <div className="flex items-center">
+          <Avatar className="w-12 h-12 mr-4 ring-2 ring-primary/20">
+            <AvatarImage src={testimonial.image} alt={testimonial.name} />
+            <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
+              {testimonial.name.split(' ').map(n => n[0]).join('')}
+            </AvatarFallback>
+          </Avatar>
+          <div>
+            <div className="font-semibold text-foreground">{testimonial.name}</div>
+            <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+            <div className="text-sm text-primary font-medium">{testimonial.company}</div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   )
 }

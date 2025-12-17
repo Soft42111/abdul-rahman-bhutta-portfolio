@@ -1,5 +1,6 @@
 "use client"
 
+import { useRef, useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { 
   MessageSquare, 
@@ -53,141 +54,211 @@ const skillCategories = [
 ]
 
 const languages = [
-  { name: "English", level: 100, flag: "🇺🇸" },
-  { name: "Hindi", level: 95, flag: "🇮🇳" },
-  { name: "Urdu", level: 100, flag: "🇵🇰" }
+  { name: "English", level: 100, flag: "🇺🇸", country: "United States" },
+  { name: "Hindi", level: 95, flag: "🇮🇳", country: "India" },
+  { name: "Urdu", level: 100, flag: "🇵🇰", country: "Pakistan" }
 ]
 
 export function SkillsSection() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return
+      
+      const rect = containerRef.current.getBoundingClientRect()
+      const viewportHeight = window.innerHeight
+      const sectionTop = rect.top
+      const sectionHeight = rect.height
+      
+      if (sectionTop <= viewportHeight * 0.3 && sectionTop + sectionHeight >= viewportHeight * 0.3) {
+        const progress = Math.abs(sectionTop - viewportHeight * 0.3) / (sectionHeight - viewportHeight * 0.5)
+        const newIndex = Math.min(Math.floor(progress * skillCategories.length), skillCategories.length - 1)
+        setActiveIndex(Math.max(0, newIndex))
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
-    <section className="py-24 bg-muted/30">
-      <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Skills &{" "}
-            <span className="text-gradient bg-gradient-to-r from-accent to-yellow-400 bg-clip-text text-transparent">
-              Expertise
-            </span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            A comprehensive toolkit built through years of hands-on experience 
-            in community building, event management, and Web3 ecosystem development.
-          </p>
-        </motion.div>
+    <section 
+      ref={containerRef}
+      className="py-24 bg-muted/30 relative overflow-hidden min-h-[180vh]"
+    >
+      <div className="sticky top-0 h-screen flex items-center">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Skills &{" "}
+              <span className="text-gradient">Expertise</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              A comprehensive toolkit built through years of hands-on experience 
+              in community building, event management, and Web3 ecosystem development.
+            </p>
+          </motion.div>
 
-        {/* Skill Categories */}
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-8 mb-16">
-          {skillCategories.map((category, categoryIndex) => (
-            <motion.div
-              key={category.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: categoryIndex * 0.1 }}
-              className="bg-card border border-border rounded-2xl p-6 shadow-card hover:shadow-premium/20 transition-all duration-300"
-            >
-              {/* Category Header */}
-              <div className="flex items-center gap-4 mb-6">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${category.color} p-0.5`}>
-                  <div className="w-full h-full rounded-xl bg-background flex items-center justify-center">
-                    <category.icon className="w-6 h-6 text-accent" />
-                  </div>
+          {/* Skill Categories with vertical scroll animation */}
+          <div className="max-w-4xl mx-auto relative">
+            {/* Bottom blur hint */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-full opacity-30 blur-[3px] hidden lg:block">
+              {activeIndex < skillCategories.length - 1 && (
+                <div className="transform scale-75">
+                  <SkillCard category={skillCategories[activeIndex + 1]} />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground">
-                  {category.title}
-                </h3>
-              </div>
+              )}
+            </div>
 
-              {/* Skills List */}
-              <div className="space-y-4">
-                {category.skills.map((skill, skillIndex) => (
+            {/* Main skill cards */}
+            <div className="relative h-[400px]">
+              {skillCategories.map((category, categoryIndex) => (
+                <motion.div
+                  key={category.title}
+                  initial={{ opacity: 0, y: 100 }}
+                  animate={{ 
+                    opacity: categoryIndex === activeIndex ? 1 : 0,
+                    y: categoryIndex === activeIndex ? 0 : 100,
+                    scale: categoryIndex === activeIndex ? 1 : 0.9
+                  }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className={`absolute inset-0 ${categoryIndex === activeIndex ? 'z-10' : 'z-0 pointer-events-none'}`}
+                >
+                  <SkillCard category={category} isActive={categoryIndex === activeIndex} />
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Progress indicators */}
+            <div className="flex justify-center gap-3 mt-8">
+              {skillCategories.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === activeIndex 
+                      ? "h-8 bg-primary" 
+                      : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Languages */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="max-w-4xl mx-auto mt-16"
+          >
+            <div className="bg-card border border-border rounded-2xl p-8 shadow-card">
+              <h3 className="text-2xl font-semibold text-foreground mb-8 text-center">
+                Languages
+              </h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                {languages.map((language, index) => (
                   <motion.div
-                    key={skill.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    key={language.name}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: (categoryIndex * 0.1) + (skillIndex * 0.05) }}
-                    className="space-y-2"
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    className="text-center p-6 rounded-xl bg-muted/50 hover:bg-muted transition-colors"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <skill.icon className="w-4 h-4 text-muted-foreground" />
-                        <span className="text-sm font-medium text-foreground">
-                          {skill.name}
-                        </span>
+                    <div className="text-5xl mb-4">{language.flag}</div>
+                    <h4 className="text-lg font-semibold text-foreground mb-1">
+                      {language.name}
+                    </h4>
+                    <p className="text-sm text-muted-foreground mb-3">{language.country}</p>
+                    <div className="space-y-2">
+                      <div className="text-sm text-muted-foreground">
+                        Proficiency: {language.level}%
                       </div>
-                      <span className="text-xs text-muted-foreground font-medium">
-                        {skill.level}%
-                      </span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: (categoryIndex * 0.1) + (skillIndex * 0.05) + 0.3 }}
-                        className={`h-2 rounded-full bg-gradient-to-r ${category.color}`}
-                      />
+                      <div className="w-full bg-muted rounded-full h-2">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${language.level}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1, delay: index * 0.1 + 0.5 }}
+                          className="h-2 rounded-full bg-gradient-to-r from-primary to-primary/60"
+                        />
+                      </div>
                     </div>
                   </motion.div>
                 ))}
               </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Languages */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="max-w-4xl mx-auto"
-        >
-          <div className="bg-card border border-border rounded-2xl p-8 shadow-card">
-            <h3 className="text-2xl font-semibold text-foreground mb-8 text-center">
-              Languages
-            </h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              {languages.map((language, index) => (
-                <motion.div
-                  key={language.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="text-center p-6 rounded-xl bg-muted/50 hover:bg-muted transition-colors"
-                >
-                  <div className="text-4xl mb-4">{language.flag}</div>
-                  <h4 className="text-lg font-semibold text-foreground mb-2">
-                    {language.name}
-                  </h4>
-                  <div className="space-y-2">
-                    <div className="text-sm text-muted-foreground">
-                      Proficiency: {language.level}%
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${language.level}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: index * 0.1 + 0.5 }}
-                        className="h-2 rounded-full bg-gradient-to-r from-accent to-yellow-400"
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
+  )
+}
+
+interface SkillCardProps {
+  category: typeof skillCategories[0]
+  isActive?: boolean
+}
+
+function SkillCard({ category, isActive }: SkillCardProps) {
+  return (
+    <div className={`bg-card border border-border rounded-2xl p-8 shadow-card transition-all duration-300 ${isActive ? 'shadow-premium border-primary/30' : ''}`}>
+      {/* Category Header */}
+      <div className="flex items-center gap-4 mb-8">
+        <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${category.color} p-0.5`}>
+          <div className="w-full h-full rounded-xl bg-background flex items-center justify-center">
+            <category.icon className="w-7 h-7 text-primary" />
+          </div>
+        </div>
+        <h3 className="text-2xl font-semibold text-foreground">
+          {category.title}
+        </h3>
+      </div>
+
+      {/* Skills Grid */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {category.skills.map((skill, skillIndex) => (
+          <motion.div
+            key={skill.name}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: skillIndex * 0.1 }}
+            className="space-y-2"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <skill.icon className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm font-medium text-foreground">
+                  {skill.name}
+                </span>
+              </div>
+              <span className="text-xs text-muted-foreground font-medium">
+                {skill.level}%
+              </span>
+            </div>
+            <div className="w-full bg-muted rounded-full h-2">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: `${skill.level}%` }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, delay: skillIndex * 0.1 + 0.3 }}
+                className={`h-2 rounded-full bg-gradient-to-r ${category.color}`}
+              />
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
   )
 }

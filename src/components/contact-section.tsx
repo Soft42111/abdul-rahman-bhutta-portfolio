@@ -2,18 +2,17 @@
 
 import { motion } from "framer-motion"
 import { useState } from "react"
-import { Send, Mail, Phone, MapPin, Loader2 } from "lucide-react"
+import { Send, Mail, Phone, MapPin, Loader2, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
-import ReCAPTCHA from "react-google-recaptcha"
+import { Link } from "react-router-dom"
 
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
 
   const [formData, setFormData] = useState({
     name: "",
@@ -56,18 +55,7 @@ export function ContactSection() {
       return
     }
 
-    if (!captchaToken) {
-      toast({
-        title: "Error",
-        description: "Please verify you are human.",
-        variant: "destructive",
-      })
-      setIsSubmitting(false)
-      return
-    }
-
     try {
-      // Insert directly into Supabase (secure with RLS policies)
       const { error } = await supabase
         .from("contact_messages")
         .insert([{
@@ -87,9 +75,7 @@ export function ContactSection() {
         description: "Thank you for reaching out. I'll get back to you soon.",
       })
 
-      // Reset form
       setFormData({ name: "", email: "", subject: "", message: "" })
-      setCaptchaToken(null)
     } catch (error) {
       console.error("Error submitting contact form:", error)
       toast({
@@ -106,7 +92,7 @@ export function ContactSection() {
     <section id="contact" className="py-24 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
       </div>
 
@@ -120,14 +106,19 @@ export function ContactSection() {
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Get In{" "}
-            <span className="text-gradient bg-gradient-to-r from-accent to-yellow-400 bg-clip-text text-transparent">
-              Touch
-            </span>
+            <span className="text-gradient">Touch</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-4">
             Ready to discuss your next community initiative or collaboration opportunity? 
             I'd love to hear from you.
           </p>
+          <Link 
+            to="/contact"
+            className="inline-flex items-center text-primary hover:underline font-medium"
+          >
+            Open full contact page
+            <ExternalLink className="w-4 h-4 ml-2" />
+          </Link>
         </motion.div>
 
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12">
@@ -176,15 +167,15 @@ export function ContactSection() {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="flex items-center gap-4"
                 >
-                  <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
-                    <item.icon className="w-5 h-5 text-accent" />
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <item.icon className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">{item.label}</p>
                     {item.href ? (
                       <a 
                         href={item.href}
-                        className="text-foreground font-medium hover:text-accent transition-colors"
+                        className="text-foreground font-medium hover:text-primary transition-colors"
                       >
                         {item.value}
                       </a>
@@ -269,18 +260,11 @@ export function ContactSection() {
                 />
               </div>
 
-              {/* reCAPTCHA */}
-              <ReCAPTCHA
-                sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-                onChange={setCaptchaToken}
-              />
-
               <Button
                 type="submit"
-                variant="premium"
                 size="lg"
                 disabled={isSubmitting}
-                className="w-full"
+                className="w-full bg-primary hover:bg-primary/90"
               >
                 {isSubmitting ? (
                   <>
