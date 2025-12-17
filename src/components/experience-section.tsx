@@ -1,16 +1,64 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Calendar, Users, TrendingUp, Award, Zap, Shield, Crown } from "lucide-react"
+import { useState, useEffect, useCallback } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Calendar, Users, TrendingUp, Award, Zap, Shield, Crown, ChevronLeft, ChevronRight } from "lucide-react"
 import { OptimizedImage } from "./optimized-image"
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer"
-import { useMemo } from "react"
+import { Button } from "@/components/ui/button"
 
 const experiences = [
   {
+    company: "Bullet",
+    role: "Community Manager",
+    period: "December 2024 - Present",
+    description: "Pioneered workshop formats and localization strategies",
+    achievements: [
+      "Conducted interactive workshops and training sessions",
+      "Scaled event participation from 1-2 to 25+ attendees",
+      "Led localization efforts for multi-language support",
+      "Developed sustainable engagement frameworks"
+    ],
+    logo: "/lovable-uploads/d159263e-ea1b-4911-b4d0-2f1e4c6847ed.png",
+    website: "https://bullet.xyz",
+    icon: Calendar,
+    color: "from-indigo-500 to-purple-500"
+  },
+  {
+    company: "Portal",
+    role: "Community Manager",
+    period: "Ended November 2024",
+    description: "Led community engagement initiatives for Web3 gaming platform",
+    achievements: [
+      "Managed community growth and engagement strategies",
+      "Coordinated events and user onboarding",
+      "Built strong community relationships",
+      "Developed content and communication frameworks"
+    ],
+    logo: null,
+    website: null,
+    icon: Users,
+    color: "from-blue-500 to-cyan-500"
+  },
+  {
+    company: "Staterra",
+    role: "Community Manager",
+    period: "Ended November 2024",
+    description: "Community management for blockchain project",
+    achievements: [
+      "Developed community engagement strategies",
+      "Managed Discord and social media presence",
+      "Coordinated with team for community updates",
+      "Built and maintained community guidelines"
+    ],
+    logo: null,
+    website: null,
+    icon: Shield,
+    color: "from-green-500 to-emerald-500"
+  },
+  {
     company: "Aethir",
     role: "Senior Community Moderator",
-    period: "December 2025 - Present",
+    period: "Ended December 2, 2025",
     description: "Promoted for exceptional performance in IRL events and innovative event hosting and engaging community in various ways!",
     achievements: [
       "Promoted due to strong IRL event execution",
@@ -19,7 +67,7 @@ const experiences = [
       "Coordinated cross-functional team initiatives"
     ],
     logo: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
-    website: "https://aethir.com", // Added website URL for Aethir
+    website: "https://aethir.com",
     icon: TrendingUp,
     color: "from-blue-500 to-cyan-500"
   },
@@ -52,7 +100,7 @@ const experiences = [
     ],
     logo: "/lovable-uploads/d73a7973-0e76-4ad0-bb23-0371fd1f55ac.png",
     website: "https://mktingnexus.com",
-    icon: Users,
+    icon: Crown,
     color: "from-purple-500 to-pink-500"
   },
   {
@@ -67,41 +115,9 @@ const experiences = [
       "Developed content strategies for multiple platforms"
     ],
     logo: null,
-    website: "https://phoenixgrowth.io", // Added website URL for Phoenix Growth
+    website: "https://phoenixgrowth.io",
     icon: Award,
     color: "from-orange-500 to-red-500"
-  },
-  {
-    company: "Bullet",
-    role: "Community Manager",
-    period: "December 2024 - Present",
-    description: "Pioneered workshop formats and localization strategies",
-    achievements: [
-      "Conducted interactive workshops and training sessions",
-      "Scaled event participation from 1-2 to 25+ attendees",
-      "Led localization efforts for multi-language support",
-      "Developed sustainable engagement frameworks"
-    ],
-    logo: "/lovable-uploads/d159263e-ea1b-4911-b4d0-2f1e4c6847ed.png",
-    website: "https://bullet.xyz",
-    icon: Calendar,
-    color: "from-indigo-500 to-purple-500"
-  },
-  {
-    company: "Overtrip",
-    role: "Bug Hunter & Beta Tester", 
-    period: "July 2024 - August 2024",
-    description: "Specialized in quality assurance and community feedback for gaming platform",
-    achievements: [
-      "Identified and reported critical bugs during beta phase",
-      "Provided comprehensive feedback on user experience",
-      "Collaborated with development team for feature improvements",
-      "Contributed to platform stability and launch readiness"
-    ],
-    logo: "/lovable-uploads/c72cbcd0-3d2e-4a8e-a0ea-2b42bb86b432.png",
-    website: "https://playovertrip.com",
-    icon: Shield,
-    color: "from-red-500 to-pink-500"
   },
   {
     company: "Sophon",
@@ -120,22 +136,6 @@ const experiences = [
     color: "from-cyan-500 to-blue-500"
   },
   {
-    company: "Nyan Heroes",
-    role: "Independent Bug Hunter",
-    period: "September 4 - September 25, 2025", 
-    description: "Specialized quality assurance and testing for blockchain gaming project",
-    achievements: [
-      "Conducted thorough testing of game mechanics and features",
-      "Reported and documented critical gameplay bugs",
-      "Provided detailed feedback on user interface and experience",
-      "Contributed to game balance and stability improvements"
-    ],
-    logo: "/lovable-uploads/ba906a73-dba9-4a93-9c26-7aba9ea2f320.png",
-    website: "https://x.com/nyanheroes",
-    icon: Zap,
-    color: "from-yellow-500 to-orange-500"
-  },
-  {
     company: "Web3 Clan HISS",
     role: "Founder & Team Leader",
     period: "August 2020 - Present",
@@ -147,35 +147,51 @@ const experiences = [
       "Developed strategic gameplay approaches and team coordination"
     ],
     logo: null,
-    website: "https://web3clanhiss.com", // Added website URL for Web3 Clan HISS
+    website: "https://web3clanhiss.com",
     icon: Users,
     color: "from-emerald-500 to-teal-500"
   }
 ]
 
 export function ExperienceSection() {
-  const { ref, isIntersecting } = useIntersectionObserver({
-    threshold: 0.1,
-    triggerOnce: true
-  });
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
-  // Memoize experiences data to prevent unnecessary re-renders
-  const experiencesList = useMemo(() => experiences, []);
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % experiences.length)
+  }, [])
+
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + experiences.length) % experiences.length)
+  }, [])
+
+  useEffect(() => {
+    if (!isAutoPlaying) return
+    const interval = setInterval(nextSlide, 6000)
+    return () => clearInterval(interval)
+  }, [isAutoPlaying, nextSlide])
+
+  const getVisibleCards = () => {
+    const prev = (currentIndex - 1 + experiences.length) % experiences.length
+    const next = (currentIndex + 1) % experiences.length
+    return { prev, current: currentIndex, next }
+  }
+
+  const { prev, current, next } = getVisibleCards()
 
   return (
-    <section id="experience" className="py-24 bg-muted/30" ref={ref}>
+    <section id="experience" className="py-24 bg-gradient-subtle relative overflow-hidden">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Professional{" "}
-            <span className="text-gradient bg-gradient-to-r from-accent to-yellow-400 bg-clip-text text-transparent">
-              Experience
-            </span>
+            <span className="text-gradient">Experience</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             A track record of scaling communities, leading teams, and delivering 
@@ -183,101 +199,145 @@ export function ExperienceSection() {
           </p>
         </motion.div>
 
-        <div className="max-w-4xl mx-auto">
-          {isIntersecting && experiencesList.map((exp, index) => (
-            <motion.div
-              key={`${exp.company}-${index}`}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
-              className="relative mb-12 last:mb-0"
-            >
-              
-              <div className="flex flex-col md:flex-row gap-6">
-                {/* Logo and Icon */}
-                <div className="flex-shrink-0 flex items-center gap-4">
-                  {exp.logo && (
-                    <div className="w-16 h-16 rounded-full overflow-hidden bg-card border border-border shadow-sm hover:shadow-md transition-all duration-300">
-                      {exp.website ? (
-                        <a 
-                          href={exp.website} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="block w-full h-full hover:scale-105 transition-transform duration-300"
-                        >
-                          <OptimizedImage 
-                            src={exp.logo} 
-                            alt={`${exp.company} logo`}
-                            className="w-full h-full"
-                            loading="lazy"
-                          />
-                        </a>
-                      ) : (
-                        <OptimizedImage 
-                          src={exp.logo} 
-                          alt={`${exp.company} logo`}
-                          className="w-full h-full"
-                          loading="lazy"
-                        />
-                      )}
-                    </div>
-                  )}
-                  
-                  <div className="w-12 h-12 rounded-full bg-background border border-border flex items-center justify-center">
-                    <exp.icon className="w-6 h-6 text-accent" />
-                  </div>
-                </div>
+        {/* Carousel Container */}
+        <div 
+          className="relative max-w-6xl mx-auto"
+          onMouseEnter={() => setIsAutoPlaying(false)}
+          onMouseLeave={() => setIsAutoPlaying(true)}
+        >
+          {/* Navigation Buttons */}
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-background/80 backdrop-blur-sm hover:bg-background"
+            onClick={prevSlide}
+          >
+            <ChevronLeft className="h-6 w-6" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-background/80 backdrop-blur-sm hover:bg-background"
+            onClick={nextSlide}
+          >
+            <ChevronRight className="h-6 w-6" />
+          </Button>
 
-                {/* Content */}
-                <div className="flex-1">
-                  <div className="bg-card border border-border rounded-xl p-6 shadow-card hover:shadow-lg/20 transition-all duration-300">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                      <div>
-                        <h3 className="text-xl font-semibold text-foreground">
-                          {exp.role}
-                        </h3>
-                        <p className="text-accent font-medium">
-                          {exp.website ? (
-                            <a 
-                              href={exp.website}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="hover:underline"
-                            >
-                              {exp.company}
-                            </a>
-                          ) : (
-                            exp.company
-                          )}
-                        </p>
-                      </div>
-                      <span className="text-sm text-muted-foreground font-medium bg-muted px-3 py-1 rounded-full mt-2 md:mt-0 self-start">
-                        {exp.period}
-                      </span>
-                    </div>
-                    
-                    <p className="text-muted-foreground mb-4">
-                      {exp.description}
-                    </p>
-                    
-                    <div className="grid gap-2">
-                      {exp.achievements.map((achievement, achievementIndex) => (
-                        <div
-                          key={achievementIndex}
-                          className="flex items-start gap-3 text-sm text-muted-foreground"
-                        >
-                          <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                          <span>{achievement}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+          {/* Cards Container */}
+          <div className="relative h-[500px] flex items-center justify-center px-16">
+            {/* Previous Card (Blurred) */}
+            <motion.div
+              key={`prev-${prev}`}
+              className="absolute left-0 w-72 opacity-40 blur-[2px] scale-90"
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 0.4 }}
+              transition={{ duration: 0.5 }}
+            >
+              <ExperienceCard experience={experiences[prev]} isBlurred />
             </motion.div>
-          ))}
+
+            {/* Current Card */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`current-${current}`}
+                className="w-full max-w-2xl z-10"
+                initial={{ opacity: 0, scale: 0.9, x: 100 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.9, x: -100 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              >
+                <ExperienceCard experience={experiences[current]} />
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Next Card (Blurred) */}
+            <motion.div
+              key={`next-${next}`}
+              className="absolute right-0 w-72 opacity-40 blur-[2px] scale-90"
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 0.4 }}
+              transition={{ duration: 0.5 }}
+            >
+              <ExperienceCard experience={experiences[next]} isBlurred />
+            </motion.div>
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-2 mt-8">
+            {experiences.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex 
+                    ? "w-8 bg-primary" 
+                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
+  )
+}
+
+interface ExperienceCardProps {
+  experience: typeof experiences[0]
+  isBlurred?: boolean
+}
+
+function ExperienceCard({ experience, isBlurred }: ExperienceCardProps) {
+  const Icon = experience.icon
+
+  return (
+    <div className={`bg-card border border-border rounded-2xl p-8 shadow-card transition-all duration-300 ${!isBlurred && 'hover:shadow-premium'}`}>
+      <div className="flex items-start gap-4 mb-6">
+        {experience.logo && (
+          <div className="w-16 h-16 rounded-xl overflow-hidden bg-muted flex-shrink-0">
+            {experience.website ? (
+              <a href={experience.website} target="_blank" rel="noopener noreferrer">
+                <OptimizedImage 
+                  src={experience.logo} 
+                  alt={`${experience.company} logo`}
+                  className="w-full h-full object-cover"
+                />
+              </a>
+            ) : (
+              <OptimizedImage 
+                src={experience.logo} 
+                alt={`${experience.company} logo`}
+                className="w-full h-full object-cover"
+              />
+            )}
+          </div>
+        )}
+        <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${experience.color} flex items-center justify-center flex-shrink-0`}>
+          <Icon className="w-6 h-6 text-white" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-xl font-bold text-foreground truncate">{experience.role}</h3>
+          <p className="text-primary font-medium">
+            {experience.website ? (
+              <a href={experience.website} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                {experience.company}
+              </a>
+            ) : experience.company}
+          </p>
+          <span className="text-sm text-muted-foreground">{experience.period}</span>
+        </div>
+      </div>
+      
+      <p className="text-muted-foreground mb-6">{experience.description}</p>
+      
+      <div className="space-y-2">
+        {experience.achievements.map((achievement, index) => (
+          <div key={index} className="flex items-start gap-3 text-sm text-muted-foreground">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+            <span>{achievement}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
