@@ -14,7 +14,7 @@ const testimonials = [
     company: "TechCorp",
     image: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
     rating: 5,
-    text: "Abdul Rehman transformed our community engagement strategy completely. Under his leadership, our Discord community grew by 400% in just 6 months.",
+    text: "Abdul Rehman transformed our community engagement strategy completely. Our Discord community grew by 400% in just 6 months.",
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const testimonials = [
     company: "Blockchain Ventures",
     image: "/lovable-uploads/4f10758a-777b-4380-9ff1-496936661dfb.png",
     rating: 5,
-    text: "Working with Abdul Rehman was a game-changer for our project launch. His ability to coordinate 120+ team members shows exceptional leadership.",
+    text: "Working with Abdul Rehman was a game-changer. His ability to coordinate 120+ team members shows exceptional leadership.",
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ const testimonials = [
     company: "DeFi Protocol",
     image: "/lovable-uploads/975906f0-0df2-47b2-935e-39578a484dfe.png",
     rating: 5,
-    text: "Abdul Rehman's mentorship elevated my community management skills to the next level. His deep understanding of Web3 ecosystems is impressive.",
+    text: "Abdul Rehman's mentorship elevated my skills to the next level. His Web3 knowledge is truly impressive.",
   },
   {
     id: 4,
@@ -41,7 +41,7 @@ const testimonials = [
     company: "GameFi Studio", 
     image: "/lovable-uploads/ba906a73-dba9-4a93-9c26-7aba9ea2f320.png",
     rating: 5,
-    text: "The events Abdul Rehman organized for us were phenomenal. His attention to detail and ability to create engaging experiences is outstanding.",
+    text: "The events Abdul organized were phenomenal. His attention to detail is outstanding.",
   },
   {
     id: 5,
@@ -50,7 +50,7 @@ const testimonials = [
     company: "Web3 Studio",
     image: "/lovable-uploads/d159263e-ea1b-4911-b4d0-2f1e4c6847ed.png",
     rating: 5,
-    text: "Abdul's strategic thinking and execution capabilities are unmatched. He helped us build a thriving community from scratch.",
+    text: "Strategic thinking and execution capabilities are unmatched. He built us a thriving community from scratch.",
   },
   {
     id: 6,
@@ -59,35 +59,60 @@ const testimonials = [
     company: "CryptoHub",
     image: "/lovable-uploads/d73a7973-0e76-4ad0-bb23-0371fd1f55ac.png",
     rating: 5,
-    text: "Incredible professionalism and results-driven approach. Our engagement metrics improved dramatically under his guidance.",
+    text: "Incredible professionalism and results-driven approach. Engagement metrics improved dramatically.",
+  },
+  {
+    id: 7,
+    name: "Anna Kim",
+    role: "Product Lead",
+    company: "MetaVerse Inc",
+    image: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
+    rating: 5,
+    text: "Abdul's community strategies helped us achieve product-market fit faster than expected.",
+  },
+  {
+    id: 8,
+    name: "Robert Taylor",
+    role: "CTO",
+    company: "NFT Platform",
+    image: "/lovable-uploads/4f10758a-777b-4380-9ff1-496936661dfb.png",
+    rating: 5,
+    text: "His technical understanding of Web3 combined with community skills is rare and valuable.",
   },
 ]
 
 export function TestimonialsSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const accumulatedScroll = useRef(0)
   const lastScrollY = useRef(0)
 
   useEffect(() => {
+    const SCROLL_PER_CARD = 150
+
     const handleScroll = () => {
       if (!containerRef.current) return
       
       const rect = containerRef.current.getBoundingClientRect()
       const viewportHeight = window.innerHeight
-      const sectionTop = rect.top
-      const sectionHeight = rect.height
+      const currentScrollY = window.scrollY
+      const scrollDelta = currentScrollY - lastScrollY.current
+      lastScrollY.current = currentScrollY
       
-      // Check if section is in viewport for scroll lock
-      if (sectionTop <= 0 && sectionTop + sectionHeight >= viewportHeight) {
-        const scrollableHeight = sectionHeight - viewportHeight
-        const scrolled = Math.abs(sectionTop)
-        const progress = scrolled / scrollableHeight
+      if (rect.top <= 0 && rect.bottom >= viewportHeight) {
+        accumulatedScroll.current += scrollDelta
         
-        const newIndex = Math.min(
-          Math.floor(progress * testimonials.length),
-          testimonials.length - 1
-        )
-        setActiveIndex(Math.max(0, newIndex))
+        const totalScrollNeeded = SCROLL_PER_CARD * (testimonials.length - 1)
+        const clampedScroll = Math.max(0, Math.min(accumulatedScroll.current, totalScrollNeeded))
+        const newIndex = Math.round(clampedScroll / SCROLL_PER_CARD)
+        
+        setActiveIndex(Math.max(0, Math.min(newIndex, testimonials.length - 1)))
+      } else {
+        if (rect.top > 0) {
+          accumulatedScroll.current = 0
+        } else if (rect.bottom < viewportHeight) {
+          accumulatedScroll.current = SCROLL_PER_CARD * (testimonials.length - 1)
+        }
       }
     }
 
@@ -108,38 +133,38 @@ export function TestimonialsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="text-center mb-10"
           >
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
               What Leaders Say
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
               Testimonials from industry leaders and collaborators.
             </p>
           </motion.div>
 
           <div className="relative max-w-4xl mx-auto">
             {/* Left blur hint */}
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-48 opacity-25 blur-[2px] hidden lg:block">
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 w-44 opacity-20 blur-[2px] hidden lg:block">
               {activeIndex > 0 && (
-                <div className="transform scale-75">
+                <div className="transform scale-70">
                   <TestimonialCard testimonial={testimonials[activeIndex - 1]} />
                 </div>
               )}
             </div>
 
             {/* Main testimonial */}
-            <div className="max-w-2xl mx-auto relative h-[320px]">
+            <div className="max-w-xl mx-auto relative h-[280px]">
               {testimonials.map((testimonial, index) => (
                 <motion.div
                   key={testimonial.id}
-                  initial={{ opacity: 0, x: 200 }}
+                  initial={{ opacity: 0, x: 150 }}
                   animate={{ 
                     opacity: index === activeIndex ? 1 : 0,
-                    x: index === activeIndex ? 0 : (index < activeIndex ? -200 : 200),
+                    x: index === activeIndex ? 0 : (index < activeIndex ? -150 : 150),
                     scale: index === activeIndex ? 1 : 0.9
                   }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
                   className={`absolute inset-0 ${index === activeIndex ? 'z-10' : 'z-0 pointer-events-none'}`}
                 >
                   <TestimonialCard testimonial={testimonial} isActive={index === activeIndex} />
@@ -148,9 +173,9 @@ export function TestimonialsSection() {
             </div>
 
             {/* Right blur hint */}
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-48 opacity-25 blur-[2px] hidden lg:block">
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/3 w-44 opacity-20 blur-[2px] hidden lg:block">
               {activeIndex < testimonials.length - 1 && (
-                <div className="transform scale-75">
+                <div className="transform scale-70">
                   <TestimonialCard testimonial={testimonials[activeIndex + 1]} />
                 </div>
               )}
@@ -158,15 +183,15 @@ export function TestimonialsSection() {
           </div>
 
           {/* Progress indicators */}
-          <div className="flex justify-center gap-2 mt-8">
+          <div className="flex justify-center gap-1.5 mt-8">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setActiveIndex(index)}
                 className={`rounded-full transition-all duration-300 ${
                   index === activeIndex 
-                    ? "w-8 h-2.5 bg-primary" 
-                    : "w-2.5 h-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                    ? "w-6 h-2 bg-primary" 
+                    : "w-2 h-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
                 }`}
               />
             ))}
@@ -185,24 +210,24 @@ interface TestimonialCardProps {
 function TestimonialCard({ testimonial, isActive }: TestimonialCardProps) {
   return (
     <Card className={`bg-card/90 backdrop-blur-sm border-border/50 transition-all duration-300 ${isActive ? 'shadow-premium border-primary/20' : 'shadow-card'}`}>
-      <CardContent className="p-6">
-        <div className="flex items-center mb-4">
-          <Quote className="w-6 h-6 text-primary mr-3" />
+      <CardContent className="p-5">
+        <div className="flex items-center mb-3">
+          <Quote className="w-5 h-5 text-primary mr-2" />
           <div className="flex">
             {[...Array(testimonial.rating)].map((_, i) => (
-              <Star key={i} className="w-4 h-4 text-amber-400 fill-current" />
+              <Star key={i} className="w-3.5 h-3.5 text-amber-400 fill-current" />
             ))}
           </div>
         </div>
         
-        <blockquote className="text-base text-foreground mb-5 leading-relaxed">
+        <blockquote className="text-sm text-foreground mb-4 leading-relaxed">
           "{testimonial.text}"
         </blockquote>
         
         <div className="flex items-center">
-          <Avatar className="w-10 h-10 mr-3 ring-2 ring-primary/20">
+          <Avatar className="w-9 h-9 mr-3 ring-2 ring-primary/20">
             <AvatarImage src={testimonial.image} alt={testimonial.name} />
-            <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
+            <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
               {testimonial.name.split(' ').map(n => n[0]).join('')}
             </AvatarFallback>
           </Avatar>
