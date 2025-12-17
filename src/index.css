@@ -105,7 +105,7 @@
 /* Elegant background mesh */
 .bg-mesh {
   background-image: var(--gradient-mesh);
-  background-attachment: fixed;
+  /* Avoid background-attachment: fixed (costly on mobile/low-end GPUs) */
 }
 
 @layer base {
