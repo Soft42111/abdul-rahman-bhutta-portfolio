@@ -1,12 +1,14 @@
 "use client"
 
-import { useRef, useEffect, useState } from "react"
+
+import { useRef, useState, useCallback } from "react"
 import { motion } from "framer-motion"
-import { 
+import {
   MessageSquare, Calendar, Users, Bot, Video, Globe, Gamepad2, Brain,
   Settings, TrendingUp, Shield, Zap, Code, Palette, Database, Cloud,
   Smartphone, Server, GitBranch, Terminal
 } from "lucide-react"
+import { useScrollLockIndex } from "@/hooks/use-scroll-lock-index"
 
 const skillCategories = [
   {
@@ -77,49 +79,18 @@ const languages = [
 export function SkillsSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
-  const [isLocked, setIsLocked] = useState(false)
-  const accumulatedScroll = useRef(0)
-  const lastScrollY = useRef(0)
 
-  useEffect(() => {
-    const SCROLL_PER_CARD = 150 // pixels to scroll before changing card
-
-    const handleScroll = () => {
-      if (!containerRef.current) return
-      
-      const rect = containerRef.current.getBoundingClientRect()
-      const viewportHeight = window.innerHeight
-      const currentScrollY = window.scrollY
-      const scrollDelta = currentScrollY - lastScrollY.current
-      lastScrollY.current = currentScrollY
-      
-      // Check if section is at top of viewport (locked position)
-      if (rect.top <= 0 && rect.bottom >= viewportHeight) {
-        setIsLocked(true)
-        
-        // Accumulate scroll
-        accumulatedScroll.current += scrollDelta
-        
-        // Calculate which card should be active
-        const totalScrollNeeded = SCROLL_PER_CARD * (skillCategories.length - 1)
-        const clampedScroll = Math.max(0, Math.min(accumulatedScroll.current, totalScrollNeeded))
-        const newIndex = Math.round(clampedScroll / SCROLL_PER_CARD)
-        
-        setActiveIndex(Math.max(0, Math.min(newIndex, skillCategories.length - 1)))
-      } else {
-        setIsLocked(false)
-        // Reset accumulated scroll when leaving section
-        if (rect.top > 0) {
-          accumulatedScroll.current = 0
-        } else if (rect.bottom < viewportHeight) {
-          accumulatedScroll.current = SCROLL_PER_CARD * (skillCategories.length - 1)
-        }
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+  const onIndexChange = useCallback((index: number) => {
+    setActiveIndex(index)
   }, [])
+
+  useScrollLockIndex({
+    containerRef,
+    length: skillCategories.length,
+    scrollPerItem: 150,
+    onIndexChange,
+  })
+
 
   return (
     <section 

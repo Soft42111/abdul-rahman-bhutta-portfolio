@@ -1,10 +1,12 @@
 "use client"
 
-import { useRef, useEffect, useState } from "react"
+
+import { useRef, useState, useCallback } from "react"
 import { motion } from "framer-motion"
 import { Star, Quote } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useScrollLockIndex } from "@/hooks/use-scroll-lock-index"
 
 const testimonials = [
   {
@@ -18,7 +20,7 @@ const testimonials = [
   },
   {
     id: 2,
-    name: "Michael Chen", 
+    name: "Michael Chen",
     role: "CEO",
     company: "Blockchain Ventures",
     image: "/lovable-uploads/4f10758a-777b-4380-9ff1-496936661dfb.png",
@@ -38,7 +40,7 @@ const testimonials = [
     id: 4,
     name: "David Park",
     role: "Head of Operations",
-    company: "GameFi Studio", 
+    company: "GameFi Studio",
     image: "/lovable-uploads/ba906a73-dba9-4a93-9c26-7aba9ea2f320.png",
     rating: 5,
     text: "The events Abdul organized were phenomenal. His attention to detail is outstanding.",
@@ -84,41 +86,18 @@ const testimonials = [
 export function TestimonialsSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
-  const accumulatedScroll = useRef(0)
-  const lastScrollY = useRef(0)
 
-  useEffect(() => {
-    const SCROLL_PER_CARD = 150
-
-    const handleScroll = () => {
-      if (!containerRef.current) return
-      
-      const rect = containerRef.current.getBoundingClientRect()
-      const viewportHeight = window.innerHeight
-      const currentScrollY = window.scrollY
-      const scrollDelta = currentScrollY - lastScrollY.current
-      lastScrollY.current = currentScrollY
-      
-      if (rect.top <= 0 && rect.bottom >= viewportHeight) {
-        accumulatedScroll.current += scrollDelta
-        
-        const totalScrollNeeded = SCROLL_PER_CARD * (testimonials.length - 1)
-        const clampedScroll = Math.max(0, Math.min(accumulatedScroll.current, totalScrollNeeded))
-        const newIndex = Math.round(clampedScroll / SCROLL_PER_CARD)
-        
-        setActiveIndex(Math.max(0, Math.min(newIndex, testimonials.length - 1)))
-      } else {
-        if (rect.top > 0) {
-          accumulatedScroll.current = 0
-        } else if (rect.bottom < viewportHeight) {
-          accumulatedScroll.current = SCROLL_PER_CARD * (testimonials.length - 1)
-        }
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+  const onIndexChange = useCallback((index: number) => {
+    setActiveIndex(index)
   }, [])
+
+  useScrollLockIndex({
+    containerRef,
+    length: testimonials.length,
+    scrollPerItem: 150,
+    onIndexChange,
+  })
+
 
   return (
     <section 
