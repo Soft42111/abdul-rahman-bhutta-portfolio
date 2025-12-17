@@ -167,7 +167,7 @@ export function ExperienceSection() {
 
   useEffect(() => {
     if (!isAutoPlaying) return
-    const interval = setInterval(nextSlide, 6000)
+    const interval = setInterval(nextSlide, 4000)
     return () => clearInterval(interval)
   }, [isAutoPlaying, nextSlide])
 
