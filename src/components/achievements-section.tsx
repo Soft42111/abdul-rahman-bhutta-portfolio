@@ -98,15 +98,21 @@ const stats = [
 export function AchievementsSection() {
   const [selectedAchievement, setSelectedAchievement] = useState<typeof achievements[0] | null>(null)
 
-  // Lock body scroll when popup is open
+  // Lock page scroll when popup is open (body + html for mobile Safari)
   useEffect(() => {
+    const html = document.documentElement
+
     if (selectedAchievement) {
-      document.body.style.overflow = 'hidden'
+      html.style.overflow = "hidden"
+      document.body.style.overflow = "hidden"
     } else {
-      document.body.style.overflow = ''
+      html.style.overflow = ""
+      document.body.style.overflow = ""
     }
+
     return () => {
-      document.body.style.overflow = ''
+      html.style.overflow = ""
+      document.body.style.overflow = ""
     }
   }, [selectedAchievement])
 
@@ -235,10 +241,10 @@ export function AchievementsSection() {
               onClick={() => setSelectedAchievement(null)}
             >
               <motion.div
-                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                initial={{ scale: 0.95, opacity: 0, y: 16 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                className="bg-card border border-border rounded-xl p-6 w-full max-w-sm shadow-premium relative"
+                exit={{ scale: 0.95, opacity: 0, y: 16 }}
+                className="bg-card border border-border rounded-xl p-5 w-full max-w-xs shadow-premium relative"
                 onClick={(e) => e.stopPropagation()}
               >
                 <button

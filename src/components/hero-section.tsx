@@ -25,7 +25,7 @@ export function HeroSection() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse delay-1000" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 text-center text-white">
+      <div className="relative z-10 container mx-auto px-6 text-center text-foreground">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

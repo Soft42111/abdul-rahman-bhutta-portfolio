@@ -72,8 +72,6 @@ const languages = [
   { name: "English", level: 100, flag: "🇺🇸", country: "United States" },
   { name: "Hindi", level: 95, flag: "🇮🇳", country: "India" },
   { name: "Urdu", level: 100, flag: "🇵🇰", country: "Pakistan" },
-  { name: "Arabic", level: 60, flag: "🇸🇦", country: "Saudi Arabia" },
-  { name: "Spanish", level: 40, flag: "🇪🇸", country: "Spain" }
 ]
 
 export function SkillsSection() {
@@ -96,9 +94,9 @@ export function SkillsSection() {
     <section 
       ref={containerRef}
       className="relative isolate bg-muted/30 bg-mesh z-20"
-      style={{ height: `${(skillCategories.length) * 50 + 100}vh` }}
+      style={{ height: `${100 + Math.max(0, skillCategories.length - 1) * 35}vh` }}
     >
-      <div className="sticky top-0 min-h-screen flex items-center overflow-hidden bg-muted/30 bg-mesh py-16">
+      <div className="sticky top-0 min-h-screen flex items-center overflow-hidden bg-muted/30 bg-mesh py-10">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -162,7 +160,7 @@ export function SkillsSection() {
           >
             <div className="bg-card/80 backdrop-blur-sm border border-border rounded-2xl p-5 shadow-card">
               <h3 className="text-lg font-semibold text-foreground mb-4 text-center">Languages</h3>
-              <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
+              <div className="grid grid-cols-3 md:grid-cols-3 gap-3">
                 {languages.map((language, index) => (
                   <motion.div
                     key={language.name}
