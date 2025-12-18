@@ -103,9 +103,9 @@ export function TestimonialsSection() {
     <section 
       ref={containerRef}
       className="relative isolate bg-background bg-mesh z-20"
-      style={{ height: `${(testimonials.length + 1) * 100}vh` }}
+      style={{ height: `${(testimonials.length) * 40 + 100}vh` }}
     >
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden bg-background bg-mesh">
+      <div className="sticky top-0 min-h-screen flex items-center overflow-hidden bg-background bg-mesh py-16">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
