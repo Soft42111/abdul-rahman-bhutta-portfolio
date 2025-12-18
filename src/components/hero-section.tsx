@@ -159,7 +159,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1, delay: 0.6, type: "spring", stiffness: 100 }}
-            className="text-xl md:text-2xl lg:text-3xl font-light mb-6 text-white/90 tracking-wide"
+            className="text-xl md:text-2xl lg:text-3xl font-light mb-6 text-foreground/90 tracking-wide"
           >
             <motion.span
               initial={{ opacity: 0 }}
@@ -191,7 +191,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-lg md:text-xl max-w-3xl mx-auto mb-12 text-white/80 font-light leading-relaxed"
+            className="text-lg md:text-xl max-w-3xl mx-auto mb-12 text-muted-foreground font-light leading-relaxed"
           >
             Building thriving communities and scaling engagement across Web3 ecosystems. 
             From leading 120+ team members to hosting events with 700+ attendees.
