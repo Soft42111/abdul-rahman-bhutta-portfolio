@@ -103,7 +103,7 @@ export function TestimonialsSection() {
     <section 
       ref={containerRef}
       className="relative isolate bg-background bg-mesh z-20"
-      style={{ height: `${100 + Math.max(0, testimonials.length - 1) * 18}vh` }}
+      style={{ height: `${100 + Math.max(0, testimonials.length - 1) * 12}vh` }}
     >
       <div className="sticky top-0 min-h-screen flex items-center overflow-hidden bg-background bg-mesh py-10">
         <div className="container mx-auto px-6">
