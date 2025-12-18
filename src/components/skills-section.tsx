@@ -82,20 +82,18 @@ export function SkillsSection() {
 
   const onIndexChange = useCallback((index: number) => {
     setActiveIndex(index)
-  }, [])
-
   useScrollLockIndex({
     containerRef,
     length: skillCategories.length,
+    index: activeIndex,
     scrollPerItem: 150,
     onIndexChange,
   })
 
-
   return (
     <section 
       ref={containerRef}
-      className="relative bg-muted/30 bg-mesh"
+      className="relative isolate bg-muted/30 bg-mesh"
       style={{ height: `${(skillCategories.length + 1) * 100}vh` }}
     >
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">

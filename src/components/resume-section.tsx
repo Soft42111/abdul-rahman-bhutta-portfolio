@@ -23,37 +23,35 @@ const resumeHighlights = [
 ]
 
 export function ResumeSection() {
+  const resumeUrl = "/assets/Abdul_Rahman_Bhutta_Cv.pdf"
+  const resumeFilename = "Abdul Rahman Bhutta Cv.pdf"
+
   const handleDownload = () => {
-    // Create a dummy PDF download for demonstration
-    // In a real implementation, this would link to an actual resume file
-    const link = document.createElement('a')
-    link.href = '#' // Replace with actual resume URL
-    link.download = 'Abdul_Rehman_Bhutta_Resume.pdf'
+    const link = document.createElement("a")
+    link.href = resumeUrl
+    link.download = resumeFilename
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
-    
-    // Show toast notification
-    console.log('Resume download initiated')
   }
 
   const handlePreview = () => {
-    // In a real implementation, this would open a PDF preview modal
-    console.log('Resume preview opened')
+    window.open(resumeUrl, "_blank", "noopener,noreferrer")
   }
 
-  const handleShare = () => {
+  const handleShare = async () => {
+    const url = new URL(resumeUrl, window.location.origin).toString()
+
     if (navigator.share) {
-      navigator.share({
-        title: 'Abdul Rehman Bhutta - Resume',
-        text: 'Check out Abdul Rehman Bhutta\'s professional resume',
-        url: window.location.href
+      await navigator.share({
+        title: "Abdul Rahman Bhutta - CV",
+        text: "Download Abdul Rahman Bhutta's CV",
+        url,
       })
-    } else {
-      // Fallback for browsers that don't support Web Share API
-      navigator.clipboard.writeText(window.location.href)
-      console.log('Resume link copied to clipboard')
+      return
     }
+
+    await navigator.clipboard.writeText(url)
   }
 
   return (
@@ -104,7 +102,7 @@ export function ResumeSection() {
                       <FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-lg md:text-2xl font-bold text-foreground">Resume.pdf</h3>
+                      <h3 className="text-lg md:text-2xl font-bold text-foreground">Abdul Rahman Bhutta Cv.pdf</h3>
                       <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-muted-foreground mt-1">
                         <span>Updated: {resumeData.lastUpdated}</span>
                         <span className="hidden sm:inline">•</span>
@@ -155,10 +153,10 @@ export function ResumeSection() {
                   <Button 
                     onClick={handleDownload}
                     size="lg" 
-                    className="w-full group bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent text-primary font-semibold transition-all duration-300 hover:shadow-glow relative z-30"
+                    className="w-full group"
                   >
                     <Download className="mr-2 h-4 w-4 md:h-5 md:w-5 transition-transform group-hover:scale-110" />
-                    Download Resume
+                    Download CV
                   </Button>
 
                   <div className="grid grid-cols-2 gap-2 md:gap-3">

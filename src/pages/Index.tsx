@@ -11,10 +11,11 @@ import { Footer } from "@/components/footer"
 import { LazySection } from "@/components/lazy-section"
 import { FloatingElements } from "@/components/floating-elements"
 import { useLenis } from "@/hooks/use-lenis"
+import { SectionTransition } from "@/components/section-transition"
 
 const Index = () => {
   useLenis()
-  
+
   return (
     <>
       {/* Skip to main content for accessibility */}
@@ -24,42 +25,52 @@ const Index = () => {
       >
         Skip to main content
       </a>
-      
+
       <FloatingElements />
       <Navigation />
-      
+
       <main id="main-content" className="relative focus:outline-none" tabIndex={-1}>
         <HeroSection />
-        
+
         <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <AboutSection />
+          <SectionTransition>
+            <AboutSection />
+          </SectionTransition>
         </LazySection>
-        
+
         <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <ExperienceSection />
+          <SectionTransition>
+            <ExperienceSection />
+          </SectionTransition>
         </LazySection>
-        
+
         <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
           <SkillsSection />
         </LazySection>
-        
+
         <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
           <TestimonialsSection />
         </LazySection>
-        
+
         <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <AchievementsSection />
+          <SectionTransition>
+            <AchievementsSection />
+          </SectionTransition>
         </LazySection>
-        
+
         <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <ResumeSection />
+          <SectionTransition>
+            <ResumeSection />
+          </SectionTransition>
         </LazySection>
-        
+
         <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <ContactSection />
+          <SectionTransition id="contact">
+            <ContactSection />
+          </SectionTransition>
         </LazySection>
       </main>
-      
+
       <Footer />
     </>
   );
