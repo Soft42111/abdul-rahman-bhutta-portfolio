@@ -82,6 +82,8 @@ export function SkillsSection() {
 
   const onIndexChange = useCallback((index: number) => {
     setActiveIndex(index)
+  }, [])
+
   useScrollLockIndex({
     containerRef,
     length: skillCategories.length,
