@@ -95,10 +95,10 @@ export function SkillsSection() {
   return (
     <section 
       ref={containerRef}
-      className="relative isolate bg-muted/30 bg-mesh"
+      className="relative isolate bg-muted/30 bg-mesh z-20"
       style={{ height: `${(skillCategories.length + 1) * 100}vh` }}
     >
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+      <div className="sticky top-0 h-screen flex items-center overflow-hidden bg-muted/30 bg-mesh">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

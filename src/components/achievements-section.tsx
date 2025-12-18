@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Trophy, Award, Users, Calendar, Target, Zap, X, Star, Rocket, Heart, Code, Globe } from "lucide-react"
+import { Trophy, Award, Users, Calendar, Target, Zap, X, Star, Rocket } from "lucide-react"
 import { CounterAnimation } from "@/components/counter-animation"
 
 const achievements = [
@@ -98,8 +98,20 @@ const stats = [
 export function AchievementsSection() {
   const [selectedAchievement, setSelectedAchievement] = useState<typeof achievements[0] | null>(null)
 
+  // Lock body scroll when popup is open
+  useEffect(() => {
+    if (selectedAchievement) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [selectedAchievement])
+
   return (
-    <section className="py-24 bg-background bg-mesh relative">
+    <section className="py-24 bg-background bg-mesh relative z-10">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -212,14 +224,14 @@ export function AchievementsSection() {
           </div>
         </motion.div>
 
-        {/* Achievement Popup - Fixed size */}
+        {/* Achievement Popup - Viewport centered with scroll lock and strong blur */}
         <AnimatePresence>
           {selectedAchievement && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-background/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              className="fixed inset-0 bg-background/80 backdrop-blur-md z-[100] flex items-center justify-center p-4"
               onClick={() => setSelectedAchievement(null)}
             >
               <motion.div
