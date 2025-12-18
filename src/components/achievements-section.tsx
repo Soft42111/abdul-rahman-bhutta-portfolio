@@ -2,106 +2,122 @@
 
 import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
-import { Trophy, Award, Users, Calendar, Target, Zap, Star, Rocket } from "lucide-react"
+import { Users, Calendar, Trophy, Rocket, Mic, Gamepad2, Building2, TrendingUp } from "lucide-react"
 import { CounterAnimation } from "@/components/counter-animation"
 
+// Achievements from CV with project logos/images
 const achievements = [
   {
-    id: "1",
-    icon: Trophy,
-    title: "Community Excellence Award 2024",
-    description: "Recognized for outstanding leadership in Web3 community building.",
-    category: "Leadership",
-    color: "from-amber-400 to-orange-500",
-    orbitRadius: 140,
-    orbitDuration: 20,
-    orbitDelay: 0,
-  },
-  {
-    id: "2",
-    icon: Users,
-    title: "Team Leadership Milestone",
-    description: "Led 120+ members across multiple projects.",
-    category: "Management",
-    color: "from-rose-400 to-pink-500",
-    orbitRadius: 140,
-    orbitDuration: 22,
-    orbitDelay: 2.5,
-  },
-  {
-    id: "3",
-    icon: Calendar,
-    title: "Event Excellence Record",
-    description: "Events with 700+ attendees.",
-    category: "Events",
-    color: "from-emerald-400 to-teal-500",
-    orbitRadius: 190,
-    orbitDuration: 28,
-    orbitDelay: 1,
-  },
-  {
-    id: "4",
-    icon: Target,
-    title: "Community Growth Achievement",
-    description: "400% community growth rate.",
-    category: "Growth",
-    color: "from-violet-400 to-purple-500",
-    orbitRadius: 190,
-    orbitDuration: 26,
-    orbitDelay: 3.5,
-  },
-  {
-    id: "5",
-    icon: Award,
-    title: "Web3 Strategy Innovation",
-    description: "Innovative strategies for DeFi protocols.",
-    category: "Innovation",
-    color: "from-red-400 to-rose-500",
-    orbitRadius: 240,
-    orbitDuration: 35,
-    orbitDelay: 0.5,
-  },
-  {
-    id: "6",
-    icon: Zap,
-    title: "Platform Integration Mastery",
-    description: "Expert across all major platforms.",
-    category: "Technical",
+    id: "aethir-ama",
+    title: "700+ Attendee AMA",
+    description: "Hosted high-impact AMA with CEO of Saltwater Games and XR One",
+    category: "Aethir",
+    logo: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
+    icon: Mic,
     color: "from-cyan-400 to-blue-500",
-    orbitRadius: 240,
-    orbitDuration: 32,
-    orbitDelay: 4,
+    orbit: 1,
+    orbitDuration: 25,
+    orbitOffset: 0,
   },
   {
-    id: "7",
-    icon: Star,
-    title: "Top Contributor Recognition",
-    description: "Top contributor in blockchain communities.",
-    category: "Recognition",
-    color: "from-yellow-400 to-amber-500",
-    orbitRadius: 240,
-    orbitDuration: 38,
-    orbitDelay: 2,
+    id: "team-leadership",
+    title: "100+ Team Leadership",
+    description: "Led teams of over 100 community managers and ambassadors across multiple projects",
+    category: "Leadership",
+    logo: "/lovable-uploads/93a92d81-fa62-47f9-8b94-91e23a9a97ac.png",
+    icon: Users,
+    color: "from-violet-400 to-purple-500",
+    orbit: 1,
+    orbitDuration: 28,
+    orbitOffset: 180,
   },
   {
-    id: "8",
+    id: "community-scaling",
+    title: "0 to 1K in Hours",
+    description: "Scaled new communities from zero to 1,000 members within hours using organic strategies",
+    category: "Nexus Marketing",
+    logo: "/lovable-uploads/d73a7973-0e76-4ad0-bb23-0371fd1f55ac.png",
     icon: Rocket,
-    title: "Launch Success Record",
-    description: "15+ initiatives with 90%+ engagement.",
-    category: "Launches",
-    color: "from-indigo-400 to-violet-500",
-    orbitRadius: 190,
+    color: "from-emerald-400 to-teal-500",
+    orbit: 2,
+    orbitDuration: 32,
+    orbitOffset: 45,
+  },
+  {
+    id: "pakistan-event",
+    title: "First IRL Event Pakistan",
+    description: "Organized first IRL Aethir community event in Pakistan with 41+ attendees",
+    category: "Aethir",
+    logo: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
+    icon: Calendar,
+    color: "from-amber-400 to-orange-500",
+    orbit: 2,
+    orbitDuration: 35,
+    orbitOffset: 165,
+  },
+  {
+    id: "a-games-tournament",
+    title: "A-GAMES Tournament",
+    description: "Independently organized and executed a 10-day tournament with 350 participants",
+    category: "Aethir",
+    logo: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
+    icon: Gamepad2,
+    color: "from-rose-400 to-pink-500",
+    orbit: 2,
     orbitDuration: 30,
-    orbitDelay: 5,
+    orbitOffset: 285,
+  },
+  {
+    id: "starterras-cmo",
+    title: "CMO & Partner",
+    description: "Led end-to-end marketing for Real World Asset initiative at Starterras",
+    category: "Starterras",
+    logo: "/lovable-uploads/975906f0-0df2-47b2-935e-39578a484dfe.png",
+    icon: Building2,
+    color: "from-indigo-400 to-violet-500",
+    orbit: 3,
+    orbitDuration: 40,
+    orbitOffset: 20,
+  },
+  {
+    id: "discord-10x",
+    title: "10x Discord Engagement",
+    description: "Increased Discord event participation and engagement by 10x at Boinkers",
+    category: "Boinkers",
+    logo: "/lovable-uploads/c72cbcd0-3d2e-4a8e-a0ea-2b42bb86b432.png",
+    icon: TrendingUp,
+    color: "from-yellow-400 to-amber-500",
+    orbit: 3,
+    orbitDuration: 38,
+    orbitOffset: 140,
+  },
+  {
+    id: "depin-ama",
+    title: "DePIN Panel 400+ Live",
+    description: "Hosted Web3 DePIN panel AMA with 400+ live attendees",
+    category: "Web3",
+    logo: "/lovable-uploads/ba906a73-dba9-4a93-9c26-7aba9ea2f320.png",
+    icon: Trophy,
+    color: "from-red-400 to-rose-500",
+    orbit: 3,
+    orbitDuration: 42,
+    orbitOffset: 260,
   },
 ]
 
 const stats = [
   { label: "Team Members Led", value: "120+", icon: Users },
   { label: "Event Attendees", value: "700+", icon: Calendar },
-  { label: "Community Growth", value: "400%", icon: Target },
-  { label: "Years Experience", value: "5+", icon: Trophy },
+  { label: "Communities Scaled", value: "15+", icon: TrendingUp },
+  { label: "Years Experience", value: "3+", icon: Trophy },
 ]
+
+// Define orbit radii for each orbit level
+const orbitRadii = {
+  1: 120,
+  2: 180,
+  3: 240,
+}
 
 export function AchievementsSection() {
   const navigate = useNavigate()
@@ -165,9 +181,9 @@ export function AchievementsSection() {
           className="relative mx-auto"
           style={{ width: "min(550px, 90vw)", height: "min(550px, 90vw)" }}
         >
-          {/* Orbit rings */}
+          {/* Orbit rings - 3 distinct orbits */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            {[140, 190, 240].map((radius) => (
+            {Object.values(orbitRadii).map((radius) => (
               <div
                 key={radius}
                 className="absolute rounded-full border border-border/30"
@@ -199,60 +215,69 @@ export function AchievementsSection() {
             </motion.div>
           </div>
 
-          {/* Orbiting Achievement Balls */}
-          {achievements.map((achievement, index) => (
-            <motion.div
-              key={achievement.id}
-              className="absolute top-1/2 left-1/2"
-              style={{
-                width: 0,
-                height: 0,
-              }}
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: 1,
-                rotate: 360,
-              }}
-              transition={{
-                opacity: { duration: 0.5, delay: 0.8 + index * 0.1 },
-                rotate: {
-                  duration: achievement.orbitDuration,
-                  repeat: Infinity,
-                  ease: "linear",
-                  delay: achievement.orbitDelay,
-                },
-              }}
-            >
-              <motion.button
-                className={`absolute w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br ${achievement.color} shadow-lg cursor-pointer flex items-center justify-center`}
+          {/* Orbiting Achievement Balls with Project Logos */}
+          {achievements.map((achievement, index) => {
+            const radius = orbitRadii[achievement.orbit as keyof typeof orbitRadii]
+            return (
+              <motion.div
+                key={achievement.id}
+                className="absolute top-1/2 left-1/2"
                 style={{
-                  left: achievement.orbitRadius,
-                  top: -24,
-                  marginTop: "-3px",
+                  width: 0,
+                  height: 0,
                 }}
-                whileHover={{
-                  scale: 1.3,
-                  boxShadow: "0 0 30px rgba(139, 92, 246, 0.5)",
-                  zIndex: 50,
-                }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => navigate(`/achievement/${achievement.id}`)}
+                initial={{ opacity: 0, rotate: achievement.orbitOffset }}
                 animate={{
-                  rotate: -360,
+                  opacity: 1,
+                  rotate: achievement.orbitOffset + 360,
                 }}
                 transition={{
+                  opacity: { duration: 0.5, delay: 0.8 + index * 0.1 },
                   rotate: {
                     duration: achievement.orbitDuration,
                     repeat: Infinity,
                     ease: "linear",
-                    delay: achievement.orbitDelay,
                   },
                 }}
               >
-                <achievement.icon className="w-5 h-5 md:w-6 md:h-6 text-white drop-shadow" />
-              </motion.button>
-            </motion.div>
-          ))}
+                <motion.button
+                  className="absolute w-14 h-14 md:w-16 md:h-16 rounded-full bg-card border-2 border-border shadow-lg cursor-pointer flex items-center justify-center overflow-hidden group"
+                  style={{
+                    left: radius,
+                    top: -28,
+                    marginTop: "-4px",
+                  }}
+                  whileHover={{
+                    scale: 1.4,
+                    boxShadow: "0 0 30px rgba(139, 92, 246, 0.5)",
+                    zIndex: 50,
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => navigate(`/achievement/${achievement.id}`)}
+                  animate={{
+                    rotate: -(achievement.orbitOffset + 360),
+                  }}
+                  transition={{
+                    rotate: {
+                      duration: achievement.orbitDuration,
+                      repeat: Infinity,
+                      ease: "linear",
+                    },
+                  }}
+                >
+                  <img
+                    src={achievement.logo}
+                    alt={achievement.category}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                  {/* Hover overlay with icon */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${achievement.color} opacity-0 group-hover:opacity-90 transition-opacity flex items-center justify-center rounded-full`}>
+                    <achievement.icon className="w-6 h-6 text-white" />
+                  </div>
+                </motion.button>
+              </motion.div>
+            )
+          })}
         </motion.div>
 
         {/* Legend */}
