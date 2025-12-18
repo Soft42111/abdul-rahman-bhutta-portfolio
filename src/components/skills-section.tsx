@@ -94,7 +94,7 @@ export function SkillsSection() {
     <section 
       ref={containerRef}
       className="relative isolate bg-muted/30 bg-mesh z-20"
-      style={{ height: `${100 + Math.max(0, skillCategories.length - 1) * 35}vh` }}
+      style={{ height: `${100 + Math.max(0, skillCategories.length - 1) * 22}vh` }}
     >
       <div className="sticky top-0 min-h-screen flex items-center overflow-hidden bg-muted/30 bg-mesh py-10">
         <div className="container mx-auto px-6">

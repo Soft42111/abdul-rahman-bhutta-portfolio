@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, type MouseEvent as ReactMouseEvent, type CSSProperties } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Trophy, Award, Users, Calendar, Target, Zap, X, Star, Rocket } from "lucide-react"
 import { CounterAnimation } from "@/components/counter-animation"
@@ -97,6 +97,7 @@ const stats = [
 
 export function AchievementsSection() {
   const [selectedAchievement, setSelectedAchievement] = useState<typeof achievements[0] | null>(null)
+  const [clickPoint, setClickPoint] = useState<{ x: number; y: number } | null>(null)
 
   // Lock page scroll when popup is open (body + html for mobile Safari)
   useEffect(() => {
@@ -115,6 +116,28 @@ export function AchievementsSection() {
       document.body.style.overflow = ""
     }
   }, [selectedAchievement])
+
+  const modalStyle: CSSProperties = (() => {
+    const fallback: React.CSSProperties = { left: "50%", top: "50%" }
+    if (!clickPoint) return fallback
+    if (typeof window === "undefined") return fallback
+
+    // Clamp so the card never goes off-screen
+    const padding = 16
+    const halfW = 160 // ~ max-w-xs / 2
+    const halfH = 150 // estimated modal half height
+
+    const x = Math.min(
+      Math.max(clickPoint.x, padding + halfW),
+      window.innerWidth - padding - halfW
+    )
+    const y = Math.min(
+      Math.max(clickPoint.y, padding + halfH),
+      window.innerHeight - padding - halfH
+    )
+
+    return { left: x, top: y }
+  })()
 
   return (
     <section className="py-24 bg-background bg-mesh relative z-10">
@@ -215,7 +238,10 @@ export function AchievementsSection() {
                     style={{ left: `${pos.x}%`, top: `${pos.y}%`, transform: 'translate(-50%, -50%)' }}
                     whileHover={{ scale: 1.15 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => setSelectedAchievement(achievement)}
+                    onClick={(e: ReactMouseEvent<HTMLButtonElement>) => {
+                      setClickPoint({ x: e.clientX, y: e.clientY })
+                      setSelectedAchievement(achievement)
+                    }}
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.1 + 0.5 }}
@@ -230,25 +256,32 @@ export function AchievementsSection() {
           </div>
         </motion.div>
 
-        {/* Achievement Popup - Viewport centered with scroll lock and strong blur */}
+        {/* Achievement Popup - anchored near click, locks scroll, blurs background */}
         <AnimatePresence>
           {selectedAchievement && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-background/80 backdrop-blur-md z-[100] flex items-center justify-center p-4"
-              onClick={() => setSelectedAchievement(null)}
+              className="fixed inset-0 bg-background/80 backdrop-blur-md z-[100]"
+              onClick={() => {
+                setSelectedAchievement(null)
+                setClickPoint(null)
+              }}
             >
               <motion.div
-                initial={{ scale: 0.95, opacity: 0, y: 16 }}
+                initial={{ scale: 0.95, opacity: 0, y: 10 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.95, opacity: 0, y: 16 }}
-                className="bg-card border border-border rounded-xl p-5 w-full max-w-xs shadow-premium relative"
+                exit={{ scale: 0.95, opacity: 0, y: 10 }}
+                className="fixed w-[92vw] max-w-xs -translate-x-1/2 -translate-y-1/2 bg-card border border-border rounded-xl p-5 shadow-premium"
+                style={modalStyle}
                 onClick={(e) => e.stopPropagation()}
               >
                 <button
-                  onClick={() => setSelectedAchievement(null)}
+                  onClick={() => {
+                    setSelectedAchievement(null)
+                    setClickPoint(null)
+                  }}
                   className="absolute top-3 right-3 w-7 h-7 rounded-full bg-muted flex items-center justify-center hover:bg-muted-foreground/20 transition-colors"
                 >
                   <X className="w-4 h-4" />
