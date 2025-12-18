@@ -89,6 +89,8 @@ export function TestimonialsSection() {
 
   const onIndexChange = useCallback((index: number) => {
     setActiveIndex(index)
+  }, [])
+
   useScrollLockIndex({
     containerRef,
     length: testimonials.length,
