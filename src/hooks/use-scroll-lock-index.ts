@@ -3,17 +3,20 @@ import { useEffect, RefObject, useRef } from "react";
 interface UseScrollLockOptions {
   containerRef: RefObject<HTMLElement>;
   length: number;
+  /** Current index from UI interactions (e.g., dots click). Keeps scroll math in sync. */
+  index?: number;
   scrollPerItem?: number;
   onIndexChange: (index: number) => void;
 }
 
 /**
- * Lightweight, rAF-throttled scroll-lock index controller for sticky full-screen sections.
- * Keeps the same behavior as the previous per-scroll handler, but avoids re-render storms.
+ * rAF-throttled scroll-lock index controller for sticky full-screen sections.
+ * Designed to be Lenis-friendly and to avoid re-render storms.
  */
 export function useScrollLockIndex({
   containerRef,
   length,
+  index,
   scrollPerItem = 150,
   onIndexChange,
 }: UseScrollLockOptions) {
@@ -21,6 +24,14 @@ export function useScrollLockIndex({
   const lastScrollY = useRef(0);
   const lastIndex = useRef<number>(0);
   const rafId = useRef<number | null>(null);
+
+  // Sync external index changes (e.g., clicking progress dots)
+  useEffect(() => {
+    if (typeof index !== "number") return;
+    const clamped = Math.max(0, Math.min(index, Math.max(0, length - 1)));
+    lastIndex.current = clamped;
+    accumulatedScroll.current = scrollPerItem * clamped;
+  }, [index, length, scrollPerItem]);
 
   useEffect(() => {
     const handle = () => {
@@ -51,7 +62,7 @@ export function useScrollLockIndex({
           onIndexChange(newIndex);
         }
       } else {
-        // Reset accumulated scroll when leaving section, matching old logic.
+        // Reset accumulated scroll when leaving section.
         if (rect.top > 0) {
           accumulatedScroll.current = 0;
           if (lastIndex.current !== 0) {
@@ -75,7 +86,6 @@ export function useScrollLockIndex({
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    // Initialize
     lastScrollY.current = window.scrollY;
     handle();
 
@@ -85,3 +95,4 @@ export function useScrollLockIndex({
     };
   }, [containerRef, length, scrollPerItem, onIndexChange]);
 }
+
