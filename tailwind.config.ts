@@ -80,7 +80,7 @@ export default {
   					height: '0'
   				}
   			},
-  			'orbit': {
+  			orbit: {
   				from: {
   					transform: 'rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg)'
   				},
@@ -88,7 +88,7 @@ export default {
   					transform: 'rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg)'
   				}
   			},
-  			'float': {
+  			float: {
   				'0%, 100%': {
   					transform: 'translateY(0px)'
   				},
@@ -108,13 +108,13 @@ export default {
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
-  			'orbit': 'orbit var(--orbit-duration, 20s) linear infinite',
-  			'float': 'float 3s ease-in-out infinite',
+  			orbit: 'orbit var(--orbit-duration, 20s) linear infinite',
+  			float: 'float 3s ease-in-out infinite',
   			'glow-pulse': 'glow-pulse 2s ease-in-out infinite'
   		},
   		fontFamily: {
   			sans: [
-  				'Space Grotesk',
+  				'Inter',
   				'ui-sans-serif',
   				'system-ui',
   				'-apple-system',
