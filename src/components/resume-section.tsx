@@ -23,8 +23,8 @@ const resumeHighlights = [
 ]
 
 export function ResumeSection() {
-  const resumeUrl = "/assets/Abdul_Rahman_Bhutta_Cv.pdf"
-  const resumeFilename = "Abdul Rahman Bhutta Cv.pdf"
+  const resumeUrl = "/assets/Abdul_Rehman_Bhutta_Resume_FULL (2).pdf"
+  const resumeFilename = "Abdul_Rehman_Bhutta_Resume_FULL.pdf"
 
   const handleDownload = () => {
     const link = document.createElement("a")
