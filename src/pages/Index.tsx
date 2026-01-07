@@ -39,11 +39,11 @@ const Index = () => {
         </LazySection>
 
         <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <SkillsSection className="px-[2px]" />
+          <SkillsSection />
         </LazySection>
 
         <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>
-          <TestimonialsSection className="px-[20px]" />
+          <TestimonialsSection />
         </LazySection>
 
         <LazySection fallback={<div className="h-96 animate-pulse bg-muted/30" />}>

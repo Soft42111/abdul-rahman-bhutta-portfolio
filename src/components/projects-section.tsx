@@ -141,16 +141,16 @@ export function ProjectsSection() {
                 </div>
 
                 {/* Metrics */}
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-2 sm:gap-4">
                   {project.metrics.map((metric, metricIndex) => (
                     <div key={metric.label} className="text-center">
-                      <div className="inline-flex items-center justify-center w-12 h-12 mb-2 rounded-full bg-accent/10">
-                        <metric.icon className="w-5 h-5 text-accent" />
+                      <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 mb-2 rounded-full bg-accent/10">
+                        <metric.icon className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
                       </div>
-                      <div className="text-xl font-bold text-foreground">
+                      <div className="text-lg sm:text-xl font-bold text-foreground">
                         {metric.value}
                       </div>
-                      <div className="text-xs text-muted-foreground">
+                      <div className="text-[10px] sm:text-xs text-muted-foreground">
                         {metric.label}
                       </div>
                     </div>
@@ -158,9 +158,9 @@ export function ProjectsSection() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-4 pt-4">
+                <div className="flex flex-wrap gap-3 pt-4">
                   {project.links.live && (
-                    <Button variant="premium" size="lg" asChild>
+                    <Button variant="premium" size="default" className="sm:text-base" asChild>
                       <a href={project.links.live} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="w-4 h-4 mr-2" />
                         View Live
@@ -168,7 +168,7 @@ export function ProjectsSection() {
                     </Button>
                   )}
                   {project.links.github && (
-                    <Button variant="outline" size="lg" asChild>
+                    <Button variant="outline" size="default" className="sm:text-base" asChild>
                       <a href={project.links.github} target="_blank" rel="noopener noreferrer">
                         <Github className="w-4 h-4 mr-2" />
                         View Code

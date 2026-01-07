@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
 import { Users, Calendar, Trophy, Rocket, Mic, Gamepad2, Building2, TrendingUp } from "lucide-react"
 import { CounterAnimation } from "@/components/counter-animation"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 // Achievements from CV with project logos/images
 const achievements = [
@@ -112,19 +113,21 @@ const stats = [
   { label: "Years Experience", value: "3+", icon: Trophy },
 ]
 
-// Define orbit radii for each orbit level
-const orbitRadii = {
-  1: 120,
-  2: 180,
-  3: 240,
-}
+// Define orbit radii for each orbit level (responsive)
+const getOrbitRadii = (isMobile: boolean) => ({
+  1: isMobile ? 80 : 120,
+  2: isMobile ? 130 : 180,
+  3: isMobile ? 180 : 240,
+})
 
 export function AchievementsSection() {
   const navigate = useNavigate()
+  const isMobile = useIsMobile()
+  const orbitRadii = getOrbitRadii(isMobile)
 
   return (
     <section id="achievements" className="py-20 bg-background bg-mesh relative z-10">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -179,7 +182,10 @@ export function AchievementsSection() {
           transition={{ duration: 0.8, delay: 0.3 }}
           viewport={{ once: true }}
           className="relative mx-auto"
-          style={{ width: "min(550px, 90vw)", height: "min(550px, 90vw)" }}
+          style={{ 
+            width: isMobile ? "min(400px, 95vw)" : "min(550px, 90vw)", 
+            height: isMobile ? "min(400px, 95vw)" : "min(550px, 90vw)" 
+          }}
         >
           {/* Orbit rings - 3 distinct orbits */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -203,7 +209,7 @@ export function AchievementsSection() {
               transition={{ duration: 0.8, delay: 0.5, type: "spring" }}
               className="relative"
             >
-              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden shadow-premium ring-4 ring-primary/30">
+              <div className="w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 rounded-full overflow-hidden shadow-premium ring-4 ring-primary/30">
                 <img
                   src="/lovable-uploads/93a92d81-fa62-47f9-8b94-91e23a9a97ac.png"
                   alt="Abdul Rehman Bhutta"
@@ -218,6 +224,7 @@ export function AchievementsSection() {
           {/* Orbiting Achievement Balls with Project Logos */}
           {achievements.map((achievement, index) => {
             const radius = orbitRadii[achievement.orbit as keyof typeof orbitRadii]
+            const ballSize = isMobile ? 40 : 56
             return (
               <motion.div
                 key={achievement.id}
@@ -241,11 +248,12 @@ export function AchievementsSection() {
                 }}
               >
                 <motion.button
-                  className="absolute w-14 h-14 md:w-16 md:h-16 rounded-full bg-card border-2 border-border shadow-lg cursor-pointer flex items-center justify-center overflow-hidden group"
+                  className="absolute rounded-full bg-card border-2 border-border shadow-lg cursor-pointer flex items-center justify-center overflow-hidden group"
                   style={{
+                    width: ballSize,
+                    height: ballSize,
                     left: radius,
-                    top: -28,
-                    marginTop: "-4px",
+                    top: -(ballSize / 2),
                   }}
                   whileHover={{
                     scale: 1.4,
@@ -272,7 +280,7 @@ export function AchievementsSection() {
                   />
                   {/* Hover overlay with icon */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${achievement.color} opacity-0 group-hover:opacity-90 transition-opacity flex items-center justify-center rounded-full`}>
-                    <achievement.icon className="w-6 h-6 text-white" />
+                    <achievement.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                 </motion.button>
               </motion.div>

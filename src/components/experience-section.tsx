@@ -224,11 +224,11 @@ export function ExperienceSection() {
           </Button>
 
           {/* Cards Container */}
-          <div className="relative h-[500px] flex items-center justify-center px-16">
-            {/* Previous Card (Blurred) */}
+          <div className="relative min-h-[400px] md:h-[500px] flex items-center justify-center px-4 md:px-16">
+            {/* Previous Card (Blurred) - Hidden on mobile */}
             <motion.div
               key={`prev-${prev}`}
-              className="absolute left-0 w-72 opacity-40 blur-[2px] scale-90"
+              className="hidden lg:block absolute left-0 w-56 xl:w-72 opacity-40 blur-[2px] scale-90"
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 0.4 }}
               transition={{ duration: 0.5 }}
@@ -240,7 +240,7 @@ export function ExperienceSection() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={`current-${current}`}
-                className="w-full max-w-2xl z-10"
+                className="w-full max-w-xl lg:max-w-2xl z-10"
                 initial={{ opacity: 0, scale: 0.9, x: 100 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.9, x: -100 }}
@@ -250,10 +250,10 @@ export function ExperienceSection() {
               </motion.div>
             </AnimatePresence>
 
-            {/* Next Card (Blurred) */}
+            {/* Next Card (Blurred) - Hidden on mobile */}
             <motion.div
               key={`next-${next}`}
-              className="absolute right-0 w-72 opacity-40 blur-[2px] scale-90"
+              className="hidden lg:block absolute right-0 w-56 xl:w-72 opacity-40 blur-[2px] scale-90"
               initial={{ x: 100, opacity: 0 }}
               animate={{ x: 0, opacity: 0.4 }}
               transition={{ duration: 0.5 }}
