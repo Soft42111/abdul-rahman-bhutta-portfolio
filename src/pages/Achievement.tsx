@@ -1,162 +1,197 @@
 import { useParams, Link } from "react-router-dom"
 import { motion } from "framer-motion"
-import { ArrowLeft, Trophy, Award, Users, Calendar, Target, Zap, Star, Rocket } from "lucide-react"
+import { ArrowLeft, Users, Calendar, Trophy, Rocket, Mic, Gamepad2, Building2, TrendingUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 
-const achievements = [
-  {
-    id: "1",
-    icon: Trophy,
-    title: "Community Excellence Award 2024",
-    description: "Recognized for outstanding leadership in Web3 community building and engagement.",
-    fullDescription: "This prestigious award was granted in recognition of exceptional community leadership, innovative engagement strategies, and consistent delivery of value to Web3 communities. The award highlights achievements in growing communities from scratch, implementing successful retention strategies, and fostering meaningful connections between community members and projects.",
+// Achievement data matching the IDs from achievements-section.tsx
+const achievements: Record<string, {
+  icon: typeof Trophy;
+  title: string;
+  description: string;
+  fullDescription: string;
+  date: string;
+  category: string;
+  logo: string;
+  highlights: string[];
+  metrics: { label: string; value: string }[];
+}> = {
+  "aethir-ama": {
+    icon: Mic,
+    title: "700+ Attendee AMA",
+    description: "Hosted high-impact AMA with CEO of Saltwater Games and XR One",
+    fullDescription: "Successfully organized and hosted a landmark AMA session featuring the CEO of Saltwater Games and XR One, drawing over 700 live attendees. This event showcased exceptional ability to coordinate high-profile speakers, manage large virtual audiences, and create engaging content that resonated with the Web3 gaming community.",
     date: "2024",
-    category: "Leadership",
-    color: "from-amber-400 to-orange-500",
-    image: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
+    category: "Aethir",
+    logo: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
     highlights: [
-      "Led community growth initiatives resulting in 400% member increase",
-      "Developed and implemented innovative engagement frameworks",
-      "Mentored 50+ community managers across multiple projects",
-      "Established best practices adopted by industry leaders"
+      "Coordinated with C-level executives for speaker slots",
+      "Managed live Q&A with 700+ concurrent participants",
+      "Achieved 95% positive feedback from attendees",
+      "Generated significant social media engagement post-event"
+    ],
+    metrics: [
+      { label: "Live Attendees", value: "700+" },
+      { label: "Questions Answered", value: "50+" },
+      { label: "Duration", value: "90 min" }
     ]
   },
-  {
-    id: "2",
+  "team-leadership": {
     icon: Users,
-    title: "Team Leadership Milestone",
-    description: "Successfully led and coordinated a team of 120+ members across multiple projects.",
-    fullDescription: "A significant milestone in leadership demonstrating the ability to manage, coordinate, and inspire large teams across diverse projects and time zones. This achievement reflects expertise in delegation, conflict resolution, performance management, and team building.",
+    title: "100+ Team Leadership",
+    description: "Led teams of over 100 community managers and ambassadors across multiple projects",
+    fullDescription: "Demonstrated exceptional leadership by managing and coordinating teams of over 100 community managers and ambassadors across multiple Web3 projects simultaneously. This involved developing training programs, establishing communication protocols, and ensuring consistent community engagement standards across all teams.",
     date: "2023-2024",
-    category: "Management",
-    color: "from-rose-400 to-pink-500",
-    image: "/lovable-uploads/4f10758a-777b-4380-9ff1-496936661dfb.png",
+    category: "Leadership",
+    logo: "/lovable-uploads/93a92d81-fa62-47f9-8b94-91e23a9a97ac.png",
     highlights: [
-      "Coordinated 120+ team members across 5 different time zones",
-      "Implemented efficient workflow systems reducing overhead by 40%",
-      "Achieved 95% team satisfaction rate",
-      "Developed leadership training programs for team leads"
+      "Recruited and onboarded 100+ team members",
+      "Developed comprehensive training documentation",
+      "Implemented performance tracking systems",
+      "Achieved 90%+ team retention rate"
+    ],
+    metrics: [
+      { label: "Team Members", value: "120+" },
+      { label: "Projects", value: "5+" },
+      { label: "Retention Rate", value: "90%" }
     ]
   },
-  {
-    id: "3",
-    icon: Calendar,
-    title: "Event Excellence Record",
-    description: "Organized and hosted events with 700+ attendees, achieving 95% satisfaction rate.",
-    fullDescription: "Demonstrated exceptional event management skills by organizing and executing large-scale virtual and hybrid events. Each event was meticulously planned with attention to attendee experience, technical execution, and post-event engagement.",
-    date: "2023",
-    category: "Events",
-    color: "from-emerald-400 to-teal-500",
-    image: "/lovable-uploads/975906f0-0df2-47b2-935e-39578a484dfe.png",
-    highlights: [
-      "Organized 25+ successful community events",
-      "Managed events with 700+ concurrent attendees",
-      "Achieved 95% attendee satisfaction rating",
-      "Pioneered interactive event formats in Web3 space"
-    ]
-  },
-  {
-    id: "4",
-    icon: Target,
-    title: "Community Growth Achievement",
-    description: "Achieved 400% community growth rate across Discord and social platforms.",
-    fullDescription: "Spearheaded community growth initiatives that resulted in unprecedented expansion across multiple platforms. This achievement reflects deep understanding of community dynamics, content strategy, and platform-specific engagement tactics.",
-    date: "2023",
-    category: "Growth",
-    color: "from-violet-400 to-purple-500",
-    image: "/lovable-uploads/ba906a73-dba9-4a93-9c26-7aba9ea2f320.png",
-    highlights: [
-      "Grew Discord community from 2K to 10K+ active members",
-      "Increased Twitter engagement by 350%",
-      "Developed viral content campaigns",
-      "Created sustainable growth frameworks"
-    ]
-  },
-  {
-    id: "5",
-    icon: Award,
-    title: "Web3 Strategy Innovation",
-    description: "Developed innovative engagement strategies adopted by leading DeFi protocols.",
-    fullDescription: "Created and refined community engagement strategies specifically designed for Web3 ecosystems. These strategies have been adopted by multiple leading projects and have become industry benchmarks.",
-    date: "2024",
-    category: "Innovation",
-    color: "from-red-400 to-rose-500",
-    image: "/lovable-uploads/d159263e-ea1b-4911-b4d0-2f1e4c6847ed.png",
-    highlights: [
-      "Developed 10+ innovative engagement frameworks",
-      "Strategies adopted by 5 leading DeFi protocols",
-      "Published thought leadership content",
-      "Consulted for major Web3 projects"
-    ]
-  },
-  {
-    id: "6",
-    icon: Zap,
-    title: "Platform Integration Mastery",
-    description: "Expert-level proficiency across Discord, Telegram, Twitter, and Web3 platforms.",
-    fullDescription: "Achieved mastery across all major community platforms, understanding the unique dynamics and best practices for each. This expertise enables seamless multi-platform community management and cross-platform engagement strategies.",
-    date: "Ongoing",
-    category: "Technical",
-    color: "from-cyan-400 to-blue-500",
-    image: "/lovable-uploads/d73a7973-0e76-4ad0-bb23-0371fd1f55ac.png",
-    highlights: [
-      "Expert in Discord bot configuration and automation",
-      "Telegram community management specialist",
-      "Twitter/X growth hacking expertise",
-      "Web3 platform integration experience"
-    ]
-  },
-  {
-    id: "7",
-    icon: Star,
-    title: "Top Contributor Recognition",
-    description: "Recognized as top contributor in multiple blockchain communities.",
-    fullDescription: "Received recognition as a top contributor across multiple blockchain ecosystems, demonstrating consistent value addition, thought leadership, and community support.",
-    date: "2024",
-    category: "Recognition",
-    color: "from-yellow-400 to-amber-500",
-    image: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
-    highlights: [
-      "Top 1% contributor in 3 major blockchain communities",
-      "Regular speaker at community events",
-      "Authored educational content for newcomers",
-      "Built lasting relationships with industry leaders"
-    ]
-  },
-  {
-    id: "8",
+  "community-scaling": {
     icon: Rocket,
-    title: "Launch Success Record",
-    description: "Successfully launched 15+ community initiatives with 90%+ engagement rates.",
-    fullDescription: "Led the successful launch of numerous community initiatives, each achieving exceptional engagement and retention rates. These launches demonstrate expertise in campaign planning, execution, and community activation.",
-    date: "2023-2024",
-    category: "Launches",
-    color: "from-indigo-400 to-violet-500",
-    image: "/lovable-uploads/4f10758a-777b-4380-9ff1-496936661dfb.png",
+    title: "0 to 1K in Hours",
+    description: "Scaled new communities from zero to 1,000 members within hours using organic strategies",
+    fullDescription: "Pioneered rapid community growth strategies that consistently scaled new Discord and Telegram communities from zero to 1,000+ members within hours. This achievement demonstrates deep understanding of community dynamics, viral content creation, and strategic partnership leveraging for organic growth.",
+    date: "2024",
+    category: "Nexus Marketing",
+    logo: "/lovable-uploads/d73a7973-0e76-4ad0-bb23-0371fd1f55ac.png",
     highlights: [
-      "Launched 15+ successful community initiatives",
-      "Average 90%+ engagement rate on launches",
-      "Zero failed launches in track record",
-      "Developed replicable launch frameworks"
+      "Developed replicable rapid-growth frameworks",
+      "Zero paid advertising spend",
+      "Maintained high engagement despite rapid growth",
+      "Created viral onboarding experiences"
+    ],
+    metrics: [
+      { label: "Growth Time", value: "<24h" },
+      { label: "Members Gained", value: "1K+" },
+      { label: "Ad Spend", value: "$0" }
+    ]
+  },
+  "pakistan-event": {
+    icon: Calendar,
+    title: "First IRL Event Pakistan",
+    description: "Organized first IRL Aethir community event in Pakistan with 41+ attendees",
+    fullDescription: "Made history by organizing and executing the first-ever Aethir in-real-life community meetup in Pakistan, bringing together 41+ passionate community members. This groundbreaking event established Aethir's physical presence in the South Asian region and created lasting connections among community members.",
+    date: "2024",
+    category: "Aethir",
+    logo: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
+    highlights: [
+      "First-ever Aethir IRL event in Pakistan",
+      "Managed all logistics and venue coordination",
+      "Created networking opportunities for attendees",
+      "Received recognition from Aethir leadership"
+    ],
+    metrics: [
+      { label: "Attendees", value: "41+" },
+      { label: "Duration", value: "4 hours" },
+      { label: "Satisfaction", value: "98%" }
+    ]
+  },
+  "a-games-tournament": {
+    icon: Gamepad2,
+    title: "A-GAMES Tournament",
+    description: "Independently organized and executed a 10-day tournament with 350 participants",
+    fullDescription: "Single-handedly conceptualized, organized, and executed the A-GAMES Tournament, a 10-day competitive gaming event that attracted 350 participants. This initiative demonstrated exceptional project management skills, community engagement capabilities, and ability to create memorable experiences for gamers in the Web3 space.",
+    date: "2024",
+    category: "Aethir",
+    logo: "/lovable-uploads/4e0c0df8-ec0c-4f79-8bf2-1d2eaa05a93a.png",
+    highlights: [
+      "Managed entire tournament independently",
+      "Coordinated 350 participants over 10 days",
+      "Designed bracket and scoring systems",
+      "Distributed prizes and recognition"
+    ],
+    metrics: [
+      { label: "Participants", value: "350" },
+      { label: "Duration", value: "10 days" },
+      { label: "Matches Played", value: "500+" }
+    ]
+  },
+  "starterras-cmo": {
+    icon: Building2,
+    title: "CMO & Partner",
+    description: "Led end-to-end marketing for Real World Asset initiative at Starterras",
+    fullDescription: "Served as Chief Marketing Officer and Partner at Starterras, leading all marketing initiatives for their Real World Asset (RWA) platform. This role involved developing go-to-market strategies, building brand awareness, and establishing partnerships within the emerging RWA sector of blockchain technology.",
+    date: "2023-2024",
+    category: "Starterras",
+    logo: "/lovable-uploads/975906f0-0df2-47b2-935e-39578a484dfe.png",
+    highlights: [
+      "Developed comprehensive marketing strategy",
+      "Built brand identity from ground up",
+      "Established key industry partnerships",
+      "Led product launch campaigns"
+    ],
+    metrics: [
+      { label: "Role", value: "CMO" },
+      { label: "Campaigns", value: "15+" },
+      { label: "Partnerships", value: "10+" }
+    ]
+  },
+  "discord-10x": {
+    icon: TrendingUp,
+    title: "10x Discord Engagement",
+    description: "Increased Discord event participation and engagement by 10x at Boinkers",
+    fullDescription: "Achieved remarkable 10x increase in Discord event participation and overall community engagement for Boinkers through innovative event formats, gamification strategies, and community incentive programs. This transformation turned a passive community into an active, engaged ecosystem.",
+    date: "2024",
+    category: "Boinkers",
+    logo: "/lovable-uploads/c72cbcd0-3d2e-4a8e-a0ea-2b42bb86b432.png",
+    highlights: [
+      "Implemented gamification strategies",
+      "Created recurring event series",
+      "Developed engagement reward systems",
+      "Boosted daily active users significantly"
+    ],
+    metrics: [
+      { label: "Engagement Increase", value: "10x" },
+      { label: "Event Frequency", value: "Daily" },
+      { label: "Active Users", value: "5x" }
+    ]
+  },
+  "depin-ama": {
+    icon: Trophy,
+    title: "DePIN Panel 400+ Live",
+    description: "Hosted Web3 DePIN panel AMA with 400+ live attendees",
+    fullDescription: "Hosted an influential DePIN (Decentralized Physical Infrastructure Networks) panel discussion that attracted 400+ live attendees from the Web3 space. This event brought together industry experts to discuss the future of decentralized infrastructure and its real-world applications.",
+    date: "2024",
+    category: "Web3",
+    logo: "/lovable-uploads/ba906a73-dba9-4a93-9c26-7aba9ea2f320.png",
+    highlights: [
+      "Curated expert panel of DePIN leaders",
+      "Moderated complex technical discussions",
+      "Engaged 400+ live participants",
+      "Generated industry thought leadership content"
+    ],
+    metrics: [
+      { label: "Live Attendees", value: "400+" },
+      { label: "Panelists", value: "5" },
+      { label: "Duration", value: "75 min" }
     ]
   }
-]
+}
 
 export default function Achievement() {
   const { id } = useParams<{ id: string }>()
-  const achievement = achievements.find(a => a.id === id)
+  const achievement = id ? achievements[id] : null
 
   if (!achievement) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-foreground mb-4">Achievement not found</h1>
-          <Link to="/">
-            <Button variant="outline">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
+        <div className="text-center border-4 border-foreground p-12">
+          <h1 className="text-3xl font-black text-foreground mb-6 uppercase tracking-tight">Achievement not found</h1>
+          <Link to="/#achievements">
+            <Button className="border-4 border-foreground font-bold uppercase tracking-wide">
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Back to Achievements
             </Button>
           </Link>
         </div>
@@ -167,16 +202,16 @@ export default function Achievement() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-background bg-mesh pt-24 pb-16">
+      <main className="min-h-screen bg-background pt-24 pb-16">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.3 }}
           >
             <Link to="/#achievements">
-              <Button variant="ghost" className="mb-8">
-                <ArrowLeft className="w-4 h-4 mr-2" />
+              <Button variant="outline" className="mb-8 border-4 border-foreground font-bold uppercase tracking-wide hover:bg-foreground hover:text-background transition-colors">
+                <ArrowLeft className="w-5 h-5 mr-2" />
                 Back to Achievements
               </Button>
             </Link>
@@ -186,34 +221,56 @@ export default function Achievement() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-card border border-border rounded-2xl p-8 shadow-premium"
+              transition={{ duration: 0.4 }}
+              className="border-4 border-foreground bg-card p-8 md:p-12"
             >
               {/* Header */}
-              <div className="flex flex-col md:flex-row gap-6 mb-8">
-                <div className={`w-20 h-20 rounded-2xl bg-gradient-to-r ${achievement.color} flex items-center justify-center flex-shrink-0`}>
-                  <achievement.icon className="w-10 h-10 text-white" />
+              <div className="flex flex-col md:flex-row gap-6 mb-10">
+                <div className="w-24 h-24 border-4 border-foreground overflow-hidden flex-shrink-0">
+                  <img
+                    src={achievement.logo}
+                    alt={achievement.category}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div>
-                  <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-3">
+                  <div className="inline-block px-4 py-2 bg-foreground text-background text-sm font-black uppercase tracking-wider mb-4">
                     {achievement.category}
                   </div>
-                  <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+                  <h1 className="text-3xl md:text-5xl font-black text-foreground mb-3 uppercase tracking-tight leading-none">
                     {achievement.title}
                   </h1>
-                  <p className="text-primary font-medium">{achievement.date}</p>
+                  <p className="text-lg font-mono text-muted-foreground">{achievement.date}</p>
                 </div>
               </div>
+
+              {/* Metrics */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="grid grid-cols-3 gap-4 mb-10"
+              >
+                {achievement.metrics.map((metric, index) => (
+                  <div
+                    key={index}
+                    className="border-4 border-foreground p-4 text-center"
+                  >
+                    <div className="text-2xl md:text-3xl font-black text-foreground">{metric.value}</div>
+                    <div className="text-xs font-mono uppercase tracking-wider text-muted-foreground">{metric.label}</div>
+                  </div>
+                ))}
+              </motion.div>
 
               {/* Description */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="mb-8"
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="mb-10"
               >
-                <h2 className="text-xl font-semibold text-foreground mb-4">Overview</h2>
-                <p className="text-muted-foreground leading-relaxed text-lg">
+                <h2 className="text-xl font-black text-foreground mb-4 uppercase tracking-tight border-b-4 border-foreground pb-2 inline-block">Overview</h2>
+                <p className="text-muted-foreground leading-relaxed text-lg font-mono">
                   {achievement.fullDescription}
                 </p>
               </motion.div>
@@ -222,20 +279,20 @@ export default function Achievement() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
               >
-                <h2 className="text-xl font-semibold text-foreground mb-4">Key Highlights</h2>
-                <ul className="space-y-3">
+                <h2 className="text-xl font-black text-foreground mb-4 uppercase tracking-tight border-b-4 border-foreground pb-2 inline-block">Key Highlights</h2>
+                <ul className="space-y-4">
                   {achievement.highlights.map((highlight, index) => (
                     <motion.li
                       key={index}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                      className="flex items-start gap-3"
+                      transition={{ duration: 0.3, delay: 0.4 + index * 0.1 }}
+                      className="flex items-start gap-4"
                     >
-                      <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${achievement.color} mt-2 flex-shrink-0`} />
-                      <span className="text-muted-foreground">{highlight}</span>
+                      <div className="w-3 h-3 bg-foreground mt-2 flex-shrink-0" />
+                      <span className="text-muted-foreground font-mono">{highlight}</span>
                     </motion.li>
                   ))}
                 </ul>
