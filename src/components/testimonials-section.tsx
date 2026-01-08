@@ -93,7 +93,7 @@ export function TestimonialsSection() {
     containerRef,
     length: testimonials.length,
     index: activeIndex,
-    scrollPerItem: 300,
+    scrollPerItem: 200,
     onIndexChange,
   })
 
@@ -102,7 +102,7 @@ export function TestimonialsSection() {
       ref={containerRef}
       id="testimonials"
       className="relative isolate bg-muted z-20"
-      style={{ height: `${100 + (testimonials.length) * 25}vh` }}
+      style={{ height: `${100 + (testimonials.length - 1) * 15}vh` }}
     >
       <div className="sticky top-0 min-h-screen flex items-center overflow-hidden bg-muted py-10">
         <div className="container mx-auto px-6">

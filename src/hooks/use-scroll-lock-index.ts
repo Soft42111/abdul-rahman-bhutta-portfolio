@@ -10,8 +10,8 @@ interface UseScrollLockOptions {
 }
 
 /**
- * Improved scroll-lock index controller for sticky full-screen sections.
- * Uses continuous RAF polling for better Lenis compatibility.
+ * rAF-throttled scroll-lock index controller for sticky full-screen sections.
+ * Designed to be Lenis-friendly and to avoid re-render storms.
  */
 export function useScrollLockIndex({
   containerRef,
@@ -20,81 +20,79 @@ export function useScrollLockIndex({
   scrollPerItem = 150,
   onIndexChange,
 }: UseScrollLockOptions) {
+  const accumulatedScroll = useRef(0);
+  const lastScrollY = useRef(0);
   const lastIndex = useRef<number>(0);
   const rafId = useRef<number | null>(null);
-  const isActive = useRef(false);
 
   // Sync external index changes (e.g., clicking progress dots)
   useEffect(() => {
     if (typeof index !== "number") return;
     const clamped = Math.max(0, Math.min(index, Math.max(0, length - 1)));
     lastIndex.current = clamped;
-  }, [index, length]);
+    accumulatedScroll.current = scrollPerItem * clamped;
+  }, [index, length, scrollPerItem]);
 
   useEffect(() => {
-    const totalScrollNeeded = scrollPerItem * Math.max(0, length - 1);
-    
     const handle = () => {
+      rafId.current = null;
       const el = containerRef.current;
-      if (!el) {
-        rafId.current = requestAnimationFrame(handle);
-        return;
-      }
+      if (!el) return;
 
       const rect = el.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
-      
-      // Check if section is in the "locked" state (sticky)
+      const currentScrollY = window.scrollY;
+      const scrollDelta = currentScrollY - lastScrollY.current;
+      lastScrollY.current = currentScrollY;
+
       const isLocked = rect.top <= 0 && rect.bottom >= viewportHeight;
 
       if (isLocked) {
-        isActive.current = true;
-        
-        // Calculate how far we've scrolled into the section
-        // The section top is at or above viewport top, so -rect.top gives us scroll distance into section
-        const scrolledIntoSection = -rect.top;
-        
-        // The total height beyond the viewport that we scroll through
-        const sectionScrollHeight = rect.height - viewportHeight;
-        
-        // Map the scroll position to an index
-        const scrollProgress = Math.max(0, Math.min(scrolledIntoSection / sectionScrollHeight, 1));
-        const newIndex = Math.round(scrollProgress * (length - 1));
-        const clampedIndex = Math.max(0, Math.min(newIndex, length - 1));
+        accumulatedScroll.current += scrollDelta;
 
-        if (clampedIndex !== lastIndex.current) {
-          lastIndex.current = clampedIndex;
-          onIndexChange(clampedIndex);
+        const totalScrollNeeded = scrollPerItem * Math.max(0, length - 1);
+        const clampedScroll = Math.max(0, Math.min(accumulatedScroll.current, totalScrollNeeded));
+        const newIndex = Math.max(
+          0,
+          Math.min(Math.round(clampedScroll / scrollPerItem), Math.max(0, length - 1))
+        );
+
+        if (newIndex !== lastIndex.current) {
+          lastIndex.current = newIndex;
+          onIndexChange(newIndex);
         }
       } else {
-        // Reset when leaving section
+        // Reset accumulated scroll when leaving section.
         if (rect.top > 0) {
-          // Section is below viewport - reset to first item
+          accumulatedScroll.current = 0;
           if (lastIndex.current !== 0) {
             lastIndex.current = 0;
             onIndexChange(0);
           }
         } else if (rect.bottom < viewportHeight) {
-          // Section is above viewport - set to last item
           const endIndex = Math.max(0, length - 1);
+          accumulatedScroll.current = scrollPerItem * endIndex;
           if (lastIndex.current !== endIndex) {
             lastIndex.current = endIndex;
             onIndexChange(endIndex);
           }
         }
-        isActive.current = false;
       }
-
-      rafId.current = requestAnimationFrame(handle);
     };
 
-    // Start the animation loop
-    rafId.current = requestAnimationFrame(handle);
+    const onScroll = () => {
+      if (rafId.current != null) return;
+      rafId.current = window.requestAnimationFrame(handle);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    lastScrollY.current = window.scrollY;
+    handle();
 
     return () => {
-      if (rafId.current != null) {
-        cancelAnimationFrame(rafId.current);
-      }
+      window.removeEventListener("scroll", onScroll);
+      if (rafId.current != null) window.cancelAnimationFrame(rafId.current);
     };
   }, [containerRef, length, scrollPerItem, onIndexChange]);
 }
+

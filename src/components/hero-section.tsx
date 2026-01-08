@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Download, Mail, Code, Users, Zap, Globe, Gamepad2, Smartphone } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 const orbitingItems = [
   { icon: Code, label: "React", delay: 0, radius: "120px", color: "from-blue-400 to-blue-600" },
@@ -12,35 +13,16 @@ const orbitingItems = [
   { icon: Smartphone, label: "Mobile", delay: 2.5, radius: "135px", color: "from-indigo-400 to-cyan-500" },
 ]
 
-const resumeUrl = "/assets/Abdul_Rehman_Bhutta_Resume_FULL (2).pdf"
-
 export function HeroSection() {
-  const handleDownloadResume = () => {
-    const link = document.createElement("a")
-    link.href = resumeUrl
-    link.download = "Abdul_Rehman_Bhutta_Resume.pdf"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
-
-  const handleContactClick = () => {
-    const contactSection = document.getElementById("contact")
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: "smooth" })
-    }
-  }
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background with gradient */}
       <div className="absolute inset-0 gradient-hero" />
       
-      {/* Brutalist background elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-20 w-32 h-32 border-4 border-foreground" />
-        <div className="absolute bottom-32 right-32 w-24 h-24 bg-foreground" />
-        <div className="absolute top-1/3 right-1/4 w-16 h-16 border-4 border-foreground rotate-45" />
+      {/* Animated background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-accent/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse delay-1000" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 text-center text-foreground">
@@ -58,7 +40,7 @@ export function HeroSection() {
             className="relative mb-8 flex justify-center"
           >
             {/* Central Profile Image */}
-            <div className="relative w-48 h-48 md:w-56 md:h-56 border-4 border-foreground overflow-hidden shadow-[8px_8px_0px_0px_hsl(var(--foreground))] z-10">
+            <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden shadow-premium ring-4 ring-white/20 z-10">
               <img
                 src="/lovable-uploads/93a92d81-fa62-47f9-8b94-91e23a9a97ac.png"
                 alt="Abdul Rehman Bhutta - Community Lead"
@@ -92,18 +74,25 @@ export function HeroSection() {
                 }}
               >
                 <motion.div
-                  className="absolute flex items-center justify-center w-12 h-12 md:w-16 md:h-16 border-4 border-foreground bg-background shadow-[4px_4px_0px_0px_hsl(var(--foreground))]"
+                  className="absolute flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-r shadow-premium backdrop-blur-sm border border-white/20"
                   style={{
+                    background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
                     transform: `translate(-50%, -50%) translate(${item.radius}, 0)`,
                   }}
                   whileHover={{ 
                     scale: 1.4, 
                     rotate: 360,
+                    boxShadow: "0 0 30px rgba(255, 255, 255, 0.6)",
                     zIndex: 20
                   }}
                   whileTap={{ scale: 0.9 }}
                   animate={{
                     rotate: -360,
+                    boxShadow: [
+                      "0 8px 30px rgba(0, 0, 0, 0.3)",
+                      "0 8px 30px rgba(139, 92, 246, 0.4)",
+                      "0 8px 30px rgba(0, 0, 0, 0.3)"
+                    ]
                   }}
                   transition={{
                     rotate: {
@@ -111,10 +100,26 @@ export function HeroSection() {
                       repeat: Infinity,
                       ease: "linear"
                     },
+                    boxShadow: {
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    },
                     scale: { type: "spring", stiffness: 400, damping: 17 }
                   }}
                 >
-                  <item.icon className="w-5 h-5 md:w-6 md:h-6 text-foreground" />
+                  <motion.div
+                    initial={{ rotateY: 0 }}
+                    animate={{ rotateY: 360 }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "linear",  
+                      delay: index * 0.2
+                    }}
+                  >
+                    <item.icon className="w-5 h-5 md:w-6 md:h-6 text-white drop-shadow-lg" />
+                  </motion.div>
                 </motion.div>
               </motion.div>
             ))}
@@ -125,7 +130,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 50, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1.2, delay: 0.4, type: "spring", stiffness: 100 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-tight uppercase"
+            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-wide"
           >
             <motion.span
               initial={{ opacity: 0, x: -100 }}
@@ -136,12 +141,13 @@ export function HeroSection() {
               Abdul Rehman
             </motion.span>
             <motion.span 
-              className="bg-foreground text-background px-4 py-1 inline-block"
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
+              className="text-gradient bg-gradient-to-r from-accent to-yellow-300 bg-clip-text text-transparent inline-block"
+              initial={{ opacity: 0, x: 100, rotateY: 90 }}
+              animate={{ opacity: 1, x: 0, rotateY: 0 }}
               transition={{ duration: 1, delay: 1, type: "spring", stiffness: 120 }}
               whileHover={{ 
                 scale: 1.05,
+                textShadow: "0 0 20px rgba(139, 92, 246, 0.5)",
                 transition: { duration: 0.3, type: "spring", stiffness: 400 }
               }}
             >
@@ -153,7 +159,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1, delay: 0.6, type: "spring", stiffness: 100 }}
-            className="text-xl md:text-2xl lg:text-3xl font-mono mb-6 text-muted-foreground tracking-wide"
+            className="text-xl md:text-2xl lg:text-3xl font-light mb-6 text-foreground/90 tracking-wide"
           >
             <motion.span
               initial={{ opacity: 0 }}
@@ -175,7 +181,7 @@ export function HeroSection() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 1.4, type: "spring" }}
-              className="inline-block bg-accent text-accent-foreground px-2 font-bold"
+              className="inline-block text-accent font-semibold"
             >
               Web3 Strategy Expert
             </motion.span>
@@ -185,46 +191,57 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-lg md:text-xl max-w-3xl mx-auto mb-12 text-muted-foreground font-mono leading-relaxed"
+            className="text-lg md:text-xl max-w-3xl mx-auto mb-12 text-muted-foreground font-light leading-relaxed"
           >
             Building thriving communities and scaling engagement across Web3 ecosystems. 
             From leading 120+ team members to hosting events with 700+ attendees.
           </motion.p>
 
-          {/* CTA Buttons with brutalist styling */}
+          {/* CTA Buttons with enhanced animations */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 1, type: "spring", stiffness: 100 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
           >
-            <motion.button
-              onClick={handleDownloadResume}
+            <motion.div
               whileHover={{ 
-                y: -4,
-                boxShadow: "8px 8px 0px 0px hsl(var(--foreground))",
+                scale: 1.05,
+                y: -5,
                 transition: { type: "spring", stiffness: 400, damping: 10 }
               }}
-              whileTap={{ scale: 0.95, y: 0, boxShadow: "0px 0px 0px 0px hsl(var(--foreground))" }}
-              className="bg-foreground text-background border-4 border-foreground px-8 py-4 font-bold uppercase tracking-wide flex items-center gap-2 shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:bg-accent hover:text-accent-foreground hover:border-foreground transition-colors"
+              whileTap={{ scale: 0.95 }}
             >
-              <Download className="h-5 w-5" />
-              Download Resume
-            </motion.button>
-            
-            <motion.button
-              onClick={handleContactClick}
+              <Button variant="hero" size="lg" className="group relative overflow-hidden">
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-accent/20 to-transparent"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.6 }}
+                />
+                <Download className="mr-2 h-5 w-5 transition-transform group-hover:scale-110 group-hover:rotate-12" />
+                Download Resume
+              </Button>
+            </motion.div>
+            <motion.div
               whileHover={{ 
-                y: -4,
-                boxShadow: "8px 8px 0px 0px hsl(var(--foreground))",
+                scale: 1.05,
+                y: -5,
                 transition: { type: "spring", stiffness: 400, damping: 10 }
               }}
-              whileTap={{ scale: 0.95, y: 0, boxShadow: "0px 0px 0px 0px hsl(var(--foreground))" }}
-              className="bg-background text-foreground border-4 border-foreground px-8 py-4 font-bold uppercase tracking-wide flex items-center gap-2 shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:bg-foreground hover:text-background transition-colors"
+              whileTap={{ scale: 0.95 }}
             >
-              <Mail className="h-5 w-5" />
-              Contact Me
-            </motion.button>
+              <Button variant="outline-accent" size="lg" className="group relative overflow-hidden">
+                <motion.div
+                  className="absolute inset-0 bg-accent/10"
+                  initial={{ scale: 0 }}
+                  whileHover={{ scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+                <Mail className="mr-2 h-5 w-5 transition-transform group-hover:scale-110 group-hover:rotate-12 relative z-10" />
+                <span className="relative z-10">Contact Me</span>
+              </Button>
+            </motion.div>
           </motion.div>
 
         </motion.div>

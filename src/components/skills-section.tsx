@@ -141,7 +141,7 @@ export function SkillsSection() {
     containerRef,
     length: skillCategories.length,
     index: activeIndex,
-    scrollPerItem: 300,
+    scrollPerItem: 200,
     onIndexChange
   });
   
@@ -151,7 +151,7 @@ export function SkillsSection() {
       id="skills"
       className="relative isolate bg-background z-20" 
       style={{
-        height: `${100 + skillCategories.length * 50}vh`
+        height: `${100 + (skillCategories.length - 1) * 30}vh`
       }}
     >
       <div className="sticky top-0 min-h-screen flex items-center overflow-hidden bg-background py-10">
