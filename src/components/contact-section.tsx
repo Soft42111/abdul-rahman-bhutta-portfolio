@@ -3,9 +3,6 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { Send, Mail, Phone, MapPin, Loader2, ExternalLink } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 import { Link } from "react-router-dom"
@@ -32,7 +29,6 @@ export function ContactSection() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Client-side validation
     if (!formData.name.trim() || !formData.email.trim() || !formData.subject.trim() || !formData.message.trim()) {
       toast({
         title: "Error",
@@ -43,7 +39,6 @@ export function ContactSection() {
       return
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(formData.email)) {
       toast({
@@ -89,11 +84,12 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-24 bg-background relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+    <section id="contact" className="py-24 bg-muted relative overflow-hidden">
+      {/* Brutalist background pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-10 left-10 w-32 h-32 border-4 border-foreground" />
+        <div className="absolute bottom-20 right-20 w-24 h-24 bg-foreground" />
+        <div className="absolute top-1/2 left-1/4 w-16 h-16 border-4 border-foreground rotate-45" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -104,17 +100,19 @@ export function ContactSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight">
             Get In{" "}
-            <span className="text-gradient">Touch</span>
+            <span className="bg-foreground text-background px-3 py-1">
+              Touch
+            </span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-4">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-4 font-mono">
             Ready to discuss your next community initiative or collaboration opportunity? 
             I'd love to hear from you.
           </p>
           <Link 
             to="/contact"
-            className="inline-flex items-center text-primary hover:underline font-medium"
+            className="inline-flex items-center text-foreground hover:bg-foreground hover:text-background border-2 border-foreground px-4 py-2 font-bold uppercase text-sm transition-colors"
           >
             Open full contact page
             <ExternalLink className="w-4 h-4 ml-2" />
@@ -130,15 +128,15 @@ export function ContactSection() {
             transition={{ duration: 0.8 }}
             className="space-y-8"
           >
-            <div>
-              <h3 className="text-2xl font-semibold mb-6">Let's Connect</h3>
-              <p className="text-muted-foreground mb-8 leading-relaxed">
+            <div className="border-4 border-foreground bg-card p-6 shadow-[6px_6px_0px_0px_hsl(var(--foreground))]">
+              <h3 className="text-2xl font-bold mb-6 uppercase tracking-tight">Let's Connect</h3>
+              <p className="text-muted-foreground mb-8 leading-relaxed font-mono">
                 Whether you're looking to scale your community, plan an engaging event, 
                 or explore Web3 opportunities, I'm here to help bring your vision to life.
               </p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               {[
                 {
                   icon: Mail,
@@ -165,22 +163,22 @@ export function ContactSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="flex items-center gap-4"
+                  className="flex items-center gap-4 border-4 border-foreground bg-background p-4 hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-shadow"
                 >
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <item.icon className="w-5 h-5 text-primary" />
+                  <div className="w-12 h-12 border-2 border-foreground bg-accent flex items-center justify-center">
+                    <item.icon className="w-5 h-5 text-accent-foreground" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">{item.label}</p>
+                    <p className="text-xs text-muted-foreground font-mono uppercase">{item.label}</p>
                     {item.href ? (
                       <a 
                         href={item.href}
-                        className="text-foreground font-medium hover:text-primary transition-colors"
+                        className="text-foreground font-bold hover:underline"
                       >
                         {item.value}
                       </a>
                     ) : (
-                      <p className="text-foreground font-medium">{item.value}</p>
+                      <p className="text-foreground font-bold">{item.value}</p>
                     )}
                   </div>
                 </motion.div>
@@ -195,89 +193,88 @@ export function ContactSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="border-4 border-foreground bg-card p-6 shadow-[8px_8px_0px_0px_hsl(var(--foreground))]">
+              <div className="grid md:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                  <label htmlFor="name" className="block text-sm font-bold text-foreground mb-2 uppercase">
                     Name *
                   </label>
-                  <Input
+                  <input
                     id="name"
                     name="name"
                     type="text"
                     required
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full"
+                    className="w-full border-4 border-foreground bg-background px-4 py-3 font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-shadow"
                     placeholder="Your full name"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                  <label htmlFor="email" className="block text-sm font-bold text-foreground mb-2 uppercase">
                     Email *
                   </label>
-                  <Input
+                  <input
                     id="email"
                     name="email"
                     type="email"
                     required
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full"
+                    className="w-full border-4 border-foreground bg-background px-4 py-3 font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-shadow"
                     placeholder="your@email.com"
                   />
                 </div>
               </div>
               
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-2">
+              <div className="mb-4">
+                <label htmlFor="subject" className="block text-sm font-bold text-foreground mb-2 uppercase">
                   Subject *
                 </label>
-                <Input
+                <input
                   id="subject"
                   name="subject"
                   type="text"
                   required
                   value={formData.subject}
                   onChange={handleInputChange}
-                  className="w-full"
+                  className="w-full border-4 border-foreground bg-background px-4 py-3 font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-shadow"
                   placeholder="What would you like to discuss?"
                 />
               </div>
               
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+              <div className="mb-6">
+                <label htmlFor="message" className="block text-sm font-bold text-foreground mb-2 uppercase">
                   Message *
                 </label>
-                <Textarea
+                <textarea
                   id="message"
                   name="message"
                   required
                   value={formData.message}
                   onChange={handleInputChange}
-                  className="w-full min-h-[120px]"
+                  className="w-full border-4 border-foreground bg-background px-4 py-3 font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-shadow min-h-[120px] resize-none"
                   placeholder="Tell me about your project or how I can help..."
                 />
               </div>
 
-              <Button
+              <button
                 type="submit"
-                size="lg"
                 disabled={isSubmitting}
-                className="w-full bg-primary hover:bg-primary/90"
+                className="w-full bg-foreground text-background border-4 border-foreground px-6 py-4 font-bold uppercase tracking-wide hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    <Loader2 className="h-5 w-5 animate-spin" />
                     Sending...
                   </>
                 ) : (
                   <>
-                    <Send className="mr-2 h-5 w-5" />
+                    <Send className="h-5 w-5" />
                     Send Message
                   </>
                 )}
-              </Button>
+              </button>
             </form>
           </motion.div>
         </div>
