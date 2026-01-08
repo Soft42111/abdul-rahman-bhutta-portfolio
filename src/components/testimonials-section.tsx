@@ -1,10 +1,8 @@
 "use client"
 
-
 import { useRef, useState, useCallback } from "react"
 import { motion } from "framer-motion"
 import { Star, Quote } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useScrollLockIndex } from "@/hooks/use-scroll-lock-index"
 
@@ -95,17 +93,18 @@ export function TestimonialsSection() {
     containerRef,
     length: testimonials.length,
     index: activeIndex,
-    scrollPerItem: 150,
+    scrollPerItem: 200,
     onIndexChange,
   })
 
   return (
     <section 
       ref={containerRef}
-      className="relative isolate bg-background bg-mesh z-20"
-      style={{ height: `${100 + Math.max(0, testimonials.length - 1) * 12}vh` }}
+      id="testimonials"
+      className="relative isolate bg-muted z-20"
+      style={{ height: `${100 + (testimonials.length - 1) * 15}vh` }}
     >
-      <div className="sticky top-0 min-h-screen flex items-center overflow-hidden bg-background bg-mesh py-10">
+      <div className="sticky top-0 min-h-screen flex items-center overflow-hidden bg-muted py-10">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -114,26 +113,27 @@ export function TestimonialsSection() {
             viewport={{ once: true }}
             className="text-center mb-10"
           >
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-              What Leaders Say
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4 uppercase tracking-tight">
+              What Leaders{" "}
+              <span className="bg-foreground text-background px-3 py-1">Say</span>
             </h2>
-            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto font-mono">
               Testimonials from industry leaders and collaborators.
             </p>
           </motion.div>
 
           <div className="relative max-w-4xl mx-auto">
             {/* Left blur hint */}
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 w-44 opacity-20 blur-[2px] hidden lg:block">
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 w-48 opacity-30 hidden lg:block">
               {activeIndex > 0 && (
-                <div className="transform scale-70">
+                <div className="transform scale-75 rotate-[-3deg]">
                   <TestimonialCard testimonial={testimonials[activeIndex - 1]} />
                 </div>
               )}
             </div>
 
             {/* Main testimonial */}
-            <div className="max-w-xl mx-auto relative h-[280px]">
+            <div className="max-w-xl mx-auto relative h-[320px]">
               {testimonials.map((testimonial, index) => (
                 <motion.div
                   key={testimonial.id}
@@ -141,7 +141,8 @@ export function TestimonialsSection() {
                   animate={{ 
                     opacity: index === activeIndex ? 1 : 0,
                     x: index === activeIndex ? 0 : (index < activeIndex ? -150 : 150),
-                    scale: index === activeIndex ? 1 : 0.9
+                    scale: index === activeIndex ? 1 : 0.9,
+                    rotate: index === activeIndex ? 0 : (index < activeIndex ? -3 : 3)
                   }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
                   className={`absolute inset-0 ${index === activeIndex ? 'z-10' : 'z-0 pointer-events-none'}`}
@@ -152,9 +153,9 @@ export function TestimonialsSection() {
             </div>
 
             {/* Right blur hint */}
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/3 w-44 opacity-20 blur-[2px] hidden lg:block">
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/3 w-48 opacity-30 hidden lg:block">
               {activeIndex < testimonials.length - 1 && (
-                <div className="transform scale-70">
+                <div className="transform scale-75 rotate-[3deg]">
                   <TestimonialCard testimonial={testimonials[activeIndex + 1]} />
                 </div>
               )}
@@ -162,15 +163,15 @@ export function TestimonialsSection() {
           </div>
 
           {/* Progress indicators */}
-          <div className="flex justify-center gap-1.5 mt-8">
+          <div className="flex justify-center gap-2 mt-10">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setActiveIndex(index)}
-                className={`rounded-full transition-all duration-300 ${
+                className={`transition-all duration-300 border-2 border-foreground ${
                   index === activeIndex 
-                    ? "w-6 h-2 bg-primary" 
-                    : "w-2 h-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                    ? "w-8 h-4 bg-foreground" 
+                    : "w-4 h-4 bg-transparent hover:bg-muted-foreground/20"
                 }`}
               />
             ))}
@@ -188,34 +189,36 @@ interface TestimonialCardProps {
 
 function TestimonialCard({ testimonial, isActive }: TestimonialCardProps) {
   return (
-    <Card className={`bg-card/90 backdrop-blur-sm border-border/50 transition-all duration-300 ${isActive ? 'shadow-premium border-primary/20' : 'shadow-card'}`}>
-      <CardContent className="p-5">
-        <div className="flex items-center mb-3">
-          <Quote className="w-5 h-5 text-primary mr-2" />
-          <div className="flex">
-            {[...Array(testimonial.rating)].map((_, i) => (
-              <Star key={i} className="w-3.5 h-3.5 text-amber-400 fill-current" />
-            ))}
-          </div>
+    <div className={`border-4 border-foreground bg-card p-6 transition-all duration-300 ${
+      isActive ? 'shadow-[8px_8px_0px_0px_hsl(var(--foreground))]' : ''
+    }`}>
+      <div className="flex items-center justify-between mb-4 pb-4 border-b-4 border-foreground">
+        <Quote className="w-8 h-8 text-foreground" />
+        <div className="flex gap-1">
+          {[...Array(testimonial.rating)].map((_, i) => (
+            <Star key={i} className="w-4 h-4 text-foreground fill-foreground" />
+          ))}
         </div>
-        
-        <blockquote className="text-sm text-foreground mb-4 leading-relaxed">
-          "{testimonial.text}"
-        </blockquote>
-        
-        <div className="flex items-center">
-          <Avatar className="w-9 h-9 mr-3 ring-2 ring-primary/20">
-            <AvatarImage src={testimonial.image} alt={testimonial.name} />
-            <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
+      </div>
+      
+      <blockquote className="text-foreground mb-6 leading-relaxed font-mono text-sm">
+        "{testimonial.text}"
+      </blockquote>
+      
+      <div className="flex items-center gap-4 pt-4 border-t-4 border-foreground">
+        <div className="w-12 h-12 border-4 border-foreground overflow-hidden">
+          <Avatar className="w-full h-full rounded-none">
+            <AvatarImage src={testimonial.image} alt={testimonial.name} className="object-cover" />
+            <AvatarFallback className="bg-accent text-accent-foreground font-bold rounded-none">
               {testimonial.name.split(' ').map(n => n[0]).join('')}
             </AvatarFallback>
           </Avatar>
-          <div>
-            <div className="font-semibold text-foreground text-sm">{testimonial.name}</div>
-            <div className="text-xs text-muted-foreground">{testimonial.role}, {testimonial.company}</div>
-          </div>
         </div>
-      </CardContent>
-    </Card>
+        <div>
+          <div className="font-bold text-foreground uppercase">{testimonial.name}</div>
+          <div className="text-xs text-muted-foreground font-mono">{testimonial.role}, {testimonial.company}</div>
+        </div>
+      </div>
+    </div>
   )
 }

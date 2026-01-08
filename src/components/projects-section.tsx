@@ -61,120 +61,98 @@ export function ProjectsSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight">
             Featured{" "}
-            <span className="text-gradient bg-gradient-to-r from-accent to-yellow-400 bg-clip-text text-transparent">
+            <span className="bg-accent text-accent-foreground px-3 py-1">
               Projects
             </span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-mono">
             A showcase of community initiatives, events, and platforms that have 
             driven measurable growth and engagement across Web3 ecosystems.
           </p>
         </motion.div>
 
-        <div className="max-w-7xl mx-auto space-y-16">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              className={`grid lg:grid-cols-2 gap-12 items-center ${
-                index % 2 === 1 ? "lg:grid-flow-col-dense" : ""
-              }`}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              whileHover={{ y: -8 }}
+              className="group"
             >
-              {/* Project Image */}
-              <div className={`${index % 2 === 1 ? "lg:col-start-2" : ""}`}>
-                <div className="relative group overflow-hidden rounded-2xl shadow-card hover:shadow-premium/20 transition-all duration-500">
+              <div className="border-4 border-foreground bg-card transition-all duration-300 hover:shadow-[8px_8px_0px_0px_hsl(var(--foreground))]">
+                {/* Project Image */}
+                <div className="relative overflow-hidden border-b-4 border-foreground">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex gap-2">
-                      {project.links.live && (
-                        <Button variant="hero" size="sm" asChild>
-                          <a href={project.links.live} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="w-4 h-4 mr-1" />
-                            View Live
-                          </a>
-                        </Button>
-                      )}
-                      {project.links.github && (
-                        <Button variant="outline" size="sm" asChild className="bg-white/10 backdrop-blur-sm">
-                          <a href={project.links.github} target="_blank" rel="noopener noreferrer">
-                            <Github className="w-4 h-4 mr-1" />
-                            Code
-                          </a>
-                        </Button>
-                      )}
-                    </div>
+                  <div className="absolute inset-0 bg-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                    {project.links.live && (
+                      <a 
+                        href={project.links.live} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="bg-accent text-accent-foreground border-2 border-accent-foreground px-4 py-2 font-bold uppercase text-sm hover:bg-accent-foreground hover:text-accent transition-colors"
+                      >
+                        <ExternalLink className="w-4 h-4 inline mr-1" />
+                        Live
+                      </a>
+                    )}
+                    {project.links.github && (
+                      <a 
+                        href={project.links.github} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="bg-background text-foreground border-2 border-foreground px-4 py-2 font-bold uppercase text-sm hover:bg-foreground hover:text-background transition-colors"
+                      >
+                        <Github className="w-4 h-4 inline mr-1" />
+                        Code
+                      </a>
+                    )}
                   </div>
                 </div>
-              </div>
 
-              {/* Project Details */}
-              <div className={`space-y-6 ${index % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""}`}>
-                <div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+                {/* Project Details */}
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-foreground mb-3 uppercase tracking-tight">
                     {project.title}
                   </h3>
-                  <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4 font-mono">
                     {project.description}
                   </p>
-                </div>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map(tag => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-medium border border-accent/20"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.slice(0, 3).map(tag => (
+                      <span
+                        key={tag}
+                        className="px-2 py-1 border-2 border-foreground bg-muted text-foreground text-xs font-bold uppercase"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
 
-                {/* Metrics */}
-                <div className="grid grid-cols-3 gap-2 sm:gap-4">
-                  {project.metrics.map((metric, metricIndex) => (
-                    <div key={metric.label} className="text-center">
-                      <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 mb-2 rounded-full bg-accent/10">
-                        <metric.icon className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
+                  {/* Metrics */}
+                  <div className="grid grid-cols-3 gap-2 pt-4 border-t-2 border-foreground">
+                    {project.metrics.map((metric) => (
+                      <div key={metric.label} className="text-center">
+                        <metric.icon className="w-4 h-4 mx-auto mb-1 text-accent" />
+                        <div className="text-lg font-bold text-foreground">
+                          {metric.value}
+                        </div>
+                        <div className="text-[10px] text-muted-foreground font-mono uppercase">
+                          {metric.label}
+                        </div>
                       </div>
-                      <div className="text-lg sm:text-xl font-bold text-foreground">
-                        {metric.value}
-                      </div>
-                      <div className="text-[10px] sm:text-xs text-muted-foreground">
-                        {metric.label}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-wrap gap-3 pt-4">
-                  {project.links.live && (
-                    <Button variant="premium" size="default" className="sm:text-base" asChild>
-                      <a href={project.links.live} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        View Live
-                      </a>
-                    </Button>
-                  )}
-                  {project.links.github && (
-                    <Button variant="outline" size="default" className="sm:text-base" asChild>
-                      <a href={project.links.github} target="_blank" rel="noopener noreferrer">
-                        <Github className="w-4 h-4 mr-2" />
-                        View Code
-                      </a>
-                    </Button>
-                  )}
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>
